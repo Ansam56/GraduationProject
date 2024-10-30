@@ -1,0 +1,6 @@
+ /* عشان ييجي الفوتر دايما تحت */
+.content{ 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* يجعل الحاوية تغطي كامل ارتفاع الشاشة */
+}

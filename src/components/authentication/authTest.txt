@@ -1,0 +1,697 @@
+@import '../pages/colors/webColors.css';
+
+/*Login.jsx*/
+.formDesign{
+      /* position: relative;
+      overflow: hidden; */
+  padding: 30px;
+  border-radius: 15px;
+  backdrop-filter: blur(25px);
+  width: 424px;
+  box-shadow: 0px 0px 20px #bedac0;
+  animation: fadeIn 1.5s ease-in-out;
+}
+.authLayout{ 
+  background: url(../web/img/test.jpg)  no-repeat left ;
+  height: 100vh;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  background-color:var(--main-color);
+}
+  
+/* .formDesign::before{
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 424px;
+  height: 420px;
+  transform-origin: bottom right;
+  background: linear-gradient(0deg,transparent,transparent,#45f3ff,#45f3ff);
+  z-index: 0;
+  animation: animate 6s linear  infinite;
+}  
+@keyframes animate {
+  0%
+  {
+    transform: rotate(0deg);
+  }
+  100%
+  {
+    transform: rotate(360deg);
+  }
+  
+} */
+  
+.formTitle {
+  margin-bottom: 30px;
+  font-size: 24px;
+  color:  #DAD3BE;
+  font-weight: bold;
+  animation: fadeIn 1.5s ease-in-out;
+}
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/*Input.jsx*/
+.field_holder{
+  position: relative;
+  margin-top: 27px;
+}
+  
+ /*if you want to move lables without placeholder*/
+.field_holder label{
+  position: absolute;
+  color: #DAD3BE;
+  margin-top: -43px;
+  margin-right: 8px;
+  z-index: -1;
+  transition:0.3s ease-in-out ;
+}
+
+ 
+.field_holder input {
+  padding: 10px;
+  margin: 7px 0;
+  border: 0;
+  border-bottom:1px solid;
+  border-radius: 0;
+  border-color: #DAD3BE !important;
+  background:inherit;
+  font-size: 16px;
+  color: #DAD3BE;
+  transition: 0.4s ease-in-out;
+}
+ 
+.field_holder input:focus,
+.field_holder input:user-valid,
+.field_holder input:user-invalid{
+  /* box-shadow: 0px 0px 20px #DAD3BE; */
+  outline: none;
+  box-shadow: none;
+  border: 1px solid;
+  border-radius: 15px;
+  background:inherit;
+  color: #DAD3BE;
+} 
+.field_holder input:focus ~ label,
+.field_holder input:user-valid ~ label,
+.field_holder input:user-invalid ~ label{
+  transform: translateY(-21px);  
+  font-size: 14px; 
+  position: absolute; 
+  background:#DAD3BE;
+  color: #424e0ff5;
+  z-index: 1;
+  border-radius: 15px;
+  padding:1px 8px ;
+}
+ 
+  
+ .field_holder .text{
+ padding: 5px;
+ color: #DAD3BE;
+ background: rgba(250, 128, 114, 0.363);
+}
+ 
+
+  
+ /*login.jsx*/
+.formDesign .form .button {
+  font-weight: bold;
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 15px;
+  background-color: #dad3be38;
+  color: #DAD3BE;
+  font-size: 16px;
+  margin-top: 20px;
+  box-shadow:none;
+  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out ;
+}
+.formDesign .form .button:hover:enabled {
+  background-color: #56a73dfd;
+  cursor: pointer;
+  box-shadow: 0px 0px 30px #56a73dfd;
+}
+.formDesign .form .button:disabled {
+  background-color: #dad3be17;
+  color: #dad3be60;
+}
+ 
+.formDesign .LinkForget{
+  color: #DAD3BE; /* Light blue color */
+  text-decoration: none; /* Remove underline */
+  font-size: 14px; 
+  transition: transform 0.4s ease-in-out;
+}
+
+.LinkForget:hover {
+  font-weight: bold;
+  transform: scale(1.1); /* Slight zoom effect */
+}
+
+@media screen and (max-width: 480px) {
+  .login-container {
+    width: 90%;
+    padding: 30px;
+  }
+
+  input[type="email"], input[type="password"] {
+    padding: 12px;
+  }
+}
+
+
+/*v2*/
+/*Login.jsx*/
+ 
+   .formDesign{
+    margin-right: 170px;
+    padding: 30px;
+    border-radius: 15px;
+    width: 500px;
+    box-shadow:none;
+    animation: fadeIn 1.5s ease-in-out;
+    }
+    
+    /* .formDesign::before{
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 424px;
+      height: 420px;
+      transform-origin: bottom right;
+      background: linear-gradient(0deg,transparent,transparent,#45f3ff,#45f3ff);
+      z-index: 0;
+      animation: animate 6s linear  infinite;
+    }  
+    @keyframes animate {
+      0%
+      {
+        transform: rotate(0deg);
+      }
+      100%
+      {
+        transform: rotate(360deg);
+      }
+      
+    } */
+      
+    .formTitle {
+      margin-bottom: 30px;
+      font-size: 24px;
+      color:  #254336;
+      font-weight: bold;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /*Input.jsx*/
+    .field_holder{
+      position: relative;
+      margin-top: 27px;
+    }
+      
+     /*if you want to move lables without placeholder*/
+    .field_holder label{
+      position: absolute;
+      color:  #254336;
+      margin-top: -43px;
+      margin-right: 8px;
+      z-index: -1;
+      transition:0.3s ease-in-out ;
+    }
+    
+     
+    .field_holder input {
+      padding: 10px;
+      margin: 7px 0;
+      border: 0;
+      border-bottom:1px solid;
+      border-radius: 0;
+      
+      border-color: #254336 !important;
+      background:inherit;
+      font-size: 16px;
+      color: #254336;
+      transition: 0.4s ease-in-out;
+    }
+     
+    .field_holder input:focus,
+    .field_holder input:user-valid,
+    .field_holder input:user-invalid{
+      /* box-shadow: 0px 0px 20px #DAD3BE; */
+      outline: none;
+      box-shadow: none;
+      border: 1px solid;
+      border-radius: 15px;
+      background:inherit;
+      color: #254336;
+    } 
+    .field_holder input:focus ~ label,
+    .field_holder input:user-valid ~ label,
+    .field_holder input:user-invalid ~ label{
+      transform: translateY(-21px);  
+      font-size: 14px; 
+      position: absolute; 
+      color: #254336;
+      z-index: 1;
+      background-color: white;
+      border-radius: 15px;
+      padding:1px 8px ;
+    }
+     
+      
+     .field_holder .text{
+     padding: 5px;
+     color: red;
+     background: none !important;
+    }
+     
+    
+      
+     /*login.jsx*/
+    .formDesign .form .button {
+      font-weight: bold;
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 15px;
+      background-color: var(--action-color);
+      color: var(--text-color-against-dark-background);
+      font-size: 16px;
+      margin-top: 20px;
+      box-shadow:none;
+      transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out ;
+    }
+    .formDesign .form .button:hover:enabled {
+      cursor: pointer;
+      box-shadow: 0px 0px 30px var(--botton-hover-color);
+    }
+    .formDesign .form .button:disabled {
+      background-color: #ad8068ad;
+      color: #f1ece1a4;
+    }
+     
+    .formDesign .LinkForget{
+      color: #254336; /* Light blue color */
+      text-decoration: none; /* Remove underline */
+      font-size: 14px; 
+      transition: transform 0.4s ease-in-out;
+    }
+    
+    .LinkForget:hover {
+      font-weight: normal;
+      transform: scale(1.1); /* Slight zoom effect */
+    }
+    
+    @media screen and (max-width: 480px) {
+      .login-container {
+        width: 90%;
+        padding: 30px;
+      }
+    
+      input[type="email"], input[type="password"] {
+        padding: 12px;
+      }
+    }
+    
+
+
+
+////////////////////
+@import '../pages/colors/webColors.css';
+
+/*Login.jsx*/
+.formDesign{
+      /* position: relative;
+      overflow: hidden; */
+  padding: 30px;
+  border-radius: 15px;
+  backdrop-filter: blur(25px);
+  width: 424px;
+  box-shadow: 0px 0px 20px #bedac0;
+  animation: fadeIn 1.5s ease-in-out;
+}
+.authLayout{ 
+  background: url(../web/img/test.jpg)  no-repeat left ;
+  height: 100vh;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  background-color:var(--main-color);
+}
+  
+/* .formDesign::before{
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 424px;
+  height: 420px;
+  transform-origin: bottom right;
+  background: linear-gradient(0deg,transparent,transparent,#45f3ff,#45f3ff);
+  z-index: 0;
+  animation: animate 6s linear  infinite;
+}  
+@keyframes animate {
+  0%
+  {
+    transform: rotate(0deg);
+  }
+  100%
+  {
+    transform: rotate(360deg);
+  }
+  
+} */
+  
+.formTitle {
+  margin-bottom: 30px;
+  font-size: 24px;
+  color:  #DAD3BE;
+  font-weight: bold;
+  animation: fadeIn 1.5s ease-in-out;
+}
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/*Input.jsx*/
+.field_holder{
+  position: relative;
+  margin-top: 27px;
+}
+  
+ /*if you want to move lables without placeholder*/
+.field_holder label{
+  position: absolute;
+  color: #DAD3BE;
+  margin-top: -43px;
+  margin-right: 8px;
+  z-index: -1;
+  transition:0.3s ease-in-out ;
+}
+
+ 
+.field_holder input {
+  padding: 10px;
+  margin: 7px 0;
+  border: 0;
+  border-bottom:1px solid;
+  border-radius: 0;
+  border-color: #DAD3BE !important;
+  background:inherit;
+  font-size: 16px;
+  color: #DAD3BE;
+  transition: 0.4s ease-in-out;
+}
+ 
+.field_holder input:focus,
+.field_holder input:user-valid,
+.field_holder input:user-invalid{
+  /* box-shadow: 0px 0px 20px #DAD3BE; */
+  outline: none;
+  box-shadow: none;
+  border: 1px solid;
+  border-radius: 15px;
+  background:inherit;
+  color: #DAD3BE;
+} 
+.field_holder input:focus ~ label,
+.field_holder input:user-valid ~ label,
+.field_holder input:user-invalid ~ label{
+  transform: translateY(-21px);  
+  font-size: 14px; 
+  position: absolute; 
+  background:#DAD3BE;
+  color: #424e0ff5;
+  z-index: 1;
+  border-radius: 15px;
+  padding:1px 8px ;
+}
+ 
+  
+ .field_holder .text{
+ padding: 5px;
+ color: #DAD3BE;
+ background: rgba(250, 128, 114, 0.363);
+}
+ 
+
+  
+ /*login.jsx*/
+.formDesign .form .button {
+  font-weight: bold;
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 15px;
+  background-color: #dad3be38;
+  color: #DAD3BE;
+  font-size: 16px;
+  margin-top: 20px;
+  box-shadow:none;
+  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out ;
+}
+.formDesign .form .button:hover:enabled {
+  background-color: #56a73dfd;
+  cursor: pointer;
+  box-shadow: 0px 0px 30px #56a73dfd;
+}
+.formDesign .form .button:disabled {
+  background-color: #dad3be17;
+  color: #dad3be60;
+}
+ 
+.formDesign .LinkForget{
+  color: #DAD3BE; /* Light blue color */
+  text-decoration: none; /* Remove underline */
+  font-size: 14px; 
+  transition: transform 0.4s ease-in-out;
+}
+
+.LinkForget:hover {
+  font-weight: bold;
+  transform: scale(1.1); /* Slight zoom effect */
+}
+
+@media screen and (max-width: 480px) {
+  .login-container {
+    width: 90%;
+    padding: 30px;
+  }
+
+  input[type="email"], input[type="password"] {
+    padding: 12px;
+  }
+}
+
+
+/*v2*/
+/*Login.jsx*/
+ 
+   .formDesign{
+    margin-right: 170px;
+    padding: 30px;
+    border-radius: 15px;
+    width: 500px;
+    box-shadow:none;
+    animation: fadeIn 1.5s ease-in-out;
+    }
+    
+    /* .formDesign::before{
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 424px;
+      height: 420px;
+      transform-origin: bottom right;
+      background: linear-gradient(0deg,transparent,transparent,#45f3ff,#45f3ff);
+      z-index: 0;
+      animation: animate 6s linear  infinite;
+    }  
+    @keyframes animate {
+      0%
+      {
+        transform: rotate(0deg);
+      }
+      100%
+      {
+        transform: rotate(360deg);
+      }
+      
+    } */
+      
+    .formTitle {
+      margin-bottom: 30px;
+      font-size: 24px;
+      color: var(--highlight-color);
+      font-weight: bold;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /*Input.jsx*/
+    .field_holder{
+      position: relative;
+      margin-top: 27px;
+    }
+      
+     /*if you want to move lables without placeholder*/
+    .field_holder label{
+      position: absolute;
+      color:  #254336;
+      margin-top: -43px;
+      margin-right: 8px;
+      z-index: -1;
+      transition:0.3s ease-in-out ;
+    }
+    
+     
+    .field_holder input {
+      padding: 10px;
+      margin: 7px 0;
+      border: 0;
+      border-bottom:1px solid;
+      border-radius: 0;
+      
+      border-color: var(--border-color) !important;
+      background:inherit;
+      font-size: 16px;
+      color: #254336;
+      transition: 0.4s ease-in-out;
+    }
+     
+    .field_holder input:focus,
+    .field_holder input:user-valid,
+    .field_holder input:user-invalid{
+      /* box-shadow: 0px 0px 20px #DAD3BE; */
+      outline: none;
+      box-shadow: none;
+      border: 1px solid;
+      border-radius: 15px;
+      background:inherit;
+      color: var(--highlight-color);
+    } 
+    .field_holder input:focus ~ label,
+    .field_holder input:user-valid ~ label,
+    .field_holder input:user-invalid ~ label{
+      transform: translateY(-21px);  
+      font-size: 14px; 
+      position: absolute; 
+      color: var(--highlight-color);
+      font-weight: bold;
+      z-index: 1;
+      background-color:var(--main-color);
+      border-radius: 15px;
+      padding:1px 8px ;
+    }
+     
+      
+     .field_holder .text{
+     padding: 5px;
+     color: red;
+     background: none !important;
+    }
+     
+    
+      
+     /*login.jsx*/
+    .formDesign .form .button {
+      font-weight: bold;
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 15px;
+      background-color: var(--action-color);
+      color: var(--text-color-against-dark-background);
+      font-size: 16px;
+      margin-top: 20px;
+      box-shadow:none;
+      transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out ;
+    }
+    .formDesign .form .button:hover:enabled {
+      cursor: pointer;
+      box-shadow: 0px 0px 30px var(--botton-hover-color);
+    }
+    .formDesign .form .button:disabled {
+      background-color: #ad8068ad;
+      color: #f1ece1a4;
+    }
+     
+    .formDesign .LinkForget{
+      color: var(--highlight-color); /* Light blue color */
+      text-decoration: none; /* Remove underline */
+      font-size: 14px; 
+      transition: transform 0.4s ease-in-out;
+    }
+    
+    .LinkForget:hover {
+      font-weight: normal;
+      transform: scale(1.1); /* Slight zoom effect */
+    }
+    
+    @media screen and (max-width: 480px) {
+      .login-container {
+        width: 90%;
+        padding: 30px;
+      }
+    
+      input[type="email"], input[type="password"] {
+        padding: 12px;
+      }
+    }
+    
+
+
+
+
+
+
+ 
+
+
+

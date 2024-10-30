@@ -1,0 +1,44 @@
+.title h2{
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 43px;
+    color: var(--highlight-color);
+    padding-bottom: 1px;
+   }
+   .title_logo  {
+    position: relative;
+    
+   }
+   .title_logo::before{
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 4%;
+    bottom: 9px;
+    left: 52%;
+    background-color: var(--botton-hover-color);
+   }
+   .title_logo::after{
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 4%;
+    bottom: 9px;
+    left: 44%;
+    background-color: var(--botton-hover-color);
+   } 
+   .title .title_logo img{
+     animation: rotateAnimation 6s linear infinite;
+    }
+   @keyframes rotateAnimation  {
+    0%{
+      transform: rotateX(-20deg) rotateY(0deg);
+    }
+    75%{
+      transform: rotateX(-20deg) rotateY(360deg);
+    }
+    100%{
+      transform: rotateX(-20deg) rotateY(360deg);
+    }
+   }
+   
