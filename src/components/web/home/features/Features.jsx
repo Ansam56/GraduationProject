@@ -1,0 +1,62 @@
+import React from "react";
+import SectionTitle from "../shared/sectionTitle/SectionTitle";
+import style from "./Features.module.css";
+import GroupsIcon from "@mui/icons-material/Groups";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+// import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import SchoolIcon from "@mui/icons-material/School";
+import PodcastsIcon from '@mui/icons-material/Podcasts';
+
+export default function Features() {
+  const cards=[
+  {
+    icon:<GroupsIcon sx={{fontSize: 40 }} className={`${style.muiIcon}`} />,
+    cardTitle:"إدارة الطلاب والمعلمين",
+    cardText:"تشمل كلّ ما يتعلق بالطالب والمعلّم، بداية من التسجيل في المدرسة.. مروراً بكافّة العمليات التّعليمية والإدارية."
+  },
+  {
+    icon:<SchoolIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/> ,
+    cardTitle:"إدارة شؤون الحلقات",
+    cardText:"تشمل كلّ ما يتعلّق بالحلقات من انشاء الحلقات و إضافة وإسناد  الطّلاب والمعلّمين وغيرها من العمليّات التنظيمية"  
+  },
+  {
+    icon:<PictureAsPdfIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/> ,
+    cardTitle:"التقارير",
+    cardText:"تقارير كتابية وبيانية شاملة، حول الحلقات والحفظ والمراجعة والحضور والغياب، يستفيد منها المشرف والمعلّم وكذلك الطالب"  
+  },
+  {
+    icon:<PodcastsIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/> ,
+    cardTitle:"إدارة الأخبار والإعلانات",
+    cardText:"يمكن ادارة الأخبار المتعلّقة بالمدرسة، ليكون الطّالب والمعلم ووليّ الأمر على اطّلاع مستمر بكافّة أحداث وفعاليات المدرسة القرآنية."  
+  },
+]
+  return (
+    <>
+      <SectionTitle title="ميزات الموقع" />
+
+      <section className="featuresSection py-4">
+        <div className="container ">
+          <div className="row row-gap-4">
+            {cards.map((card,index)=>
+            <div key={index} className="col-lg-4">
+              <div className={`${style.card}`}>
+                <div className={`${style.cardIcon} st-purple-box`}>
+                  {card.icon}
+                </div>
+                <h2 className={`${style.cardTitle}`}>
+                 {card.cardTitle}
+                </h2>
+                <div className={`${style.cardText}`}>
+                  <p>
+                  {card.cardText}
+                  </p>
+                </div>
+              </div>
+            </div>
+            )}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

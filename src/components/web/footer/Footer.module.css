@@ -1,0 +1,22 @@
+
+footer {
+    background-color:var(--main-color);
+    padding-top: 35px;
+    padding-bottom: 30px;
+    /* position: absolute; */
+    /* bottom: 0;
+    display: flex;
+    width: 100%; */
+  }
+  footer p{
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--highlight-color);
+    margin-top: 15px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+  }
+  .logoDiv{
+    width:8rem ;
+  }
+  

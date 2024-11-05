@@ -1,0 +1,226 @@
+@import "../pages/colors/webColors.css";
+
+/*shared form*/
+.authLayout {
+  /* background: url(../web/img/test.jpg)  no-repeat left ; */
+  /* height: 80vh; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* عشان ييجي الفوتر دايما تحت */
+  flex: 1; /* يملأ المساحة المتبقية بين الـHeader والـFooter */
+}
+
+.formDesign {
+  padding: 34px;
+  /* margin-right: 140px; */
+  /* background-color: yellowgreen; */
+  /* margin-top: 80px; */
+  width: 500px;
+  box-shadow: none;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.formTitle {
+  margin-bottom: 30px;
+  font-size: 24px;
+  color: var(--highlight-color);
+  font-weight: bold;
+  animation: fadeIn 1.5s ease-in-out;
+}
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.formDesign .form .button {
+  font-weight: bold;
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 15px;
+  background-color: var(--action-color);
+  color: var(--text-color-against-dark-background);
+  font-size: 16px;
+  margin-top: 10px;
+  box-shadow: none;
+  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+}
+
+.formDesign .form .button:hover:enabled {
+  /* background-color: #56a73dfd; */
+  cursor: pointer;
+  box-shadow: 0px 0px 30px var(--botton-hover-color);
+}
+.formDesign .form .button:disabled {
+  background-color: #ad8068ad;
+  color: #f1ece1a4;
+}
+
+.formDesign .LinkForget {
+  color: var(--highlight-color); /* Light blue color */
+  text-decoration: none; /* Remove underline */
+  font-size: 14px;
+  transition: transform 0.4s ease-in-out;
+}
+
+.LinkForget:hover {
+  /* font-weight: bold; */
+  font-weight: normal;
+  transform: scale(1.1); /* Slight zoom effect */
+}
+
+@media screen and (max-width: 480px) {
+  .login-container {
+    width: 90%;
+    padding: 30px;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    padding: 12px;
+  }
+}
+
+/*Input.jsx*/
+.field_holder {
+  position: relative;
+  margin-top: 27px;
+}
+
+/*if you want to move lables without placeholder*/
+.field_holder label {
+  position: absolute;
+  color: #254336;
+  margin-top: -43px;
+  margin-right: 8px;
+  z-index: -1;
+  transition: 0.3s ease-in-out;
+}
+
+.field_holder input {
+  padding: 10px;
+  margin: 7px 0;
+  border: 0;
+  border-bottom: 1px solid;
+  border-radius: 0;
+
+  border-color: var(--border-color) !important;
+  background: inherit;
+  font-size: 16px;
+  color: #254336;
+  transition: 0.4s ease-in-out;
+}
+
+.field_holder input:focus,
+.field_holder input:user-valid,
+.field_holder input:user-invalid {
+  box-shadow: 0px 0px 20px #dad3be;
+  outline: none;
+  box-shadow: none;
+  border: 1px solid;
+  border-radius: 15px;
+  background: inherit;
+  color: var(--highlight-color);
+}
+.field_holder input:focus ~ label,
+.field_holder input:user-valid ~ label,
+.field_holder input:user-invalid ~ label {
+  transform: translateY(-21px);
+  font-size: 14px;
+  position: absolute;
+  background-color: var(--main-color);
+  color: var(--highlight-color);
+  z-index: 1;
+  border-radius: 15px;
+  padding: 1px 8px;
+  font-weight: bold;
+}
+
+.field_holder .text {
+  padding: 5px;
+  color: red;
+  background: none !important;
+}
+
+.field_holder select {
+  padding: 10px;
+  margin: 7px 0;
+  border: 0;
+  border-bottom: 1px solid;
+  border-color: var(--border-color) !important;
+  background: inherit;
+  font-size: 16px;
+  color: #254336;
+  border-radius: 0;
+  transition: 0.4s ease-in-out;
+  width: 100%;
+  appearance: none;
+  background-image: url("path/to/your/icon.png");
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+}
+
+.field_holder select option:disabled {
+  color: #999;
+}
+
+.field_holder select option {
+  font-size: 16px;
+  color: #254336;
+  background-color: #f9f9f9;
+}
+
+.field_holder select option:hover {
+  background-color: #e6e6e6;
+}
+
+.field_holder select:focus {
+  box-shadow: 0px 0px 20px #dad3be;
+  outline: none;
+  border: 1px solid;
+  border-radius: 15px;
+  background: inherit;
+  color: var(--highlight-color);
+}
+
+.field_holder input[type="date"] ~ label,
+.field_holder input[type="time"] ~ label {
+  margin-right: 30px;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.fileInput {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.fileInputLabel {
+  display: block;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  color: #254336;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 5px;
+  transition: 0.3s;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.fileInputLabel:hover {
+  background-color: #e6e6e6;
+}

@@ -1,0 +1,11 @@
+:root {
+    --main-color: #F1ECE1;/* استخدمته */ 
+    --highlight-color:#506550;/*استخدمته بخط النافبار*/
+    --action-color:#ad8068; /* استخدمته */
+    --botton-hover-color:#86594E;/* استخدمته */
+    --text-color-against-dark-background:#F1ECE1;/* استخدمته */
+    --text-color-against-light-backgrounds:#4A4A4A;
+    --accent-color:#C4B28B; 
+    --primary-color:#688860;/*استخدمته*/
+    --border-color:#BFB5A4;
+}

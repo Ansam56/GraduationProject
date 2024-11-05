@@ -1,0 +1,39 @@
+.image_container {
+    width: 150px;
+    height: 150px; /*  تعديل الارتفاع حسب رغبتك */
+    overflow: hidden;/*عشان تيجي الصورة متل الشكل الدائري اللي حددته*/
+    border-radius: 50%;
+    margin: auto;
+}
+  
+  .image_container .img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* يجعل الصورة تتناسب وتملأ الصندوق دون تشويه */
+  }
+    /* للاحتياط */
+    .card_body {
+        height: fit-content; /*  الارتفاع المناسب الذي تريد استخدامه */
+    }
+      .links{
+        background-color: var(--action-color) ;
+        color: var(--main-color) ;
+        padding: 10px;
+        border-radius: 7px;
+       }
+.card p{
+    color: var(--main-color);
+    font-size: large;
+    font-weight: bold;
+}
+       .card .overlay{
+        background-color: rgba(0, 0, 0, 0.863);
+        transform: scaleY(0);
+        transition: transform .5s;
+       }
+     
+       .card:hover .overlay{
+        transform: scaleY(1);
+       }
+       
+    
