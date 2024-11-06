@@ -14,7 +14,8 @@ import TeacherProfile from "./components/teacher/profile/TeacherProfile";
 import StudentForm from "./components/forms/StudentForm";
 import SchoolForm from "./components/forms/SchoolForm";
 import TeacherForm from "./components/forms/TeacherForm";
-import Admin from "./components/admin/profile/Admin";
+import Admin from "./components/admin/schoolsRequest/Admin";
+import EditProfile from './components/schoolAdmin/editProfile/EditProfile';
 
 export default function App() {
   //استفدت منه باظهار واخفاء جزء من الكود حسب هو مسجل دخوله او لا !
@@ -56,10 +57,6 @@ export default function App() {
           element: <TeacherForm />,
         },
         {
-          path: "Admin",
-          element: <Admin />,
-        },
-        {
           path: "*",
           element: <p className="m-0">Not Found Page</p>,
         },
@@ -83,6 +80,25 @@ export default function App() {
       ],
     },
     {
+      path: "/Admin",
+      element: <UsersLayout role="admin" />,
+      //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
+      children: [
+        { 
+          index: true,
+          element: <Admin/>,
+        },
+        {
+          path: "*",
+          element: <p className="m-0">Not Found Page</p>,
+        },
+        {
+          path: "SchoolRequests",
+          element: <Admin/>,
+        } 
+      ],
+    },
+    {
       path: "/SchoolAdmin",
       element: <UsersLayout role="schoolAdmin" />,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
@@ -100,11 +116,15 @@ export default function App() {
           path: "ProfileSettings",
           element: <Profile />,
         },
+        {
+          path:"EditProfile",
+          element:<EditProfile/>
+        }
       ],
     },
     {
       path: "/Teacher",
-      element: <UsersLayout role="teacher" />,
+      element: <UsersLayout role="teacher"/>,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
       children: [
         // {

@@ -24,6 +24,7 @@ import { Button, Card } from 'react-bootstrap';
 import { CardContent} from '@mui/material';
 import { Link } from 'react-router-dom';
 import style from './PersistentDrawerRight.module.css'
+import Logo from '../logo/Logo';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -148,10 +149,11 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
             sx={[open && { display: 'none' }]}
           >
          <MenuIcon />
-        </IconButton>
+        </IconButton> 
         <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
           {title}
         </Typography>
+      
         </Toolbar>
       </AppBar>
       <Main open={open}>

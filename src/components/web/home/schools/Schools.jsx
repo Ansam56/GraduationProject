@@ -46,13 +46,14 @@ export default function Schools() {
     speed: 500,
     autoplay: cards.length > 1, // تفعيل التشغيل التلقائي إذا كان هناك أكثر من كارد واحد
     autoplaySpeed: 2000, // مدة الانتقال بين الشرائح (2000 مللي ثانية = 2 ثانية)
+ 
   };
   return (
     <>
       <SectionTitle title="المدارس المشاركة" />
 
       <div className={`container ${cards.length ===1? style.single_card :''}`}>
-        <div className="slider-container">
+        <div className="slider-container ">
           <Slider {...settings}>
             {cards.map((card, index) => (
               <div key={index} >

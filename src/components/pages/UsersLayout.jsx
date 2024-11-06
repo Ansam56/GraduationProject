@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import PersistentDrawerRight from './drawer/PersistentDrawerRight'
+import PersistentDrawerRight from './sharedDashboard/PersistentDrawerRight'
 import InboxIcon from '@mui/icons-material/MoveToInbox';
+import Logo from './logo/Logo';
   
 export default function UsersLayout({role}) {
   let SideBarLinks=[]; 
@@ -41,6 +42,17 @@ export default function UsersLayout({role}) {
       ] 
       NavTitle="ملتقى فلسطين التقنية خضوري > بالقرآن نحيا"
       SideBarTitle="بوابة المعلم"
+  }else if(role==="admin"){
+    SideBarLinks=
+      [ 
+        {
+          name:"ادارة الطلبات",
+          icon:<InboxIcon />,
+          target:"/Admin/SchoolRequests"
+       }  
+      ] 
+      NavTitle="موقع طوبى"
+      SideBarTitle=" بوابة المسؤولون"
   }
 
   return (

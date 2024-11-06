@@ -1,5 +1,5 @@
 import React from "react";
-import RequestTable from "../../RequestTable/RequestTable";
+import RequestTable from "../../pages/RequestTable/RequestTable";
 import { Box, Container, DialogContentText } from "@mui/material";
 
 const adminData = [
