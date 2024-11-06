@@ -57,6 +57,24 @@ export const CreateorderSchema = yup.object({
   phone: yup.string().required("Your Phone is required"),
 });
 
+// const CITIES = [
+//   "القدس",
+//   "رام الله",
+//   "نابلس",
+//   "الخليل",
+//   "جنين",
+//   "بيت لحم",
+//   "أريحا",
+//   "قلقيلية",
+//   "طولكرم",
+//   "سلفيت",
+//   "غزة",
+//   "رفح",
+//   "خان يونس",
+//   "جباليا",
+//   "دير البلح",
+// ];
+
 const PHONE_NUMBER_REGEX = /^((\+970)|(\+972)|0)?5[0-9]{8}$/;
 const FILE_SIZE = 1024 * 1024 * 5; // 5 MB
 const SUPPORTED_DOC_FORMATS = [
@@ -93,16 +111,7 @@ export const managerFormSchema = yup.object({
     .oneOf([yup.ref("password"), null], "يجب أن تتطابق كلمتا السر")
     .required("يجب أدخال تأكيد كلمة المرور"),
   gender: yup.string().required("يجب ادخال الجنس"),
-
-  resume: yup
-    .mixed()
-    .required("يجب رفع السيرة الذاتية")
-    .test("fileSize", "حجم الملف كبير جدًا", (value) => {
-      return value && value.size <= FILE_SIZE;
-    })
-    .test("fileFormat", "نوع الملف غير مدعوم", (value) => {
-      return value && SUPPORTED_DOC_FORMATS.includes(value.type);
-    }),
+  city: yup.string().required("المدينة مطلوبة"),
 });
 
 export const schoolFormSchema = yup.object().shape({
@@ -118,22 +127,26 @@ export const schoolFormSchema = yup.object().shape({
     .min(5, "العنوان يجب أن يكون على الأقل 5 أحرف")
     .max(200, "العنوان لا يمكن أن يزيد عن 200 حرف"),
 
-  description: yup
-    .string()
-    .required("وصف المدرسة مطلوب")
-    .min(10, "الوصف يجب أن يكون على الأقل 10 أحرف")
-    .max(500, "الوصف لا يمكن أن يزيد عن 500 حرف"),
-
   logo: yup
     .mixed()
-    .required("شعار المدرسة مطلوب")
+    .nullable()
     .test("fileSize", "حجم الملف كبير جدًا", (value) => {
-      return value && value.size <= 1024 * 1024;
+      return !value || value.size <= 1024 * 1024;
     })
     .test("fileType", "نوع الملف غير مدعوم", (value) => {
       return (
-        value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        !value || ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
       );
+    }),
+
+  officialDocument: yup
+    .mixed()
+    .nullable()
+    .test("fileSize", "حجم الملف كبير جدًا", (value) => {
+      return !value || value.size <= FILE_SIZE;
+    })
+    .test("fileFormat", "نوع الملف غير مدعوم", (value) => {
+      return !value || SUPPORTED_DOC_FORMATS.includes(value.type);
     }),
 });
 
@@ -161,6 +174,7 @@ export const studentFormSchema = yup.object({
     .string()
     .oneOf([yup.ref("password"), null], "يجب أن تتطابق كلمتا السر")
     .required("يجب أدخال تأكيد كلمة المرور"),
+  city: yup.string().required("المدينة مطلوبة"),
 });
 
 export const teacherFormSchema = yup.object({
@@ -225,13 +239,13 @@ export const circleFormSchema = yup.object().shape({
 
   image: yup
     .mixed()
-    .required("صورة الحلقة مطلوبة")
+    .nullable()
     .test("fileSize", "حجم الملف كبير جدًا", (value) => {
-      return value && value.size <= 1024 * 1024;
+      return !value || value.size <= 1024 * 1024;
     })
     .test("fileType", "نوع الملف غير مدعوم", (value) => {
       return (
-        value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        !value || ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
       );
     }),
 });
