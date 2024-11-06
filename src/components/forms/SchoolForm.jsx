@@ -12,14 +12,15 @@ export default function SchoolAndManagerForm() {
   const [step, setStep] = useState(1);
   const [schoolData, setSchoolData] = useState(null);
   const [logoFileName, setLogoFileName] = useState("شعار المدرسة");
-  const [resumeFileName, setResumeFileName] = useState("السيرة الذاتية");
+  const [officialDocumentFileName, setOfficialDocumentFileName] =
+    useState("الوثيقة الرسمية");
 
   const schoolFormik = useFormik({
     initialValues: {
       schoolName: "",
       address: "",
-      description: "",
       logo: null,
+      officialDocument: null,
     },
     validationSchema: schoolFormSchema,
     onSubmit: (values) => {
@@ -38,7 +39,7 @@ export default function SchoolAndManagerForm() {
       gender: "",
       password: "",
       confirmPassword: "",
-      resume: null,
+      city: "",
     },
     validationSchema: managerFormSchema,
     onSubmit: (managerValues) => {
@@ -66,43 +67,66 @@ export default function SchoolAndManagerForm() {
       value: schoolFormik.values.address,
     },
     {
-      id: "description",
-      type: "textarea",
-      name: "description",
-      title: "وصف المدرسة",
-      value: schoolFormik.values.description,
-    },
-    {
       id: "logo",
       type: "file",
       name: "logo",
       title: "شعار المدرسة",
       value: schoolFormik.values.logo,
     },
+    {
+      id: "officialDocument",
+      type: "file",
+      name: "officialDocument",
+      title: "الوثيقة الرسمية",
+      value: managerFormik.values.resume,
+    },
   ];
-
   const handleLogoChange = (event) => {
     const file = event.currentTarget.files[0];
     setLogoFileName(file ? file.name : "شعار المدرسة");
     schoolFormik.setFieldValue("logo", file);
   };
 
+  const handleOfficialDocumentChange = (event) => {
+    const file = event.currentTarget.files[0];
+    setOfficialDocumentFileName(file ? file.name : "الوثيقة الرسمية");
+    managerFormik.setFieldValue("officialDocumentFileName", file);
+  };
+
   const renderSchoolInputs = schoolInputs.map((input, index) => (
     <div key={index} className={`${formStyle.inputWrapper}`}>
       {input.type === "file" ? (
-        <>
-          <label htmlFor={input.id} className={formStyle.fileInputLabel}>
-            {logoFileName}
-          </label>
-          <input
-            id={input.id}
-            type="file"
-            name={input.name}
-            className={formStyle.fileInput}
-            onChange={handleLogoChange}
-            onBlur={schoolFormik.handleBlur}
-          />
-        </>
+        input.name === "logo" ? (
+          <>
+            {/* Logo input */}
+            <label htmlFor={input.id} className={formStyle.fileInputLabel}>
+              {logoFileName}
+            </label>
+            <input
+              id={input.id}
+              type="file"
+              name={input.name}
+              className={formStyle.fileInput}
+              onChange={handleLogoChange}
+              onBlur={schoolFormik.handleBlur}
+            />
+          </>
+        ) : (
+          <>
+            {/* Official Document input */}
+            <label htmlFor={input.id} className={formStyle.fileInputLabel}>
+              {officialDocumentFileName}
+            </label>
+            <input
+              id={input.id}
+              type="file"
+              name={input.name}
+              className={formStyle.fileInput}
+              onChange={handleOfficialDocumentChange}
+              onBlur={schoolFormik.handleBlur}
+            />
+          </>
+        )
       ) : (
         <Input
           id={input.id}
@@ -142,6 +166,30 @@ export default function SchoolAndManagerForm() {
       value: managerFormik.values.email,
     },
     {
+      id: "city",
+      type: "select",
+      name: "city",
+      title: "المدينة",
+      value: managerFormik.values.city,
+      options: [
+        "القدس",
+        "رام الله",
+        "نابلس",
+        "الخليل",
+        "جنين",
+        "بيت لحم",
+        "أريحا",
+        "قلقيلية",
+        "طولكرم",
+        "سلفيت",
+        "غزة",
+        "رفح",
+        "خان يونس",
+        "جباليا",
+        "دير البلح",
+      ],
+    },
+    {
       id: "birthDate",
       type: "date",
       name: "birthDate",
@@ -177,51 +225,22 @@ export default function SchoolAndManagerForm() {
       title: "تأكيد كلمة المرور",
       value: managerFormik.values.confirmPassword,
     },
-    {
-      id: "resume",
-      type: "file",
-      name: "resume",
-      title: "السيرة الذاتية",
-      value: managerFormik.values.resume,
-    },
   ];
-
-  const handleResumeChange = (event) => {
-    const file = event.currentTarget.files[0];
-    setResumeFileName(file ? file.name : "السيرة الذاتية");
-    managerFormik.setFieldValue("resume", file);
-  };
 
   const renderManagerInputs = managerInputs.map((input, index) => (
     <div key={index} className={`${formStyle.inputWrapper}`}>
-      {input.type === "file" ? (
-        <>
-          <label htmlFor={input.id} className={formStyle.fileInputLabel}>
-            {resumeFileName}
-          </label>
-          <input
-            id={input.id}
-            type="file"
-            name={input.name}
-            className={formStyle.fileInput}
-            onChange={handleResumeChange}
-            onBlur={managerFormik.handleBlur}
-          />
-        </>
-      ) : (
-        <Input
-          id={input.id}
-          type={input.type}
-          name={input.name}
-          title={input.title}
-          value={input.value}
-          errors={managerFormik.errors}
-          onChange={managerFormik.handleChange}
-          onBlur={managerFormik.handleBlur}
-          touched={managerFormik.touched}
-          options={input.options}
-        />
-      )}
+      <Input
+        id={input.id}
+        type={input.type}
+        name={input.name}
+        title={input.title}
+        value={input.value}
+        errors={managerFormik.errors}
+        onChange={managerFormik.handleChange}
+        onBlur={managerFormik.handleBlur}
+        touched={managerFormik.touched}
+        options={input.options}
+      />
     </div>
   ));
 
