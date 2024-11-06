@@ -98,7 +98,6 @@ export default function SchoolAndManagerForm() {
       {input.type === "file" ? (
         input.name === "logo" ? (
           <>
-            {/* Logo input */}
             <label htmlFor={input.id} className={formStyle.fileInputLabel}>
               {logoFileName}
             </label>
@@ -113,7 +112,6 @@ export default function SchoolAndManagerForm() {
           </>
         ) : (
           <>
-            {/* Official Document input */}
             <label htmlFor={input.id} className={formStyle.fileInputLabel}>
               {officialDocumentFileName}
             </label>
