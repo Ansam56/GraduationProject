@@ -60,6 +60,7 @@ export default function StudentForm() {
         "أريحا",
         "قلقيلية",
         "طولكرم",
+        "طوباس",
         "سلفيت",
         "غزة",
         "رفح",
