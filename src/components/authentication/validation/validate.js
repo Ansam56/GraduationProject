@@ -220,7 +220,7 @@ export const teacherFormSchema = yup.object({
 export const circleFormSchema = yup.object().shape({
   circleName: yup
     .string()
-    .required("اسم الحلقة مطلوب")
+    .required("يجب ادخال اسم الحلقة")
     .min(3, "اسم الحلقة يجب أن يكون على الأقل 3 أحرف")
     .max(100, "اسم الحلقة لا يمكن أن يزيد عن 100 حرف"),
 
@@ -230,7 +230,7 @@ export const circleFormSchema = yup.object().shape({
     .required("الأيام مطلوبة"),
   startTime: yup
     .string()
-    .required("وقت البدء مطلوب")
+    .required("يجب ادخال وقت البدء")
     .matches(
       /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
       "الرجاء إدخال وقت صالح بصيغة HH:MM"
@@ -238,7 +238,7 @@ export const circleFormSchema = yup.object().shape({
 
   endTime: yup
     .string()
-    .required("وقت الانتهاء مطلوب")
+    .required("يجب ادخال وقت الانتهاء")
     .matches(
       /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
       "الرجاء إدخال وقت صالح بصيغة HH:MM"
