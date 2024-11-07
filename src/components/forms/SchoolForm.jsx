@@ -179,6 +179,7 @@ export default function SchoolAndManagerForm() {
         "أريحا",
         "قلقيلية",
         "طولكرم",
+        "طوباس",
         "سلفيت",
         "غزة",
         "رفح",
