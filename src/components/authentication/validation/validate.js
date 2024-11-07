@@ -111,7 +111,7 @@ export const managerFormSchema = yup.object({
     .oneOf([yup.ref("password"), null], "يجب أن تتطابق كلمتا السر")
     .required("يجب أدخال تأكيد كلمة المرور"),
   gender: yup.string().required("يجب ادخال الجنس"),
-  city: yup.string().required("المدينة مطلوبة"),
+  city: yup.string().required("يجب ادخال المدينة"),
 });
 
 export const schoolFormSchema = yup.object().shape({
@@ -174,7 +174,7 @@ export const studentFormSchema = yup.object({
     .string()
     .oneOf([yup.ref("password"), null], "يجب أن تتطابق كلمتا السر")
     .required("يجب أدخال تأكيد كلمة المرور"),
-  city: yup.string().required("المدينة مطلوبة"),
+  city: yup.string().required("يجب ادخال المدينة"),
 });
 
 export const teacherFormSchema = yup.object({
@@ -190,6 +190,7 @@ export const teacherFormSchema = yup.object({
     .string()
     .required("يجب ادخال البريد الالكتروني")
     .email("الرجاء إدخال بريد إلكتروني صالح"),
+  city: yup.string().required("يجب ادخال المدينة"),
   birthDate: yup.date().required("يجب ادخال تاريخ الميلاد"),
   phone: yup
     .string()
@@ -205,10 +206,9 @@ export const teacherFormSchema = yup.object({
     .oneOf([yup.ref("password"), null], "يجب أن تتطابق كلمتا السر")
     .required("يجب أدخال تأكيد كلمة المرور"),
   gender: yup.string().required("يجب ادخال الجنس"),
-
   resume: yup
     .mixed()
-    .required("يجب رفع السيرة الذاتية")
+    .required("يجب ارفاق السيرة الذاتية")
     .test("fileSize", "حجم الملف كبير جدًا", (value) => {
       return value && value.size <= FILE_SIZE;
     })
@@ -228,13 +228,28 @@ export const circleFormSchema = yup.object().shape({
     .array()
     .min(1, "يجب اختيار يوم واحد على الأقل")
     .required("الأيام مطلوبة"),
-
-  timing: yup
+  startTime: yup
     .string()
-    .required("التوقيت مطلوب")
+    .required("وقت البدء مطلوب")
     .matches(
       /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
       "الرجاء إدخال وقت صالح بصيغة HH:MM"
+    ),
+
+  endTime: yup
+    .string()
+    .required("وقت الانتهاء مطلوب")
+    .matches(
+      /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
+      "الرجاء إدخال وقت صالح بصيغة HH:MM"
+    )
+    .test(
+      "isLater",
+      "يجب أن يكون وقت الانتهاء بعد وقت البدء",
+      function (value) {
+        const { startTime } = this.parent;
+        return startTime && value && startTime < value;
+      }
     ),
 
   image: yup
