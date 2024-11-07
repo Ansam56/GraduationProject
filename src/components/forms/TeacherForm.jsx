@@ -24,6 +24,15 @@ export default function CircleAndTeacherForm() {
   const [logoFileName, setLogoFileName] = useState("شعار الحلقة");
   const [resumeFileName, setResumeFileName] = useState("السيرة الذاتية");
 
+  const toggleDaySelection = (day) => {
+    const updatedDays = { ...selectedDays, [day]: !selectedDays[day] };
+    setSelectedDays(updatedDays);
+    circleFormik.setFieldValue(
+      "days",
+      Object.keys(updatedDays).filter((day) => updatedDays[day])
+    );
+  };
+
   const circleFormik = useFormik({
     initialValues: {
       circleName: "",
@@ -33,6 +42,8 @@ export default function CircleAndTeacherForm() {
       image: null,
     },
     validationSchema: circleFormSchema,
+    validateOnChange: true,
+    validateOnBlur: true,
     onSubmit: (values) => {
       const daysSelected = Object.keys(selectedDays).filter(
         (day) => selectedDays[day]
@@ -72,17 +83,6 @@ export default function CircleAndTeacherForm() {
     const file = event.currentTarget.files[0];
     setResumeFileName(file ? file.name : "السيرة الذاتية");
     teacherFormik.setFieldValue("resume", file);
-  };
-
-  const toggleDaySelection = (day) => {
-    const updatedDays = { ...selectedDays, [day]: !selectedDays[day] };
-    setSelectedDays(updatedDays);
-
-    const selectedDaysArray = Object.keys(updatedDays).filter(
-      (day) => updatedDays[day]
-    );
-    circleFormik.setFieldValue("days", selectedDaysArray);
-    circleFormik.validateForm();
   };
 
   const circleInputs = [
@@ -289,6 +289,9 @@ export default function CircleAndTeacherForm() {
             onChange={handleResumeChange}
             onBlur={teacherFormik.handleBlur}
           />
+          {teacherFormik.errors.resume && teacherFormik.touched.resume && (
+            <div className="text-danger">{teacherFormik.errors.resume}</div>
+          )}
         </>
       ) : (
         <Input
