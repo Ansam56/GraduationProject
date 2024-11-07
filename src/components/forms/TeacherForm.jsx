@@ -28,7 +28,8 @@ export default function CircleAndTeacherForm() {
     initialValues: {
       circleName: "",
       days: [],
-      timing: "",
+      startTime: "",
+      endTime: "",
       image: null,
     },
     validationSchema: circleFormSchema,
@@ -60,6 +61,7 @@ export default function CircleAndTeacherForm() {
       console.log("Final Data Submitted:", finalData);
     },
   });
+
   const handleLogoChange = (event) => {
     const file = event.currentTarget.files[0];
     setLogoFileName(file ? file.name : "شعار الحلقة");
@@ -75,10 +77,12 @@ export default function CircleAndTeacherForm() {
   const toggleDaySelection = (day) => {
     const updatedDays = { ...selectedDays, [day]: !selectedDays[day] };
     setSelectedDays(updatedDays);
-    circleFormik.setFieldValue(
-      "days",
-      Object.keys(updatedDays).filter((day) => updatedDays[day])
+
+    const selectedDaysArray = Object.keys(updatedDays).filter(
+      (day) => updatedDays[day]
     );
+    circleFormik.setFieldValue("days", selectedDaysArray);
+    circleFormik.validateForm();
   };
 
   const circleInputs = [
@@ -90,11 +94,18 @@ export default function CircleAndTeacherForm() {
       value: circleFormik.values.circleName,
     },
     {
-      id: "timing",
+      id: "startTime",
       type: "time",
-      name: "timing",
-      title: "التوقيت",
-      value: circleFormik.values.timing,
+      name: "startTime",
+      title: "وقت البدء",
+      value: circleFormik.values.startTime,
+    },
+    {
+      id: "endTime",
+      type: "time",
+      name: "endTime",
+      title: "وقت الانتهاء",
+      value: circleFormik.values.endTime,
     },
     {
       id: "image",
@@ -102,6 +113,20 @@ export default function CircleAndTeacherForm() {
       name: "image",
       title: "صورة الحلقة",
       value: circleFormik.values.image,
+    },
+    {
+      id: "days",
+      type: "checkbox-group",
+      title: "اختر الأيام التي تناسبك",
+      options: [
+        "الأحد",
+        "الإثنين",
+        "الثلاثاء",
+        "الأربعاء",
+        "الخميس",
+        "الجمعة",
+        "السبت",
+      ],
     },
   ];
 
@@ -121,6 +146,27 @@ export default function CircleAndTeacherForm() {
             onBlur={circleFormik.handleBlur}
           />
         </>
+      ) : input.type === "checkbox-group" ? (
+        <div className="mb-4">
+          <h6>{input.title}</h6>
+          {input.options.map((day) => (
+            <div key={day} className="form-check form-switch mb-2">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id={day}
+                checked={circleFormik.values.days.includes(day)}
+                onChange={() => toggleDaySelection(day)}
+              />
+              <label className="form-check-label" htmlFor={day}>
+                {day}
+              </label>
+            </div>
+          ))}
+          {circleFormik.errors.days && circleFormik.touched.days && (
+            <div className="text-danger">{circleFormik.errors.days}</div>
+          )}
+        </div>
       ) : (
         <Input
           id={input.id}
@@ -136,22 +182,6 @@ export default function CircleAndTeacherForm() {
       )}
     </div>
   ));
-
-  const renderDaysToggles = Object.keys(selectedDays).map((day) => (
-    <div key={day} className="form-check form-switch mb-2">
-      <input
-        type="checkbox"
-        className="form-check-input"
-        id={day}
-        checked={selectedDays[day]}
-        onChange={() => toggleDaySelection(day)}
-      />
-      <label className="form-check-label" htmlFor={day}>
-        {day}
-      </label>
-    </div>
-  ));
-
   const teacherInputs = [
     {
       id: "firstName",
@@ -190,6 +220,7 @@ export default function CircleAndTeacherForm() {
         "أريحا",
         "قلقيلية",
         "طولكرم",
+        "طوباس",
         "سلفيت",
         "غزة",
         "رفح",
@@ -289,10 +320,6 @@ export default function CircleAndTeacherForm() {
               className={`${formStyle.form}`}
             >
               {renderCircleInputs}
-              <div className="mb-4">
-                <h6>اختر الأيام التي تناسبك</h6>
-                {renderDaysToggles}
-              </div>
               <button
                 type="submit"
                 disabled={!circleFormik.isValid || circleFormik.isSubmitting}
