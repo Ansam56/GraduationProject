@@ -92,6 +92,11 @@ export const managerFormSchema = yup.object({
     .string()
     .required("يجب ادخال اسم العائلة")
     .min(2, "اسم العائلة يجب أن يكون على الأقل من حرفين"),
+  id: yup
+    .string()
+    .required("يجب ادخال رقم الهوية")
+    .min(9, "رقم الهوية يجب أن يكون من تسعة أرقام")
+    .max(9, "رقم الهوية يجب أن يكون من تسعة أرقام"),
   email: yup
     .string()
     .required("يجب ادخال البريد الالكتروني")
@@ -159,6 +164,11 @@ export const studentFormSchema = yup.object({
     .string()
     .required("يجب ادخال اسم العائلة")
     .min(2, "اسم العائلة يجي أن يكون على الأقل من حرفين"),
+  id: yup
+    .string()
+    .required("يجب ادخال رقم الهوية")
+    .min(9, "رقم الهوية يجب أن يكون من تسعة أرقام")
+    .max(9, "رقم الهوية يجب أن يكون من تسعة أرقام"),
   email: yup
     .string()
     .required("يجب ادخال البريد الالكتروني")
@@ -186,6 +196,11 @@ export const teacherFormSchema = yup.object({
     .string()
     .required("يجب ادخال اسم العائلة")
     .min(2, "اسم العائلة يجب أن يكون على الأقل من حرفين"),
+  id: yup
+    .string()
+    .required("يجب ادخال رقم الهوية")
+    .min(9, "رقم الهوية يجب أن يكون من تسعة أرقام")
+    .max(9, "رقم الهوية يجب أن يكون من تسعة أرقام"),
   email: yup
     .string()
     .required("يجب ادخال البريد الالكتروني")
