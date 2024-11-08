@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 import {
   teacherFormSchema,
   circleFormSchema,
@@ -57,6 +58,7 @@ export default function CircleAndTeacherForm() {
     initialValues: {
       firstName: "",
       lastName: "",
+      id: "",
       email: "",
       birthDate: "",
       phone: "",
@@ -70,6 +72,7 @@ export default function CircleAndTeacherForm() {
     onSubmit: (teacherValues) => {
       const finalData = { ...circleData, teacher: teacherValues };
       console.log("Final Data Submitted:", finalData);
+      toast.success("تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني");
     },
   });
 
@@ -196,6 +199,13 @@ export default function CircleAndTeacherForm() {
       name: "lastName",
       title: "اسم العائلة",
       value: teacherFormik.values.lastName,
+    },
+    {
+      id: "id",
+      type: "text",
+      name: "id",
+      title: "رقم الهوية",
+      value: teacherFormik.values.id,
     },
     {
       id: "email",
