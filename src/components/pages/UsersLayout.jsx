@@ -15,18 +15,18 @@ export default function UsersLayout({role}) {
           {
              name:"عرض طلبات انضمام المعلمين",
              icon:<InboxIcon />,
-             target:"/SchoolAdmin/ProfileSettings"
+             target:"/SchoolAdmin/TeachersRequests"
           },
           {
             name:"اعدادات الحساب",
             icon:<InboxIcon />,
             target:"/SchoolAdmin/ProfileSettings"
          },
-         {
-          name:"احصائيات المدرسة",
-          icon:<InboxIcon />,
-          target:"/SchoolAdmin/ProfileSettings"
-          },
+        //  {
+        //   name:"احصائيات المدرسة",
+        //   icon:<InboxIcon />,
+        //   target:"/SchoolAdmin/ProfileSettings"
+        //   },
       
         ]
         NavTitle='ملتقى جامعة فلسطين التقنية_خضوري'    
@@ -38,7 +38,12 @@ export default function UsersLayout({role}) {
           name:"اعدادات الحساب",
           icon:<InboxIcon />,
           target:"/Teacher/ProfileSettings"
-       }  
+       } ,
+       {
+        name:"عرض طلبات انضمام الطلاب",
+        icon:<InboxIcon />,
+        target:"/Teacher/StudentsRequests"
+     }   
       ] 
       NavTitle="ملتقى فلسطين التقنية خضوري > بالقرآن نحيا"
       SideBarTitle="بوابة المعلم"
