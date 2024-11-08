@@ -16,6 +16,9 @@ import SchoolForm from "./components/forms/SchoolForm";
 import TeacherForm from "./components/forms/TeacherForm";
 import Admin from "./components/admin/schoolsRequest/Admin";
 import EditProfile from './components/schoolAdmin/editProfile/EditProfile';
+import FeaturesSP from "./components/web/navbarSections/FeaturesSP";
+import SchoolsSP from "./components/web/navbarSections/SchoolsSP";
+import StatisticsSP from "./components/web/navbarSections/StatisticsSP";
 
 export default function App() {
   //استفدت منه باظهار واخفاء جزء من الكود حسب هو مسجل دخوله او لا !
@@ -73,10 +76,18 @@ export default function App() {
           path: "forgetPassword",
           element: <ForgetPassword />,
         },
-        // {
-        //   path:"circles",
-        //   element:<ScrollDialog/>
-        // }
+       {
+        path:"features",
+        element:<FeaturesSP/>
+       } ,
+       {
+        path:"schools",
+        element:<SchoolsSP/>
+       },
+       {
+        path:"statistics",
+        element:<StatisticsSP/>
+       }
       ],
     },
     {

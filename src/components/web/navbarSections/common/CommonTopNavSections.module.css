@@ -1,0 +1,26 @@
+.content{
+    background: linear-gradient(to bottom, var(--main-color), var(--primary-color));
+    height: 30vh;
+    margin-bottom: 2rem;
+    padding-top:2rem ;
+    color: var(--main-color);
+}
+.link{
+    color: var(--main-color);
+    text-decoration: none !important;
+    position: relative;
+    padding-bottom: 2px;
+}
+.link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 2px; /* سمك الخط */
+    background-color: var(--main-color); /* نفس لون النص */
+    transition: width 0.4s ease-in;
+  }
+  .link:hover::after {
+    width: 100%;
+  }

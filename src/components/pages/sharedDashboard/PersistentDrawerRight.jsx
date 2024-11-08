@@ -125,15 +125,15 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
         <Divider />
         <List>
           {links.map((AdminLink, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton>
+            <ListItem key={index}  >
+              
                 <ListItemIcon>
                   {AdminLink.icon}
                 </ListItemIcon>
                 <Link to={AdminLink.target} >
                    {AdminLink.name}
                 </Link>
-              </ListItemButton>
+          
             </ListItem>
           ))}
         </List> 

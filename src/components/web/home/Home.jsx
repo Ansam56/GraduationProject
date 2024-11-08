@@ -11,8 +11,7 @@ export default function Home() {
    <Header/>
    <Features/>
    <Statistics/>
-   <Schools/>
-   <Contact/>
+   <Schools/> 
    {/* <Loader/> */}
    </>
   )

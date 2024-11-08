@@ -26,11 +26,22 @@ import HomeIcon from '@mui/icons-material/Home';
 
 const drawerWidth = 240;
 const navItems = [
-  'الصفحة الرئيسية',
-  'الميزات',
-  'الاحصائيات',
-  'المدارس المشاركة',
-  'تواصل معنا'
+  {
+    name: 'الصفحة الرئيسية',
+    target:'/'
+  },
+  {
+    name:'الميزات',
+    target:'/features'
+  },
+  {
+    name:'الاحصائيات',
+    target:'/statistics'
+  },
+  {
+    name:  'المدارس المشاركة', 
+    target:'/schools'
+  } 
 ];
 
 
@@ -97,7 +108,7 @@ function DrawerAppBar(props ,{user,setUser} ) {
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+    <Box onClick={handleDrawerToggle}>
       <Typography variant="h6" sx={{ my: 2  }}>
         {/* responsive logo */}
         <div className={`${styles.logoDiv} mx-auto `}>
@@ -106,13 +117,25 @@ function DrawerAppBar(props ,{user,setUser} ) {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
+        {navItems.map((item,index) => (
+          <ListItem  key={index} sx={{ display: 'flex', justifyContent: 'center' }}  >
+            <Link to={item.target} className={`${styles.navLinkSidebar} `} > 
+                <ListItemText primary={item.name} />  
+            </Link>   
           </ListItem>
         ))}
+          <ListItem sx={{ display: 'flex', justifyContent: 'center' }}  >
+           {!user?
+                  <Link className={`${styles.btnSidebar} btn `} to="/login">
+                  تسجيل الدخول
+                 </Link>
+                
+                :
+                  <Link className={`${styles.btnSidebar} btn `} onClick={Logout}>
+                  تسجيل الخروج
+                  </Link>
+                }  
+           </ListItem>
       </List>
     </Box>
   );
@@ -143,17 +166,17 @@ function DrawerAppBar(props ,{user,setUser} ) {
             {/* web logo */}
             <div className={`${styles.logoDiv} `}>
             <Logo/>
-            </div>
-          
+            </div> 
           </Typography>
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-             {navItems.map((item) => ( 
-                  <a key={item} sx={{ color: '#fff' }} className={`${styles.navLink} btn`} href="#services">
-                     {item}
-                  </a>  
-            ))} 
-            
-               {!user?
+          <Box  sx={{flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
+             {navItems.map((item,index) => ( 
+                  <Link to={item.target} key={index}  className={`${styles.navLink} me-4`} >
+                     {item.name}
+                  </Link>  
+            ))}  
+          </Box>
+          <Box  sx={{ display: { xs: 'none', sm: 'block' } }}>
+          {!user?
                   <Link className={`${styles.btn} btn `} to="/login">
                   تسجيل الدخول
                  </Link>
@@ -163,7 +186,8 @@ function DrawerAppBar(props ,{user,setUser} ) {
                   تسجيل الخروج
                   </Link>
                 }  
-          </Box>
+            </Box>
+         
         </Toolbar>
        </div>
       </AppBar>

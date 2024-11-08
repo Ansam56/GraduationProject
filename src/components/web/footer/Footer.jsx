@@ -15,8 +15,7 @@ export default function Footer() {
           <Logo/>
         </div>
       </div>
-      <div className="col-md-4 p-0 text-center">
-       
+      <div className="col-md-4 p-0 text-center"> 
         <p>طولكرم-فلسطين <span className="text-main-color"> <LocationOnIcon/></span></p>
       </div>
     </div>
