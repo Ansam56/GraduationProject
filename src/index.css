@@ -1,6 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap');
+
 body{
     background-color: #f1ece15d !important;
+    font-family: 'Cairo', sans-serif;
 }
+.custom-text {
+    font-family: 'Cairo', sans-serif;
+}
+  
 :root {
     --main-color: #F1ECE1;/* استخدمته */ 
     --highlight-color:#506550;/*استخدمته بخط النافبار*/
@@ -13,6 +20,8 @@ body{
     --accent-color:#C4B28B; 
     --border-color:#BFB5A4;
 }
+ 
+  
 /* html, body {
     height: 100%;
     margin: 0;
