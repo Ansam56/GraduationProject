@@ -76,7 +76,7 @@ export default function SchoolCard({
   return (
     <React.Fragment>
       {/* الكارد الذي يحتوي على البيانات */}
-      <Card style={{ width: "19rem" }} className=" p-2 custom-text">
+      <Card style={{ width: "19rem" }} className=" pt-2 pb-2 custom-text">
         <div className={`${style.image_container} position-relative`}>
           <div
             title="عرض حلقات المدرسة"
@@ -94,21 +94,21 @@ export default function SchoolCard({
           />
         </div>
         <Card.Body className={`text-center ${style.card_body}`}>
-          <Card.Title>{title}</Card.Title>
-          <Card.Text>{text}</Card.Text>
+          <Card.Title className={`${style.title}`}>{title}</Card.Title>
+          <Card.Text className={`${style.text}`}>{text}</Card.Text>
           {/* الإحصائيات */}
           <div className="d-flex justify-content-around">
             <div className="text-center">
-              <GroupsIcon sx={{ fontSize: 40 }} />
-              <p>{studentNum}</p>
+              <GroupsIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/>
+              <p className={`${style.numbers}`}>{studentNum}</p>
             </div>
             <div className="text-center">
-              <PersonIcon sx={{ fontSize: 40 }} />
-              <p>{teacherNum}</p>
+              <PersonIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/>
+              <p className={`${style.numbers}`}>{teacherNum}</p>
             </div>
             <div className="text-center">
-              <SchoolIcon sx={{ fontSize: 40 }} />
-              <p>{circlesNum}</p>
+              <SchoolIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/>
+              <p className={`${style.numbers}`}>{circlesNum}</p>
             </div>
           </div>
           {/* الروابط */}

@@ -49,6 +49,7 @@ background-color:var(--main-color)!important;
     background-color:var(--action-color) !important;
     color: var(--text-color-against-dark-background) !important;
     font-weight: bold !important;
+    border-radius: 1rem;
     transition: all 0.4s ease-in-out !important;
 }
 .navbar .btn:hover ,.btnSidebar:hover{

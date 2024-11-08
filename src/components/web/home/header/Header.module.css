@@ -68,9 +68,10 @@
   
 .joinBtn .btn{
     border:2px solid var(--action-color)  ;
-    /* color: var( --botton-hover-color) ; */
     color: var(--main-color); 
     font-weight: bold;
+ 
+    border-radius: 1rem;
     transition: 0.5s ease-in-out;
 }
 .joinBtn .btn:hover{

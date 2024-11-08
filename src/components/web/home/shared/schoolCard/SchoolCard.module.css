@@ -32,9 +32,24 @@
   color: var(--main-color);
   padding: 10px;
 }
-.links {
-  background-color: var(--action-color);
-  color: var(--main-color);
-  padding: 10px;
-  border-radius: 7px;
+.title , .text ,.numbers{
+ color: var(--highlight-color) !important;
+ font-size: medium ;
+}
+.muiIcon{
+  color: var(--primary-color);
+ }
+
+.links { 
+    background-color:var(--action-color) ;
+    color: var(--text-color-against-dark-background) ;
+    font-weight: bold ;
+    padding: 7px;
+    border-radius: 1rem;
+    transition: all 0.4s ease-in-out !important;
+  
+}
+.links:hover {
+  background-color: var(--botton-hover-color) !important;
+  font-weight: bold !important;
 }
