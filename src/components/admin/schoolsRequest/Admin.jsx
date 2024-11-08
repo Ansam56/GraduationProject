@@ -6,8 +6,9 @@ const adminData = [
   {
     id: 1,
     name: "عمر الخطيب",
+    age: "24",
     school: "ملتقى جامعة فلسطين التقنية-خضوري",
-    address: "طولكرم",
+    city: "طولكرم",
     status: "معلق",
     phone: "0598973354",
     email: "Omar@gmail.com",
@@ -17,8 +18,9 @@ const adminData = [
   {
     id: 2,
     name: "يحيى علي",
+    age: "24",
     school: "ملتقى جامعة النجاح الوطنية",
-    address: "نابلس",
+    city: "نابلس",
     status: "معلق",
     phone: "0598973354",
     email: "Omar@gmail.com",
@@ -28,8 +30,9 @@ const adminData = [
   {
     id: 3,
     name: "سلوى الأحمد",
+    age: "24",
     school: "عمر بن الخطاب",
-    address: "جنين",
+    city: "جنين",
     status: "معلق",
     phone: "0598973354",
     email: "Omar@gmail.com",
@@ -39,8 +42,9 @@ const adminData = [
   {
     id: 4,
     name: "عبدالله خالد",
+    age: "24",
     school: "ملتقى جامعة الخليل",
-    address: "الخليل",
+    city: "الخليل",
     status: "معلق",
     phone: "0598973354",
     email: "Omar@gmail.com",
@@ -50,8 +54,9 @@ const adminData = [
   {
     id: 5,
     name: "يوسف عبد",
+    age: "24",
     school: "مدرسة عبدالله بن عباس",
-    address: "طوباس",
+    city: "طوباس",
     status: "معلق",
     phone: "0598973354",
     email: "Omar@gmail.com",
@@ -61,8 +66,9 @@ const adminData = [
   {
     id: 6,
     name: "احمد محمد ",
+    age: "24",
     school: "ملتقى جامعة فلسطين التقنية-خضوري",
-    address: "طولكرم",
+    city: "طولكرم",
     status: "معلق",
     phone: "0598973354",
     email: "Omar@gmail.com",
@@ -72,8 +78,9 @@ const adminData = [
   {
     id: 7,
     name: "يحيى علي",
+    age: "24",
     school: "ملتقى جامعة النجاح الوطنية",
-    address: "نابلس",
+    city: "نابلس",
     status: "معلق",
     phone: "0598973354",
     email: "Omar@gmail.com",
@@ -83,8 +90,9 @@ const adminData = [
   {
     id: 8,
     name: "سلوى الأحمد",
+    age: "24",
     school: "عمر بن الخطاب",
-    address: "جنين",
+    city: "جنين",
     status: "معلق",
     phone: "0598973354",
     email: "Omar@gmail.com",
@@ -94,8 +102,9 @@ const adminData = [
   {
     id: 9,
     name: "عبدالله خالد",
+    age: "24",
     school: "ملتقى جامعة الخليل",
-    address: "الخليل",
+    city: "الخليل",
     status: "معلق",
     phone: "0598973354",
     email: "Omar@gmail.com",
@@ -105,8 +114,9 @@ const adminData = [
   {
     id: 10,
     name: "يوسف عبد",
+    age: "24",
     school: "مدرسة عبدالله بن عباس",
-    address: "طوباس",
+    city: "طوباس",
     status: "معلق",
     phone: "0598973354",
     email: "Omar@gmail.com",
@@ -118,7 +128,7 @@ const adminData = [
 const adminColumns = [
   { title: "اسم المدير", key: "name" },
   { title: "اسم المدرسة", key: "school" },
-  { title: "العنوان", key: "address" },
+  { title: "العنوان", key: "city" },
   { title: "حالة الطلب", key: "status" },
   { title: "التفاصيل", key: "details" },
 ];
@@ -136,6 +146,7 @@ const Admin = () => {
       <DialogContentText>البريد الإلكتروني: {request.email}</DialogContentText>
       <DialogContentText>رقم الهوية: {request.idNumber}</DialogContentText>
       <DialogContentText>السيرة الذاتية: {request.cv}</DialogContentText>
+      <DialogContentText>العمر: {request.age}</DialogContentText>
     </>
   );
 
