@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
+
 import { studentFormSchema } from "../authentication/validation/validate";
 import Input from "../authentication/Input";
 import style from "./Form.module.css";
@@ -9,6 +11,7 @@ export default function StudentForm() {
     initialValues: {
       firstName: "",
       lastName: "",
+      id: "",
       email: "",
       birthDate: "",
       password: "",
@@ -19,6 +22,7 @@ export default function StudentForm() {
     validationSchema: studentFormSchema,
     onSubmit: (values) => {
       console.log("Form Submitted:", values);
+      toast.success("تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني");
     },
   });
 
@@ -36,6 +40,13 @@ export default function StudentForm() {
       name: "lastName",
       title: "اسم العائلة",
       value: formik.values.lastName,
+    },
+    {
+      id: "id",
+      type: "text",
+      name: "id",
+      title: "رقم الهوية",
+      value: formik.values.id,
     },
     {
       id: "email",
