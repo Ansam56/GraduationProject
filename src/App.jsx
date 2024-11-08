@@ -15,7 +15,9 @@ import StudentForm from "./components/forms/StudentForm";
 import SchoolForm from "./components/forms/SchoolForm";
 import TeacherForm from "./components/forms/TeacherForm";
 import Admin from "./components/admin/schoolsRequest/Admin";
-import EditProfile from './components/schoolAdmin/editProfile/EditProfile';
+import TeachersRequests from "./components/schoolAdmin/TeachersRequests/TeachersRequests";
+import StudentsRequests from "./components/teacher/StudentsRequests/StudentsRequests";
+import EditProfile from "./components/schoolAdmin/editProfile/EditProfile";
 import FeaturesSP from "./components/web/navbarSections/FeaturesSP";
 import SchoolsSP from "./components/web/navbarSections/SchoolsSP";
 import StatisticsSP from "./components/web/navbarSections/StatisticsSP";
@@ -76,18 +78,18 @@ export default function App() {
           path: "forgetPassword",
           element: <ForgetPassword />,
         },
-       {
-        path:"features",
-        element:<FeaturesSP/>
-       } ,
-       {
-        path:"schools",
-        element:<SchoolsSP/>
-       },
-       {
-        path:"statistics",
-        element:<StatisticsSP/>
-       }
+        {
+          path: "features",
+          element: <FeaturesSP />,
+        },
+        {
+          path: "schools",
+          element: <SchoolsSP />,
+        },
+        {
+          path: "statistics",
+          element: <StatisticsSP />,
+        },
       ],
     },
     {
@@ -95,9 +97,9 @@ export default function App() {
       element: <UsersLayout role="admin" />,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
       children: [
-        { 
+        {
           index: true,
-          element: <Admin/>,
+          element: <Admin />,
         },
         {
           path: "*",
@@ -105,8 +107,8 @@ export default function App() {
         },
         {
           path: "SchoolRequests",
-          element: <Admin/>,
-        } 
+          element: <Admin />,
+        },
       ],
     },
     {
@@ -128,14 +130,18 @@ export default function App() {
           element: <Profile />,
         },
         {
-          path:"EditProfile",
-          element:<EditProfile/>
-        }
+          path: "EditProfile",
+          element: <EditProfile />,
+        },
+        {
+          path: "TeachersRequests",
+          element: <TeachersRequests />,
+        },
       ],
     },
     {
       path: "/Teacher",
-      element: <UsersLayout role="teacher"/>,
+      element: <UsersLayout role="teacher" />,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
       children: [
         // {
@@ -150,6 +156,10 @@ export default function App() {
         {
           path: "ProfileSettings",
           element: <TeacherProfile />,
+        },
+        {
+          path: "StudentsRequests",
+          element: <StudentsRequests />,
         },
       ],
     },
