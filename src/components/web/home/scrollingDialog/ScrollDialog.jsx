@@ -33,7 +33,7 @@ export default function ScrollDialog({ open, onClose }) {
       maxWidth="lg" // Sets the dialog to large size
     >
       <div className='d-flex justify-content-between'>
-      <DialogTitle id="scroll-dialog-title">حلقات ملتقى القرآن الكريم (جامعة فلسطين التقنية خضوري_طولكرم)</DialogTitle>
+      <DialogTitle className='custom-text' id="scroll-dialog-title ">حلقات ملتقى القرآن الكريم (جامعة فلسطين التقنية خضوري_طولكرم)</DialogTitle>
 
       <DialogActions className={`${style.dialogActions}`}>
       <CloseIcon onClick={onClose} sx={{ fontSize: 30 }} />

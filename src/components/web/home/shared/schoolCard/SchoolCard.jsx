@@ -76,7 +76,7 @@ export default function SchoolCard({
   return (
     <React.Fragment>
       {/* الكارد الذي يحتوي على البيانات */}
-      <Card style={{ width: "19rem" }} className=" p-2">
+      <Card style={{ width: "19rem" }} className=" p-2 custom-text">
         <div className={`${style.image_container} position-relative`}>
           <div
             title="عرض حلقات المدرسة"

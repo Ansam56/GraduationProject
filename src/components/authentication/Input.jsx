@@ -68,7 +68,7 @@ export default function Input({
   options = [],
 }) {
   return (
-    <div className={` ${style.field_holder}`}>
+    <div className={` ${style.field_holder} custom-text`}>
       {type === "select" ? (
         <>
           {/* <label htmlFor={id} className={`${style.label}`}>

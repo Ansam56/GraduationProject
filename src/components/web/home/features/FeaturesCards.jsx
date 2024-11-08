@@ -30,7 +30,7 @@ export default function FeaturesCards() {
       ]
   return (
     <div className="container ">
-          <div className="row row-gap-4">
+          <div className="row row-gap-4 custom-text">
             {cards.map((card,index)=>
             <div key={index} className="col-lg-4">
               <div className={`${style.card}`}>

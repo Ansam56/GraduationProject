@@ -116,15 +116,15 @@ function DrawerAppBar(props ,{user,setUser} ) {
         </div>
       </Typography>
       <Divider />
-      <List>
+      <List >
         {navItems.map((item,index) => (
           <ListItem  key={index} sx={{ display: 'flex', justifyContent: 'center' }}  >
-            <Link to={item.target} className={`${styles.navLinkSidebar} `} > 
-                <ListItemText primary={item.name} />  
+            <Link to={item.target} className={`${styles.navLinkSidebar} `}  > 
+                <ListItemText primary={item.name} className='custom-text' />  
             </Link>   
           </ListItem>
         ))}
-          <ListItem sx={{ display: 'flex', justifyContent: 'center' }}  >
+          <ListItem sx={{ display: 'flex', justifyContent: 'center' }} className='custom-text' >
            {!user?
                   <Link className={`${styles.btnSidebar} btn `} to="/login">
                   تسجيل الدخول
@@ -168,14 +168,14 @@ function DrawerAppBar(props ,{user,setUser} ) {
             <Logo/>
             </div> 
           </Typography>
-          <Box  sx={{flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
+          <Box  sx={{flexGrow: 1, display: { xs: 'none', sm: 'block' } }} className='custom-text'>
              {navItems.map((item,index) => ( 
                   <Link to={item.target} key={index}  className={`${styles.navLink} me-4`} >
                      {item.name}
                   </Link>  
             ))}  
           </Box>
-          <Box  sx={{ display: { xs: 'none', sm: 'block' } }}>
+          <Box  sx={{ display: { xs: 'none', sm: 'block' } }} className='custom-text'>
           {!user?
                   <Link className={`${styles.btn} btn `} to="/login">
                   تسجيل الدخول

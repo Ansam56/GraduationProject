@@ -29,7 +29,7 @@ export default function Cards() {
       ]
   return (
     <div className="container"> 
-    <div className={` ${style.content}`}>
+    <div className={` ${style.content} custom-text`}>
       <div className="row row-gap-12">
       {cards.map((card,index)=>
       <div key={index} className="col-lg-3 ">

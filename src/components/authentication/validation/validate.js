@@ -51,12 +51,7 @@ export const forgetPasswordSchema = yup.object({
     .required(" يجب ادخال الرمز*")
     .length(4, "يجب أن يتكون الرمز من 4 أرقام"),
 });
-export const CreateorderSchema = yup.object({
-  couponName: yup.string(),
-  address: yup.string().required("Your Address is required"),
-  phone: yup.string().required("Your Phone is required"),
-});
-
+  
 // const CITIES = [
 //   "القدس",
 //   "رام الله",

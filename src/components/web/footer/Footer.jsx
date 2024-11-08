@@ -8,7 +8,7 @@ export default function Footer() {
   <div className="container">
     <div className="row row-gap-3 ">
       <div className="col-md-4 p-0 text-center ">
-        <p>© 2025 طوبى~. جميع الحقوق محفوظة.</p>
+        <p className='custom-text'>© 2025 طوبى~. جميع الحقوق محفوظة.</p>
       </div>
       <div className="col-md-4 p-0 text-center">
         <div className={` mx-auto ${style.logoDiv}`}>
@@ -16,7 +16,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="col-md-4 p-0 text-center"> 
-        <p>طولكرم-فلسطين <span className="text-main-color"> <LocationOnIcon/></span></p>
+        <p className='custom-text'>طولكرم-فلسطين <span className="text-main-color"> <LocationOnIcon/></span></p>
       </div>
     </div>
   </div>

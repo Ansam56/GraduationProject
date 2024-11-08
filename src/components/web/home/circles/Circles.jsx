@@ -122,7 +122,7 @@ export default function Circles() {
 
   return (
     <>
-      <div className='d-flex justify-content-between'>
+      <div className='d-flex justify-content-between custom-text'>
   {/* خانة البحث */}
   <input
         type="text"
@@ -150,7 +150,7 @@ export default function Circles() {
 
       {/* عرض الحلقات المطابقة */}
       <div className="container">
-        <div className="row row-gap-4 ">
+        <div className="row row-gap-4">
           {filteredCircles.length > 0 ? (
             filteredCircles.map((circle) => (
               <div key={circle.id} className="col-lg-4">

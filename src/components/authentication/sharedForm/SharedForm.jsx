@@ -19,9 +19,9 @@ export default function SharedForm({
         <div className="text-center w-25 mx-auto">
           <Logo />
         </div>
-        <h2 className={`${style.formTitle} text-center mt-3 mb-4`}>{title}</h2>
+        <h2 className={`${style.formTitle} text-center mt-3 mb-4 custom-text`}>{title}</h2>
 
-        <form onSubmit={formik_handelSubmit} className={`${style.form}`}>
+        <form onSubmit={formik_handelSubmit} className={`${style.form} custom-text`}>
           <div className="container-fluid">
             {renderInputs}
             {secondaryAction && (

@@ -19,7 +19,7 @@ export default function CircleCard({
     <>
       <Card
         style={{ width: "18rem" }}
-        className={`${style.card} text-center p-2 m-auto position-relative`}
+        className={`${style.card} text-center p-2 m-auto position-relative custom-text`}
       >
         <div className={`${style.image_container} `}>
           <Card.Img
