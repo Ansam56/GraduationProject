@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 import {
   schoolFormSchema,
   managerFormSchema,
@@ -33,6 +34,7 @@ export default function SchoolAndManagerForm() {
     initialValues: {
       firstName: "",
       lastName: "",
+      id: "",
       email: "",
       birthDate: "",
       phone: "",
@@ -48,6 +50,7 @@ export default function SchoolAndManagerForm() {
         manager: managerValues,
       };
       console.log("Final Data Submitted:", finalData);
+      toast.success("تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني");
     },
   });
 
@@ -155,6 +158,13 @@ export default function SchoolAndManagerForm() {
       name: "lastName",
       title: "اسم العائلة",
       value: managerFormik.values.lastName,
+    },
+    {
+      id: "id",
+      type: "text",
+      name: "id",
+      title: "رقم الهوية",
+      value: managerFormik.values.id,
     },
     {
       id: "email",
