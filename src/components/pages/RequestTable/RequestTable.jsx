@@ -56,15 +56,33 @@ const RequestTable = ({ columns, data, actions, renderDialogContent }) => {
           <TableHead>
             <TableRow>
               {columns.map((col) => (
-                <TableCell key={col.key}>{col.title}</TableCell>
+                <TableCell
+                  key={col.key}
+                  align="center"
+                  sx={{
+                    fontWeight: "bold",
+                    color: "#333",
+                    padding: "10px",
+                  }}
+                >
+                  {col.title}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {paginatedData.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow key={row.id} hover>
                 {columns.map((col) => (
-                  <TableCell key={col.key}>
+                  <TableCell
+                    key={col.key}
+                    align="center"
+                    sx={{
+                      padding: "10px",
+                      borderBottom: "1px solid #e0e0e0",
+                      color: "#555",
+                    }}
+                  >
                     {col.key === "details" ? (
                       <IconButton onClick={() => handleOpenDialog(row)}>
                         <SearchIcon />
@@ -119,7 +137,7 @@ const RequestTable = ({ columns, data, actions, renderDialogContent }) => {
           <IconButton
             aria-label="close"
             onClick={handleCloseDialog}
-            sx={{ position: "absolute", left: 8, top: 8 }}
+            sx={{ position: "absolute", left: 8, top: 8, color: "#555" }}
           >
             <CloseIcon />
           </IconButton>
