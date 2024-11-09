@@ -13,7 +13,7 @@ const adminData = [
     phone: "0598973354",
     email: "Omar@gmail.com",
     idNumber: "312904421",
-    cv: "omaralkhateeb.pdf",
+    officialDocument: "omaralkhateeb.pdf",
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const adminData = [
     phone: "0598973354",
     email: "Omar@gmail.com",
     idNumber: "312904421",
-    cv: "omaralkhateeb.pdf",
+    officialDocument: "omaralkhateeb.pdf",
   },
   {
     id: 3,
@@ -37,7 +37,7 @@ const adminData = [
     phone: "0598973354",
     email: "Omar@gmail.com",
     idNumber: "312904421",
-    cv: "omaralkhateeb.pdf",
+    officialDocument: "omaralkhateeb.pdf",
   },
   {
     id: 4,
@@ -49,7 +49,7 @@ const adminData = [
     phone: "0598973354",
     email: "Omar@gmail.com",
     idNumber: "312904421",
-    cv: "omaralkhateeb.pdf",
+    officialDocument: "omaralkhateeb.pdf",
   },
   {
     id: 5,
@@ -61,35 +61,35 @@ const adminData = [
     phone: "0598973354",
     email: "Omar@gmail.com",
     idNumber: "312904421",
-    cv: "omaralkhateeb.pdf",
+    officialDocument: "omaralkhateeb.pdf",
   },
   {
     id: 6,
     name: "احمد محمد ",
     age: "24",
-    school: "ملتقى جامعة فلسطين التقنية-خضوري",
-    city: "طولكرم",
+    school: "ملتقى الجامعة العربية الأمريكية",
+    city: "جنين",
     status: "معلق",
     phone: "0598973354",
     email: "Omar@gmail.com",
     idNumber: "312904421",
-    cv: "omaralkhateeb.pdf",
+    officialDocument: "omaralkhateeb.pdf",
   },
   {
     id: 7,
-    name: "يحيى علي",
+    name: " لؤي جابر",
     age: "24",
-    school: "ملتقى جامعة النجاح الوطنية",
-    city: "نابلس",
+    school: "مدرسة علي بن ابي طالب",
+    city: "قلقيلية",
     status: "معلق",
     phone: "0598973354",
     email: "Omar@gmail.com",
     idNumber: "312904421",
-    cv: "omaralkhateeb.pdf",
+    officialDocument: "omaralkhateeb.pdf",
   },
   {
     id: 8,
-    name: "سلوى الأحمد",
+    name: "أمجد محمد",
     age: "24",
     school: "عمر بن الخطاب",
     city: "جنين",
@@ -97,7 +97,7 @@ const adminData = [
     phone: "0598973354",
     email: "Omar@gmail.com",
     idNumber: "312904421",
-    cv: "omaralkhateeb.pdf",
+    officialDocument: "omaralkhateeb.pdf",
   },
   {
     id: 9,
@@ -109,19 +109,19 @@ const adminData = [
     phone: "0598973354",
     email: "Omar@gmail.com",
     idNumber: "312904421",
-    cv: "omaralkhateeb.pdf",
+    officialDocument: "omaralkhateeb.pdf",
   },
   {
     id: 10,
-    name: "يوسف عبد",
+    name: "داود المصري",
     age: "24",
-    school: "مدرسة عبدالله بن عباس",
-    city: "طوباس",
+    school: "مدرسة صفوة الحفاظ",
+    city: "نابلس",
     status: "معلق",
     phone: "0598973354",
     email: "Omar@gmail.com",
     idNumber: "312904421",
-    cv: "omaralkhateeb.pdf",
+    officialDocument: "omaralkhateeb.pdf",
   },
 ];
 
@@ -145,7 +145,9 @@ const Admin = () => {
       <DialogContentText>رقم الجوال: {request.phone}</DialogContentText>
       <DialogContentText>البريد الإلكتروني: {request.email}</DialogContentText>
       <DialogContentText>رقم الهوية: {request.idNumber}</DialogContentText>
-      <DialogContentText>السيرة الذاتية: {request.cv}</DialogContentText>
+      <DialogContentText>
+        الوثيقة الرسمية: {request.officialDocument}
+      </DialogContentText>
       <DialogContentText>العمر: {request.age}</DialogContentText>
     </>
   );
