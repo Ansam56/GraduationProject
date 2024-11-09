@@ -1,48 +1,23 @@
 import React from 'react'
-
+import PhoneIcon from '@mui/icons-material/Phone';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import EmailIcon from '@mui/icons-material/Email';
+import style from './Contact.module.css'
 export default function Contact() {
-  return (
-   
-   <div className="contact-info  w-100 ">
-    <div className="container rounded-top-3 px-3 py-4">
-      <div className="row row-gap-3">
-        <div className="col-lg-4">
-          <div className="d-flex align-items-center">
-            <a href="#">
-              <i className="fa-solid fa-phone-flip text-main-color" />
-            </a>
-            <div className="info  text-white ">
-              <h3 className="fs-6">Contact Number</h3>
-              <span>+345-3909655627</span>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-4">
-          <div className="d-flex align-items-center">
-            <a href="#">
-              <i className="far fa-envelope text-main-color" />
-            </a>
-            <div className="info  text-white ">
-              <h3 className="fs-6">Email Address</h3>
-              <span>+2390-875-5664</span>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-4">
-          <div className="d-flex align-items-center">
-            <a href="#">
-              <i className="fas fa-map-marker-alt text-main-color" />
-            </a>
-            <div className="info  text-white ">
-              <h3 className="fs-6">Location</h3>
-              <span>Buffalo Street,#205, Northwest-3087</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
- 
+  return ( 
+   <>
+<div className={`${style.social_icons}`}>
+  <a href="tel:+1234567890" title='0598973354'>
+    <PhoneIcon sx={{ color: '#F1ECE1', fontSize: 24   }} />
+  </a>
+  <a href="https://wa.me/+972593928404" title='+972593928404' target="_blank" rel="noopener noreferrer">
+    <WhatsAppIcon sx={{ color: '#F1ECE1', fontSize: 24  }} />
+  </a>
+  <a href="mailto:example@example.com" title='raghadmoqady@gmail.com'>
+    <EmailIcon sx={{ color: '#F1ECE1', fontSize: 24  }} />
+  </a>
+</div>
 
+   </>
   )
 }
