@@ -137,7 +137,7 @@ const PostCard = ({ post = null, handleDeletePost }) => {
         <DialogTitle>تأكيد الحذف</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            هل أنت متأكد من انك تريد حذف هذا البوست؟
+            هل أنت متأكد أنك تريد حذف هذا المنشور؟
           </DialogContentText>
         </DialogContent>
         <DialogActions>
