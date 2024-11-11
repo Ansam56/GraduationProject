@@ -1,5 +1,10 @@
 .statistics{
-  background: linear-gradient(to bottom, var(--main-color), var(--primary-color));
+  /* background: linear-gradient(to bottom, var(--main-color), var(--primary-color)); */
   /* background-image: url(../../img/headerBg1.jpg); */ 
+  background-image: url('../../img/Rectangle1.png');
+  /* background-position-y:20px ; */
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  background-size: cover;
   }
  

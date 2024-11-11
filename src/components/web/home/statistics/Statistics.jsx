@@ -8,7 +8,7 @@ export default function Statistics() {
   return (
     <>
       {/* <SectionTitle title="احصائيات الموقع" /> */}
-      <section className={`${style.statistics} position-relative  py-4 mb-5`}>
+      <section className={`${style.statistics} position-relative  py-5 mb-5`}>
          <Cards/> 
       </section>
     </>
