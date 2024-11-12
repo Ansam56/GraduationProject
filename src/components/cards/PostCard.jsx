@@ -1,5 +1,4 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import {
   Card,
   CardHeader,
@@ -151,24 +150,6 @@ const PostCard = ({ post = null, handleDeletePost }) => {
       </Dialog>
     </Card>
   );
-};
-
-PostCard.propTypes = {
-  post: PropTypes.shape({
-    id: PropTypes.string,
-    content: PropTypes.string,
-    title: PropTypes.string,
-    createdAt: PropTypes.instanceOf(Date),
-    attachment: PropTypes.shape({
-      url: PropTypes.string,
-    }),
-    user: PropTypes.shape({
-      firstName: PropTypes.string,
-      lastName: PropTypes.string,
-      profilePicture: PropTypes.string,
-    }),
-  }),
-  handleDeletePost: PropTypes.func.isRequired,
 };
 
 export default PostCard;
