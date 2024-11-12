@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import {
   Table,
   TableBody,
@@ -148,21 +147,6 @@ const RequestTable = ({ columns, data, actions, renderDialogContent }) => {
       </Dialog>
     </>
   );
-};
-
-RequestTable.propTypes = {
-  columns: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      key: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  actions: PropTypes.shape({
-    accept: PropTypes.func.isRequired,
-    reject: PropTypes.func.isRequired,
-  }),
-  renderDialogContent: PropTypes.func.isRequired,
 };
 
 export default RequestTable;
