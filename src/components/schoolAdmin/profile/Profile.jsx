@@ -3,6 +3,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import p from "../../web/img/headerBg1.jpg"
 import style from "./Profile.module.css"
 import { Link } from "react-router-dom";
+import Dashboard_SubTitle from "../../pages/dashboardSubTitle/Dashboard_SubTitle";
 
 
 export default function Profile() {
@@ -16,8 +17,8 @@ export default function Profile() {
 
     return (
       <>
-       <legend className={`${style.Profile_title}`}>المعلومات الشخصية</legend>
-       <Divider />
+      <Dashboard_SubTitle title="المعلومات الشخصية"/> 
+
         <div className={`${style.profileContent}`}>
         
          <form className="px-4 py-2" style={{ maxWidth: '600px', margin: '10px auto', backgroundColor: '#f8f9fa', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
@@ -84,7 +85,7 @@ export default function Profile() {
             </fieldset>
         </form>
         
-            <IconButton color="primary" sx={{ position: 'absolute', top: 10, right: 10 }}>
+            <IconButton color="primary" sx={{ position: 'absolute', top: 6 , right: 7 }}>
               <Link to="/SchoolAdmin/EditProfile"><EditIcon/></Link>
             </IconButton>
         </div>

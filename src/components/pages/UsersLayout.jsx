@@ -43,7 +43,12 @@ export default function UsersLayout({role}) {
         name:"عرض طلبات انضمام الطلاب",
         icon:<InboxIcon />,
         target:"/Teacher/StudentsRequests"
-     }   
+     } ,
+     {
+      name:"ادارة شؤون الطلاب",
+      icon:<InboxIcon />,
+      target:"/Teacher/StudentManagement"
+   }  
       ] 
       NavTitle="ملتقى فلسطين التقنية خضوري > بالقرآن نحيا"
       SideBarTitle="بوابة المعلم"

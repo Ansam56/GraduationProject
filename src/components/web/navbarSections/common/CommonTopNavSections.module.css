@@ -1,6 +1,6 @@
 .content{
     background: linear-gradient(to bottom, var(--main-color), var(--primary-color));
-    height: 30vh;
+    height: 32vh;
     margin-bottom: 2rem;
     padding-top:2rem ;
     color: var(--main-color);

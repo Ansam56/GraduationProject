@@ -58,6 +58,7 @@ export default function ForgetPassword() {
     },
     {
         id: "confirmPassword", //lable لربط الليبل مع الانبوت
+        type: "password",
         name: "confirmPassword",
         title: "تأكيد كلمة المرور", 
         value:formik.values.confirmPassword,

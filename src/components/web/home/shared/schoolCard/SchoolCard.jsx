@@ -54,6 +54,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import { Link } from "react-router-dom";
 import ScrollDialog from "../../scrollingDialog/ScrollDialog";
+import { Tooltip, Zoom } from "@mui/material";
 
 export default function SchoolCard({
   title,
@@ -78,14 +79,16 @@ export default function SchoolCard({
       {/* الكارد الذي يحتوي على البيانات */}
       <Card style={{ width: "19rem" }} className=" pt-2 pb-2 custom-text">
         <div className={`${style.image_container} position-relative`}>
-          <div
-            title="عرض حلقات المدرسة"
-            className={`${style.overlay} d-flex justify-content-center align-items-center position-absolute top-0 end-0 start-0 bottom-0`}
+        <div
+             className={`${style.overlay} d-flex justify-content-center align-items-center position-absolute top-0 end-0 start-0 bottom-0`}
           >
+        <Tooltip  TransitionComponent={Zoom} title="عرض حلقات المدرسة">
             <Link onClick={openScroll} className={`${style.zoomInIcon}`}>
               <ZoomInIcon sx={{ fontSize: 30 }} />
             </Link>
+       </Tooltip>
           </div>
+        
           <Card.Img
             variant="top"
             src={imageUrl}
