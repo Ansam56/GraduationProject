@@ -16,12 +16,14 @@ import SchoolForm from "./components/forms/SchoolForm";
 import TeacherForm from "./components/forms/TeacherForm";
 import Admin from "./components/admin/schoolsRequest/Admin";
 import TeachersRequests from "./components/schoolAdmin/TeachersRequests/TeachersRequests";
-import StudentsRequests from "./components/teacher/studentsRequests/StudentsRequests";
+import StudentsRequests from "./components/teacher/StudentsRequests/StudentsRequests";
 import EditProfile from "./components/schoolAdmin/editProfile/EditProfile";
 import FeaturesSP from "./components/web/navbarSections/FeaturesSP";
 import SchoolsSP from "./components/web/navbarSections/SchoolsSP";
 import StatisticsSP from "./components/web/navbarSections/StatisticsSP";
 import Students from "./components/teacher/studentManagement/Students";
+import PostForm from "./components/forms/PostForm";
+
 
 export default function App() {
   //استفدت منه باظهار واخفاء جزء من الكود حسب هو مسجل دخوله او لا !
@@ -138,6 +140,14 @@ export default function App() {
           path: "TeachersRequests",
           element: <TeachersRequests />,
         },
+        {
+          path: "PostForm",
+          element: <PostForm />,
+        },
+        // {
+        //   path: "Posts",
+        //   element: <Posts />,
+        // },
       ],
     },
     {
