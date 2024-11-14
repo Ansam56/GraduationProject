@@ -1,0 +1,34 @@
+/* RichTextEditor.css */
+.editor-content {
+  min-height: 300px;
+  height: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+  cursor: text;
+  line-height: 1.1;
+  direction: rtl;
+  text-align: right;
+}
+
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+
+  padding: 15px;
+  padding-top: 0px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  min-height: 350px;
+}
+
+.editor-container .toolbar .is-active {
+  background-color: #e8f0fe;
+}
+.editor-container .toolbar .toolbar-element {
+  margin: 10px;
+  padding: 5px;
+}

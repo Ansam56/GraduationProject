@@ -1,0 +1,53 @@
+.upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+.upload-box {
+  width: 100%;
+  max-width: 450px;
+  height: 200px;
+  border: 2px dashed #d0d0d0;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+
+.upload-content {
+  color: #6c757d;
+}
+
+.upload-icon {
+  font-size: 40px;
+  color: #6c757d;
+  margin-bottom: 10px;
+}
+
+.upload-box:hover {
+  border-color: #007bff;
+}
+
+.preview-image {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Ensures the image scales to fit without being distorted */
+  border-radius: 10px;
+}
+
+.delete-image {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #dd5251;
+  padding: 10px;
+  background-color: #f8dcdc;
+  border-radius: 5px;
+}
