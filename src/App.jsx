@@ -21,10 +21,9 @@ import EditProfile from "./components/schoolAdmin/editProfile/EditProfile";
 import FeaturesSP from "./components/web/navbarSections/FeaturesSP";
 import SchoolsSP from "./components/web/navbarSections/SchoolsSP";
 import StatisticsSP from "./components/web/navbarSections/StatisticsSP";
-  
+ 
 import PostForm from "./components/forms/PostForm";
 import Posts from "./components/pages/Posts/Posts";
- 
 import StudentManagement from "./components/teacher/studentManagement/StudentManagement";
  
 
