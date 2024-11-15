@@ -1,0 +1,10 @@
+.dialogActions:hover{
+    cursor: pointer;
+}
+.content{
+    font-size:  large !important;
+}
+.title{
+    font-weight: bold;
+    font-size:  x-large !important;
+}
