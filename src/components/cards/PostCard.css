@@ -1,3 +1,6 @@
+* {
+  font-family: "Cairo", sans-serif;
+}
 .post-card {
   max-width: 600px;
   margin: auto;
@@ -13,19 +16,6 @@
   position: relative;
 }
 
-.post-card .post-date {
-  font-size: 14px;
-  font-weight: 500;
-  color: white;
-  background-color: rgba(92, 92, 92, 0.4);
-  position: absolute;
-  right: 0;
-  margin-right: 10px;
-  margin-top: 10px;
-  padding: 5px;
-  direction: rtl;
-}
-
 .post-card .card-body {
   padding: 15px 10px;
   direction: rtl;
@@ -38,8 +28,8 @@
 }
 
 .post-card .card-text {
-  line-height: 1.6;
-  font-size: 16px; 
+  line-height: 1.4;
+  font-size: 16px;
 }
 
 .post-card .post-card-footer {
@@ -53,3 +43,31 @@
   font-weight: bold;
 }
 
+.author-section {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  margin-right: 10px;
+}
+
+.author-name-time {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-name {
+  font-weight: bolder;
+  font-size: 20px;
+  color: #333;
+}
+
+.date-no-image {
+  font-size: 10px;
+  color: #888;
+}
+
+.MuiAvatar-root {
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+}
