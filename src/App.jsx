@@ -25,8 +25,7 @@ import StatisticsSP from "./components/web/navbarSections/StatisticsSP";
 import PostForm from "./components/forms/PostForm";
 import Posts from "./components/pages/Posts/Posts";
 import StudentManagement from "./components/teacher/studentManagement/StudentManagement";
- 
-
+  
 export default function App() {
   //استفدت منه باظهار واخفاء جزء من الكود حسب هو مسجل دخوله او لا !
   //استفدت منه بتغيير حالة اليوزر الى نل في حال سجل خروجه
