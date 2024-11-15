@@ -22,8 +22,8 @@ const Posts = ({ showAddButton = true }) => {
           url: "https://scontent.fjrs27-1.fna.fbcdn.net/v/t39.30808-6/441639189_1036342611364277_2818803549453965447_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=NIxQPBgPobYQ7kNvgGKVQIC&_nc_zt=23&_nc_ht=scontent.fjrs27-1.fna&_nc_gid=AqBEV0xfBg3c8fWLp2muFd0&oh=00_AYDAnaRGVhC7C3yhdwKNT-dLPJXMFudoddp6bodhClc7ag&oe=673C372D",
         },
         user: {
-          firstName: "شيماء",
-          lastName: "عماد",
+          firstName: "أنسام",
+          lastName: "جناجرة",
           profilePicture: "",
         },
         createdAt: new Date(),
@@ -37,8 +37,8 @@ const Posts = ({ showAddButton = true }) => {
           url: "https://scontent.fjrs27-1.fna.fbcdn.net/v/t39.30808-6/441639189_1036342611364277_2818803549453965447_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=NIxQPBgPobYQ7kNvgGKVQIC&_nc_zt=23&_nc_ht=scontent.fjrs27-1.fna&_nc_gid=AqBEV0xfBg3c8fWLp2muFd0&oh=00_AYDAnaRGVhC7C3yhdwKNT-dLPJXMFudoddp6bodhClc7ag&oe=673C372D",
         },
         user: {
-          firstName: "شيماء",
-          lastName: "عماد",
+          firstName: "أنسام",
+          lastName: "جناجرة",
           profilePicture: "",
         },
         createdAt: new Date(),
