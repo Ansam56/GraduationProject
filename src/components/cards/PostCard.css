@@ -1,5 +1,8 @@
+* {
+  font-family: "Cairo", sans-serif;
+}
 .post-card {
-  max-width: 500px;
+  max-width: 600px;
   margin: auto;
   margin-bottom: 20px;
   border-radius: 10px;
@@ -13,86 +16,58 @@
   position: relative;
 }
 
-.post-card .post-date {
-  font-size: 14px;
-  font-weight: 500;
-  color: white;
-  background-color: rgba(92, 92, 92, 0.4);
-  position: absolute;
-  right: 0;
-  margin-right: 10px;
-  margin-top: 10px;
-  padding: 5px;
-  direction: rtl;
-}
-
 .post-card .card-body {
-  padding: 10px 5px;
+  padding: 15px 10px;
   direction: rtl;
-}
-.post-card .post-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.post-card .author-section {
-  display: flex;
-  align-items: center;
-}
-.post-card .author-section p {
-  margin-right: 10px;
-  margin-bottom: 0;
-}
-.post-card .author-section .author-name {
-  font-weight: bolder;
-}
-.post-card .author-section .date-no-image {
-  font-weight: bold;
-  color: #696969;
-  font-size: small;
-}
-
-.post-card .author-section .author-name-time {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.post-card .post-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.post-card .profile-picture img {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
 }
 
 .post-card .card-title {
   font-weight: bold;
-  margin-bottom: 5px;
+  font-size: 18px;
+  margin-bottom: 8px;
 }
 
 .post-card .card-text {
-  line-height: 1.5;
-  font-size: 14px;
+  line-height: 1.4;
+  font-size: 16px;
 }
 
 .post-card .post-card-footer {
   text-align: center;
-  margin-top: 0;
+  margin-top: 5px;
 }
 
 .post-card .read-more-btn {
-  padding: 5px 20px;
-  font-size: 14px;
-  font-weight: bolder;
+  padding: 8px 25px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-.post-card .post-edit-delete {
+.author-section {
   display: flex;
-  justify-content: end;
+  align-items: center;
+  margin-top: 5px;
+  margin-right: 10px;
+}
+
+.author-name-time {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-name {
+  font-weight: bolder;
+  font-size: 20px;
+  color: #333;
+}
+
+.date-no-image {
+  font-size: 10px;
+  color: #888;
+}
+
+.MuiAvatar-root {
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
 }
