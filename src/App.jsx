@@ -21,15 +21,17 @@ import EditProfile from "./components/schoolAdmin/editProfile/EditProfile";
 import FeaturesSP from "./components/web/navbarSections/FeaturesSP";
 import SchoolsSP from "./components/web/navbarSections/SchoolsSP";
 import StatisticsSP from "./components/web/navbarSections/StatisticsSP";
-<<<<<<< Updated upstream
-import Students from "./components/teacher/studentManagement/Students";
+// <<<<<<< Updated upstream
+// import Students from "./components/teacher/studentManagement/Students";
 import PostForm from "./components/forms/PostForm";
+import Posts from "./components/pages/Posts/Posts";
 
-||||||| Stash base
+
+// ||||||| Stash base
 import Students from "./components/teacher/studentManagement/Students";
-=======
+// =======
 import StudentManagement from "./components/teacher/studentManagement/StudentManagement";
->>>>>>> Stashed changes
+// >>>>>>> Stashed changes
 
 export default function App() {
   //استفدت منه باظهار واخفاء جزء من الكود حسب هو مسجل دخوله او لا !
@@ -150,10 +152,10 @@ export default function App() {
           path: "PostForm",
           element: <PostForm />,
         },
-        // {
-        //   path: "Posts",
-        //   element: <Posts />,
-        // },
+        {
+          path: "Posts",
+          element: <Posts />,
+        },
       ],
     },
     {
