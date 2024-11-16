@@ -12,6 +12,7 @@ const studentData = [
     status: "معلق",
     email: "Omar@gmail.com",
     idNumber: "312904421",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const studentData = [
     status: "معلق",
     email: "Omar@gmail.com",
     idNumber: "312904421",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 3,
@@ -32,6 +34,7 @@ const studentData = [
     status: "معلق",
     email: "Omar@gmail.com",
     idNumber: "312904421",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 4,
@@ -42,6 +45,7 @@ const studentData = [
     status: "معلق",
     email: "Omar@gmail.com",
     idNumber: "312904421",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 5,
@@ -52,6 +56,7 @@ const studentData = [
     status: "معلق",
     email: "Omar@gmail.com",
     idNumber: "312904421",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 6,
@@ -62,6 +67,7 @@ const studentData = [
     status: "معلق",
     email: "Omar@gmail.com",
     idNumber: "312904421",
+    applicationSubmissionDate: "10-02-2025",
   },
 ];
 
@@ -69,6 +75,7 @@ const studentColumns = [
   { title: "اسم الطالب", key: "name" },
   { title: "الجنس", key: "gender" },
   { title: "العنوان", key: "city" },
+  { title: "تاريخ تقديم الطلب", key: "applicationSubmissionDate" },
   { title: "حالة الطلب", key: "status" },
   { title: "التفاصيل", key: "details" },
 ];
@@ -82,9 +89,9 @@ const Student = () => {
   const renderStudentDialogContent = (request) => (
     <>
       <DialogContentText>الطالب: {request.name}</DialogContentText>
+      <DialogContentText>العمر: {request.age}</DialogContentText>
       <DialogContentText>البريد الإلكتروني: {request.email}</DialogContentText>
       <DialogContentText>رقم الهوية: {request.idNumber}</DialogContentText>
-      <DialogContentText>العمر: {request.age}</DialogContentText>
     </>
   );
 
