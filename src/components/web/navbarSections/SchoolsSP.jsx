@@ -1,6 +1,7 @@
 import React from 'react'
 import CommonTopNavSections from './common/CommonTopNavSections' 
 import SchoolCards from '../home/schools/SchoolCards'; 
+import Footer from '../footer/Footer';
 
 export default function SchoolsSP() {
   return (
@@ -11,6 +12,7 @@ export default function SchoolsSP() {
           <SchoolCards/>
       </div> 
     </div>
+    <Footer/>
     
     </>
   )
