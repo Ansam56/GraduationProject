@@ -37,8 +37,8 @@ const PostCard = ({ post = null, handleDeletePost }) => {
   };
 
   const truncatedText =
-    activePost.content.length > 200
-      ? `${activePost.content.substring(0, 200)}...`
+    activePost.content.length > 120
+      ? `${activePost.content.substring(0, 120)}...`
       : activePost.content;
   const handleTextToggle = () => setShowMoreText(!showMoreText);
 
