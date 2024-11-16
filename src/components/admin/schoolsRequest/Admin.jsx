@@ -14,6 +14,7 @@ const adminData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     officialDocument: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 2,
@@ -26,6 +27,7 @@ const adminData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     officialDocument: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 3,
@@ -38,6 +40,7 @@ const adminData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     officialDocument: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 4,
@@ -50,6 +53,7 @@ const adminData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     officialDocument: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 5,
@@ -62,6 +66,7 @@ const adminData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     officialDocument: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 6,
@@ -74,6 +79,7 @@ const adminData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     officialDocument: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 7,
@@ -86,6 +92,7 @@ const adminData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     officialDocument: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 8,
@@ -98,6 +105,7 @@ const adminData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     officialDocument: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 9,
@@ -110,6 +118,7 @@ const adminData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     officialDocument: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 10,
@@ -122,6 +131,7 @@ const adminData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     officialDocument: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
 ];
 
@@ -129,6 +139,7 @@ const adminColumns = [
   { title: "اسم المدير", key: "name" },
   { title: "اسم المدرسة", key: "school" },
   { title: "العنوان", key: "city" },
+  { title: "تاريخ تقديم الطلب", key: "applicationSubmissionDate" },
   { title: "حالة الطلب", key: "status" },
   { title: "التفاصيل", key: "details" },
 ];
@@ -142,13 +153,13 @@ const Admin = () => {
   const renderAdminDialogContent = (request) => (
     <>
       <DialogContentText>المدير: {request.name}</DialogContentText>
+      <DialogContentText>العمر: {request.age}</DialogContentText>
       <DialogContentText>رقم الجوال: {request.phone}</DialogContentText>
       <DialogContentText>البريد الإلكتروني: {request.email}</DialogContentText>
       <DialogContentText>رقم الهوية: {request.idNumber}</DialogContentText>
       <DialogContentText>
         الوثيقة الرسمية: {request.officialDocument}
       </DialogContentText>
-      <DialogContentText>العمر: {request.age}</DialogContentText>
     </>
   );
 
