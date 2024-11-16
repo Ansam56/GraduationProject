@@ -14,6 +14,7 @@ const administratorData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     cv: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 2,
@@ -26,6 +27,7 @@ const administratorData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     cv: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 3,
@@ -38,6 +40,7 @@ const administratorData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     cv: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 4,
@@ -50,6 +53,7 @@ const administratorData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     cv: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 5,
@@ -62,6 +66,7 @@ const administratorData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     cv: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
   {
     id: 6,
@@ -74,6 +79,7 @@ const administratorData = [
     email: "Omar@gmail.com",
     idNumber: "312904421",
     cv: "omaralkhateeb.pdf",
+    applicationSubmissionDate: "10-02-2025",
   },
 ];
 
@@ -81,6 +87,7 @@ const administratorColumns = [
   { title: "اسم المعلم", key: "name" },
   { title: "اسم الحلقة", key: "circle" },
   { title: "العنوان", key: "city" },
+  { title: "تاريخ تقديم الطلب", key: "applicationSubmissionDate" },
   { title: "حالة الطلب", key: "status" },
   { title: "التفاصيل", key: "details" },
 ];
@@ -94,11 +101,11 @@ const Administrator = () => {
   const renderAdministratorDialogContent = (request) => (
     <>
       <DialogContentText>المعلم: {request.name}</DialogContentText>
+      <DialogContentText>العمر: {request.age}</DialogContentText>
       <DialogContentText>رقم الجوال: {request.phone}</DialogContentText>
       <DialogContentText>البريد الإلكتروني: {request.email}</DialogContentText>
       <DialogContentText>رقم الهوية: {request.idNumber}</DialogContentText>
       <DialogContentText>السيرة الذاتية: {request.cv}</DialogContentText>
-      <DialogContentText>العمر: {request.age}</DialogContentText>
     </>
   );
 
