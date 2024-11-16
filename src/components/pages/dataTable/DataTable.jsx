@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css'; // DataTable Bootstrap 5 CSS
 import $ from 'jquery';
 import 'datatables.net-bs5'; // DataTable Bootstrap 5 JavaScript integration
-import { Box, Button } from '@mui/material'; // MUI components
-import { Link } from 'react-router-dom';
-import ConfirmDeleteDialog from '../confirmDeleteDialog/ConfirmDeleteDialog';
+import { Box, Button } from '@mui/material'; // MUI components 
+import CommonDialog from './../commonDialog/CommonDialog';
 
-export default function DataTableComponent() {
+export default function DataTable() {
   useEffect(() => {
     // Initialize DataTable when the component mounts
     const dataTable = $('#example').DataTable({
@@ -93,17 +92,27 @@ export default function DataTableComponent() {
       age: 61, 
     },
   ];
+  // for Delete Dialog
+  const [openConfirmDeleteDialog, setOpenConfirmDeleteDialog] = useState(false); // حالة للتحكم في فتح وإغلاق الـ Dialog
 
-  const [openDialog, setOpenDialog] = useState(false); // حالة للتحكم في فتح وإغلاق الـ Dialog
-
-  const open = () => {
-    setOpenDialog(true); // فتح الـ Dialog
+  const openDeleteDialog = () => {
+    setOpenConfirmDeleteDialog(true); // فتح الـ Dialog
   };
 
-  const close = () => {
-    setOpenDialog(false); // إغلاق الـ Dialog
+  const closeDeleteDialog = () => {
+    setOpenConfirmDeleteDialog(false); // إغلاق الـ Dialog
   };
 
+  //for Add Dialog 
+  const [openAddAchaievementDialog, setOpenAddAchaievementDialog] = useState(false); // حالة للتحكم في فتح وإغلاق الـ Dialog
+
+  const openAchaievementDialog = () => {
+    setOpenAddAchaievementDialog(true); // فتح الـ Dialog
+  };
+
+  const closeAchaievementDialog = () => {
+    setOpenAddAchaievementDialog(false); // إغلاق الـ Dialog
+  };
   return (
     <Box sx={{ overflowX: 'auto', width: '100%' }} className=" py-3"> 
 
@@ -128,14 +137,14 @@ export default function DataTableComponent() {
                 <Button
                       variant="contained"
                       color="error"
-                      onClick={open}
+                      onClick={openDeleteDialog}
                     >
                       حذف
                     </Button>
                     <Button
                       variant="contained"
                       style={{ backgroundColor: '#4CAF50', color: '#fff' }}
-                      onClick={open}
+                      onClick={openAchaievementDialog}
                     >
                       اضافة انجاز يومي جديد
                     </Button>
@@ -147,8 +156,13 @@ export default function DataTableComponent() {
           </tbody>
         </table>
       </div>
-            {/* مكون الـ Dialog */}
-            {openDialog && <ConfirmDeleteDialog open={openDialog} onClose={close} />}
+            {/* Delete Dialog */}
+            {openConfirmDeleteDialog && <CommonDialog open={openConfirmDeleteDialog} onClose={closeDeleteDialog} width="xs" title="تأكيد الحذف" content=" هل تريد حذف هذا العنصر؟"
+              actions="delete"/>}
+ 
+            {/* Add new Achaivnment Dialog */} 
+             {openAddAchaievementDialog && <CommonDialog open={openAddAchaievementDialog} onClose={closeAchaievementDialog} width="md" title="اضافة انجاز جديد للطالب" content="testttt" actions="AddAchaievement"/>}
+
     </Box>
     
   );
