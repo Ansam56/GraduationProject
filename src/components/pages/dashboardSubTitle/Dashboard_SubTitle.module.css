@@ -1,5 +1,7 @@
 .title{
     padding-right: 30px;
     font-size:1.5rem ;
-    color: var(--primary-color);
+    color: var(--main-color);
+    background: linear-gradient(to right, var(--main-color), var(--primary-color), var(--primary-color));
+    padding:15px 30px 15px 0;
 }

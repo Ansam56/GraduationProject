@@ -60,21 +60,7 @@ export default function CommonDialog({ open, onClose ,width,title,content,action
     </Button>
   </>
         )}
-         {actions === "AddAchaievement" && (
-       <>
-        <Button 
-        // لازمها تغيير فيما بعد لفنكشن يكون مرتبط مع الداتا بيس الباك
-        // بحيث في البداية عند الضغط على اضافة لازم يستدعي فنكشن باك وبعدين من هناك يعمل اغلاق للديالوغ
-         onClick={onClose} 
-         style={{ backgroundColor: '#4CAF50', color: '#fff' }}
-         className={`${style.content} custom-text`}
-        >
-         اضافة
-        </Button>
-    
-        </>
-        )}
- 
+        
         </DialogActions>
       </Dialog>
     </div>

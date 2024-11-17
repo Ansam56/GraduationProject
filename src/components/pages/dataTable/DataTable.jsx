@@ -4,6 +4,7 @@ import $ from 'jquery';
 import 'datatables.net-bs5'; // DataTable Bootstrap 5 JavaScript integration
 import { Box, Button } from '@mui/material'; // MUI components 
 import CommonDialog from './../commonDialog/CommonDialog';
+import AddNewAchaievement from '../../teacher/dialogPages/addNewAchaievement/AddNewAchaievement';
 
 export default function DataTable() {
   useEffect(() => {
@@ -161,7 +162,7 @@ export default function DataTable() {
               actions="delete"/>}
  
             {/* Add new Achaivnment Dialog */} 
-             {openAddAchaievementDialog && <CommonDialog open={openAddAchaievementDialog} onClose={closeAchaievementDialog} width="md" title="اضافة انجاز جديد للطالب" content="testttt" actions="AddAchaievement"/>}
+             {openAddAchaievementDialog && <CommonDialog open={openAddAchaievementDialog} onClose={closeAchaievementDialog} width="md" title=" اضافة انجاز جديد للطالب: رغد موقدي" content={<AddNewAchaievement/>}  />}
 
     </Box>
     
