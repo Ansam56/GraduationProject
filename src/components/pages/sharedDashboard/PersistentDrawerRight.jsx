@@ -91,7 +91,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerRight({component, links, title, SideBarTitle}) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
    
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -110,6 +110,7 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: drawerWidth, 
+             backgroundColor: '#688860',
           },
         }}
         variant="persistent"
@@ -120,17 +121,17 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton> 
-          <h2>{SideBarTitle}</h2>
+          <h2 className={`${style.SideBarTitle}`}>{SideBarTitle}</h2>
         </DrawerHeader>
         <Divider />
         <List>
           {links.map((AdminLink, index) => (
             <ListItem key={index}  >
               
-                <ListItemIcon>
+                <ListItemIcon className={`${style.linkIcon}`}>
                   {AdminLink.icon}
                 </ListItemIcon>
-                <Link to={AdminLink.target} >
+                <Link className={`${style.links}`} to={AdminLink.target} >
                    {AdminLink.name}
                 </Link>
           
