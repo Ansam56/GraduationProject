@@ -21,7 +21,7 @@ const PostForm = () => {
     onSubmit: (values) => {
       console.log("PostForm Submitted:", values);
       toast.success("تم نشر الخبر");
-      navigate("");
+      navigate("../posts");
     },
   });
 
