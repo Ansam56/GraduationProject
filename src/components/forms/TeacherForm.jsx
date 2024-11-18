@@ -61,6 +61,7 @@ export default function CircleAndTeacherForm() {
       id: "",
       email: "",
       birthDate: "",
+      phonePrefix: "",
       phone: "",
       gender: "",
       password: "",
@@ -70,7 +71,11 @@ export default function CircleAndTeacherForm() {
     },
     validationSchema: teacherFormSchema,
     onSubmit: (teacherValues) => {
-      const finalData = { ...circleData, teacher: teacherValues };
+      const finalPhone = `${teacherValues.phonePrefix}${teacherValues.phone}`;
+      const finalData = {
+        ...circleData,
+        teacher: { ...teacherValues, phone: finalPhone },
+      };
       console.log("Final Data Submitted:", finalData);
       toast.success("تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني");
     },
@@ -247,6 +252,14 @@ export default function CircleAndTeacherForm() {
       value: teacherFormik.values.birthDate,
     },
     {
+      id: "phonePrefix",
+      type: "select",
+      name: "phonePrefix",
+      title: "مقدمة الهاتف",
+      value: teacherFormik.values.phonePrefix,
+      options: ["+970", "+972"],
+    },
+    {
       id: "phone",
       type: "text",
       name: "phone",
@@ -284,41 +297,82 @@ export default function CircleAndTeacherForm() {
     },
   ];
 
-  const renderTeacherInputs = teacherInputs.map((input, index) => (
-    <div key={index} className={`${formStyle.inputWrapper}`}>
-      {input.type === "file" ? (
-        <>
-          <label htmlFor={input.id} className={formStyle.fileInputLabel}>
-            {resumeFileName}
-          </label>
-          <input
+  const renderTeacherInputs = teacherInputs.map((input, index) => {
+    if (input.name === "phonePrefix" || input.name === "phone") {
+      return null;
+    }
+
+    return (
+      <div key={index} className={`${formStyle.inputWrapper}`}>
+        {input.type === "file" ? (
+          <>
+            <label htmlFor={input.id} className={formStyle.fileInputLabel}>
+              {resumeFileName}
+            </label>
+            <input
+              id={input.id}
+              type="file"
+              name={input.name}
+              className={formStyle.fileInput}
+              onChange={handleResumeChange}
+              onBlur={teacherFormik.handleBlur}
+            />
+            {teacherFormik.errors.resume && teacherFormik.touched.resume && (
+              <div className="text-danger">{teacherFormik.errors.resume}</div>
+            )}
+          </>
+        ) : (
+          <Input
             id={input.id}
-            type="file"
+            type={input.type}
             name={input.name}
-            className={formStyle.fileInput}
-            onChange={handleResumeChange}
+            title={input.title}
+            value={input.value}
+            errors={teacherFormik.errors}
+            onChange={teacherFormik.handleChange}
             onBlur={teacherFormik.handleBlur}
+            touched={teacherFormik.touched}
+            options={input.options}
           />
-          {teacherFormik.errors.resume && teacherFormik.touched.resume && (
-            <div className="text-danger">{teacherFormik.errors.resume}</div>
-          )}
-        </>
-      ) : (
+        )}
+      </div>
+    );
+  });
+
+  const phoneInputs = (
+    <div className="d-flex align-items-center" key="phoneFields">
+      <div
+        className={`${formStyle.inputWrapper} me-2`}
+        style={{ flex: "0 0 25%" }}
+      >
         <Input
-          id={input.id}
-          type={input.type}
-          name={input.name}
-          title={input.title}
-          value={input.value}
+          id="phonePrefix"
+          type="select"
+          name="phonePrefix"
+          title="مقدمة الهاتف"
+          value={teacherFormik.values.phonePrefix}
           errors={teacherFormik.errors}
           onChange={teacherFormik.handleChange}
           onBlur={teacherFormik.handleBlur}
           touched={teacherFormik.touched}
-          options={input.options}
+          options={["+970", "+972"]}
         />
-      )}
+      </div>
+      <div className={`${formStyle.inputWrapper}`} style={{ flex: "1" }}>
+        <Input
+          id="phone"
+          type="text"
+          name="phone"
+          title="رقم الجوال"
+          value={teacherFormik.values.phone}
+          errors={teacherFormik.errors}
+          onChange={teacherFormik.handleChange}
+          onBlur={teacherFormik.handleBlur}
+          touched={teacherFormik.touched}
+        />
+      </div>
     </div>
-  ));
+  );
 
   return (
     <div className={`${style.form_container}`}>
@@ -351,14 +405,28 @@ export default function CircleAndTeacherForm() {
               onSubmit={teacherFormik.handleSubmit}
               className={`${formStyle.form}`}
             >
-              {renderTeacherInputs}
-              <button
-                type="submit"
-                disabled={!teacherFormik.isValid || teacherFormik.isSubmitting}
-                className={`${formStyle.button} mt-3`}
-              >
-                ارسال
-              </button>
+              <div className="container-fluid">
+                {renderTeacherInputs.map((field, index) =>
+                  //render phone inputs directly after email field
+                  teacherInputs[index]?.name === "email" ? (
+                    <React.Fragment key={index}>
+                      {field}
+                      {phoneInputs}
+                    </React.Fragment>
+                  ) : (
+                    field
+                  )
+                )}
+                <div className="mt-3">
+                  <button
+                    type="submit"
+                    disabled={!teacherFormik.isValid}
+                    className={`${formStyle.button}`}
+                  >
+                    ارسال
+                  </button>
+                </div>
+              </div>
             </form>
           </>
         )}
