@@ -20,6 +20,7 @@ import { ar } from "date-fns/locale";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./PostCard.css";
 
 const PostCard = ({ post = null, handleDeletePost }) => {
@@ -34,6 +35,7 @@ const PostCard = ({ post = null, handleDeletePost }) => {
   const handleDialogConfirm = () => {
     handleDeletePost(activePost.id);
     setShowDialog(false);
+    toast.success("تم حذف الخبر");
   };
 
   const truncatedText =
@@ -120,9 +122,7 @@ const PostCard = ({ post = null, handleDeletePost }) => {
       )}
 
       <CardActions disableSpacing className="post-edit-delete">
-        <IconButton
-          onClick={() => navigate(`/dashboard/post-form/${activePost.id}`)}
-        >
+        <IconButton onClick={() => navigate("../PostForm/:id")}>
           <EditIcon color="primary" />
         </IconButton>
         <IconButton onClick={handleDialogOpen}>
