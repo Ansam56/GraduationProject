@@ -1,6 +1,7 @@
 import React from "react";
 import RequestTable from "../../pages/RequestTable/RequestTable";
 import { Box, Container, DialogContentText } from "@mui/material";
+import Dashboard_SubTitle from "../../pages/dashboardSubTitle/Dashboard_SubTitle";
 
 const administratorData = [
   {
@@ -110,16 +111,20 @@ const Administrator = () => {
   );
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh" }}>
-      <Container sx={{ padding: 3 }}>
-        <RequestTable
-          columns={administratorColumns}
-          data={administratorData}
-          actions={administratorActions}
-          renderDialogContent={renderAdministratorDialogContent}
-        />
-      </Container>
-    </Box>
+    <>
+      <Dashboard_SubTitle title="طلبات الانضمام" />
+
+      <Box sx={{ display: "flex", minHeight: "100vh" }}>
+        <Container sx={{ padding: 3 }}>
+          <RequestTable
+            columns={administratorColumns}
+            data={administratorData}
+            actions={administratorActions}
+            renderDialogContent={renderAdministratorDialogContent}
+          />
+        </Container>
+      </Box>
+    </>
   );
 };
 
