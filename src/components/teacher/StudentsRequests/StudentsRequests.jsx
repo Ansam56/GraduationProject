@@ -1,6 +1,7 @@
 import React from "react";
 import RequestTable from "../../pages/RequestTable/RequestTable";
 import { Box, Container, DialogContentText } from "@mui/material";
+import Dashboard_SubTitle from "../../pages/dashboardSubTitle/Dashboard_SubTitle";
 
 const studentData = [
   {
@@ -96,16 +97,20 @@ const Student = () => {
   );
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh" }}>
-      <Container sx={{ padding: 3 }}>
-        <RequestTable
-          columns={studentColumns}
-          data={studentData}
-          actions={studentActions}
-          renderDialogContent={renderStudentDialogContent}
-        />
-      </Container>
-    </Box>
+    <>
+      <Dashboard_SubTitle title="طلبات الانضمام" />
+
+      <Box sx={{ display: "flex", minHeight: "100vh" }}>
+        <Container sx={{ padding: 3 }}>
+          <RequestTable
+            columns={studentColumns}
+            data={studentData}
+            actions={studentActions}
+            renderDialogContent={renderStudentDialogContent}
+          />
+        </Container>
+      </Box>
+    </>
   );
 };
 
