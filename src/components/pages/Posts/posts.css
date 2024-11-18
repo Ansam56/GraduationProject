@@ -16,18 +16,3 @@
   flex: 1 1 auto;
   box-sizing: border-box;
 }
-
-.add-post-button {
-  background-color: #3f51b5;
-  color: white;
-  padding: 10px 20px;
-  font-weight: bold;
-  font-size: 20px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-  text-transform: none;
-}
-
-.add-post-button:hover {
-  background-color: #0056b3;
-}
