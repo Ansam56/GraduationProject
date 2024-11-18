@@ -51,7 +51,7 @@ export const forgetPasswordSchema = yup.object({
     .required(" يجب ادخال الرمز*")
     .length(4, "يجب أن يتكون الرمز من 4 أرقام"),
 });
-  
+
 // const CITIES = [
 //   "القدس",
 //   "رام الله",
@@ -97,6 +97,10 @@ export const managerFormSchema = yup.object({
     .required("يجب ادخال البريد الالكتروني")
     .email("الرجاء إدخال بريد إلكتروني صالح"),
   birthDate: yup.date().required("يجب ادخال تاريخ الميلاد"),
+  phonePrefix: yup
+    .string()
+    .required("مقدمة الهاتف مطلوبة")
+    .oneOf(["+970", "+972"], "مقدمة الهاتف غير صالحة"),
   phone: yup
     .string()
     .matches(PHONE_NUMBER_REGEX, "رقم الجوال غير صالح")
@@ -202,6 +206,10 @@ export const teacherFormSchema = yup.object({
     .email("الرجاء إدخال بريد إلكتروني صالح"),
   city: yup.string().required("يجب ادخال المدينة"),
   birthDate: yup.date().required("يجب ادخال تاريخ الميلاد"),
+  phonePrefix: yup
+    .string()
+    .required("مقدمة الهاتف مطلوبة")
+    .oneOf(["+970", "+972"], "مقدمة الهاتف غير صالحة"),
   phone: yup
     .string()
     .matches(PHONE_NUMBER_REGEX, "رقم الجوال غير صالح")
