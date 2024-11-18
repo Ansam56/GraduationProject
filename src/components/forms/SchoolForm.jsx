@@ -37,6 +37,7 @@ export default function SchoolAndManagerForm() {
       id: "",
       email: "",
       birthDate: "",
+      phonePrefix: "",
       phone: "",
       gender: "",
       password: "",
@@ -45,9 +46,10 @@ export default function SchoolAndManagerForm() {
     },
     validationSchema: managerFormSchema,
     onSubmit: (managerValues) => {
+      const finalPhone = `${managerValues.phonePrefix}${managerValues.phone}`;
       const finalData = {
         ...schoolData,
-        manager: managerValues,
+        manager: { ...managerValues, phone: finalPhone },
       };
       console.log("Final Data Submitted:", finalData);
       toast.success("تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني");
@@ -206,6 +208,14 @@ export default function SchoolAndManagerForm() {
       value: managerFormik.values.birthDate,
     },
     {
+      id: "phonePrefix",
+      type: "select",
+      name: "phonePrefix",
+      title: "مقدمة الهاتف",
+      value: managerFormik.values.phonePrefix,
+      options: ["+970", "+972"],
+    },
+    {
       id: "phone",
       type: "text",
       name: "phone",
@@ -236,22 +246,79 @@ export default function SchoolAndManagerForm() {
     },
   ];
 
-  const renderManagerInputs = managerInputs.map((input, index) => (
-    <div key={index} className={`${formStyle.inputWrapper}`}>
-      <Input
-        id={input.id}
-        type={input.type}
-        name={input.name}
-        title={input.title}
-        value={input.value}
-        errors={managerFormik.errors}
-        onChange={managerFormik.handleChange}
-        onBlur={managerFormik.handleBlur}
-        touched={managerFormik.touched}
-        options={input.options}
-      />
+  // const renderManagerInputs = managerInputs.map((input, index) => (
+  //   <div key={index} className={`${formStyle.inputWrapper}`}>
+  //     <Input
+  //       id={input.id}
+  //       type={input.type}
+  //       name={input.name}
+  //       title={input.title}
+  //       value={input.value}
+  //       errors={managerFormik.errors}
+  //       onChange={managerFormik.handleChange}
+  //       onBlur={managerFormik.handleBlur}
+  //       touched={managerFormik.touched}
+  //       options={input.options}
+  //     />
+  //   </div>
+  // ));
+  const renderManagerInputs = managerInputs.map((input, index) => {
+    if (input.name === "phonePrefix" || input.name === "phone") {
+      return null;
+    }
+
+    return (
+      <div key={index} className={`${formStyle.inputWrapper}`}>
+        <Input
+          id={input.id}
+          type={input.type}
+          name={input.name}
+          title={input.title}
+          value={input.value}
+          errors={managerFormik.errors}
+          onChange={managerFormik.handleChange}
+          onBlur={managerFormik.handleBlur}
+          touched={managerFormik.touched}
+          options={input.options}
+        />
+      </div>
+    );
+  });
+
+  const phoneInputs = (
+    <div className="d-flex align-items-center" key="phoneFields">
+      <div
+        className={`${formStyle.inputWrapper} me-2`}
+        style={{ flex: "0 0 25%" }}
+      >
+        <Input
+          id="phonePrefix"
+          type="select"
+          name="phonePrefix"
+          title="مقدمة الهاتف"
+          value={managerFormik.values.phonePrefix}
+          errors={managerFormik.errors}
+          onChange={managerFormik.handleChange}
+          onBlur={managerFormik.handleBlur}
+          touched={managerFormik.touched}
+          options={["+970", "+972"]}
+        />
+      </div>
+      <div className={`${formStyle.inputWrapper}`} style={{ flex: "1" }}>
+        <Input
+          id="phone"
+          type="text"
+          name="phone"
+          title="رقم الجوال"
+          value={managerFormik.values.phone}
+          errors={managerFormik.errors}
+          onChange={managerFormik.handleChange}
+          onBlur={managerFormik.handleBlur}
+          touched={managerFormik.touched}
+        />
+      </div>
     </div>
-  ));
+  );
 
   return (
     <div className={`${style.form_container}`}>
@@ -291,7 +358,16 @@ export default function SchoolAndManagerForm() {
               className={`${formStyle.form}`}
             >
               <div className="container-fluid">
-                {renderManagerInputs}
+                {renderManagerInputs.map((field, index) =>
+                  managerInputs[index]?.name === "email" ? (
+                    <React.Fragment key={index}>
+                      {field}
+                      {phoneInputs}
+                    </React.Fragment>
+                  ) : (
+                    field
+                  )
+                )}
                 <div className="mt-3">
                   <button
                     type="submit"
