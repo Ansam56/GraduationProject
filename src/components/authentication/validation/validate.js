@@ -289,3 +289,20 @@ export const PostFormSchema = yup.object().shape({
     .min(5, "يجب أن يكون العنوان 5 أحرف على الأقل"),
   postContent: yup.string().required("يرجى تعبئة تفاصيل الخبر"),
 });
+export const CertificateFormSchema = yup.object().shape({
+  certificateTitle: yup
+    .string()
+    .required("يرجى تعبئة عنوان الشهادة")
+    .min(5, "يجب أن يكون العنوان 5 أحرف على الأقل"),
+  certificatePicture: yup
+    .mixed()
+    .required("يرجى رفع صورة الشهادة")
+    .test(
+      "fileType",
+      "يجب أن تكون الصورة بتنسيق JPG أو PNG",
+      (value) =>
+        value &&
+        (typeof value === "string" ||
+          ["image/jpeg", "image/png"].includes(value.type))
+    ),
+});
