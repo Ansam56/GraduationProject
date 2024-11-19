@@ -1,0 +1,74 @@
+.certificate-form {
+  direction: rtl;
+  font-family: "Cairo", sans-serif; /* Arabic font for a natural look */
+  margin-top: 20px;
+  background-color: #fafafa;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title-input,
+.content-input {
+  width: 100%;
+  margin: 10px 0;
+  font-size: 1.1rem;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.file-upload-box {
+  border: 2px dashed #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  color: #888;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.file-upload-box:hover {
+  border-color: #007bff;
+}
+
+.certificate-form h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.certificate-form.form-label {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-top: 20px;
+}
+
+.certificate-form .certificate-button-container {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+.certificate-form .certificate-button-container button {
+  width: 200px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.certificate-form .certificate-button-container button:hover {
+  background-color: #0056b3;
+}
+
+.certificate-form .certificate-button-container button:disabled {
+  background-color: #c6c6c6;
+  color: #7a7a7a;
+}
+
+.certificate-form .invalid-feedback {
+  font-weight: 700;
+}
