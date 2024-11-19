@@ -162,7 +162,7 @@ export default function DataTable() {
               actions="delete"/>}
  
             {/* Add new Achaivnment Dialog */} 
-             {openAddAchaievementDialog && <CommonDialog open={openAddAchaievementDialog} onClose={closeAchaievementDialog} width="md" title=" اضافة انجاز جديد للطالب: رغد موقدي" content={<AddNewAchaievement/>}  />}
+             {openAddAchaievementDialog && <CommonDialog open={openAddAchaievementDialog} onClose={closeAchaievementDialog} width="md" title=" اضافة انجاز يومي جديد" content={<AddNewAchaievement/>}  />}
 
     </Box>
     

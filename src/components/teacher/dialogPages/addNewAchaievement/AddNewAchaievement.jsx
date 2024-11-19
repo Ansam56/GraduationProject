@@ -41,6 +41,7 @@ export default function AddNewAchievement() {
 
   return (
     <div className="container">
+      <h2>انجاز الطالب/ة :رغد موقدي </h2>
       {/* Header Section */}
       <div className="card p-4 mb-4">
         <div className="row g-3">
@@ -76,9 +77,7 @@ export default function AddNewAchievement() {
           </div>
         </div>
       </div>
-
-      {/* Divider */}
-      <hr className="my-4" />
+ 
 
       {/* Save Data Form Section */}
       <div className="card p-4">

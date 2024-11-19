@@ -33,13 +33,11 @@ export default function CommonDialog({ open, onClose ,width,title,content,action
       <CloseIcon onClick={onClose} sx={{ fontSize: 30 }} />
       </DialogActions>
       </div>
-        
-        
-        <DialogContent>
-          <DialogContentText id="confirm-delete-dialog-description" className={`${style.content} custom-text`}>
+         
+          <DialogContent id="confirm-delete-dialog-description" className={`${style.content} custom-text`}>
           {content}
-          </DialogContentText>
-        </DialogContent>
+          </DialogContent>
+       
         <DialogActions>
         {actions === "delete" && (
   <>
