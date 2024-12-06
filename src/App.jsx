@@ -25,6 +25,7 @@ import StatisticsSP from "./components/web/navbarSections/StatisticsSP";
 import PostForm from "./components/forms/PostForm";
 import Posts from "./components/pages/Posts/Posts";
 import StudentManagement from "./components/teacher/studentManagement/StudentManagement";
+import DefaultTeacherBage from "./components/teacher/defaultTeacherBage/DefaultTeacherBage";
   
 export default function App() {
   //استفدت منه باظهار واخفاء جزء من الكود حسب هو مسجل دخوله او لا !
@@ -156,11 +157,11 @@ export default function App() {
       element: <UsersLayout role="teacher" />,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
       children: [
-        // {
-        //   // path :'/',
-        //   index: true,
-        //   element: <Home />,
-        // },
+        {
+          // path :'/',
+          index: true,
+          element: <DefaultTeacherBage/>,
+        },
         {
           path: "*",
           element: <p className="m-0">Not Found Page</p>,

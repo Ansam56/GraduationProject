@@ -40,6 +40,11 @@ export default function UsersLayout({role}) {
     SideBarLinks=
       [ 
         {
+          name:"الرئيسية",
+          icon:<InboxIcon />,
+          target:"/Teacher"
+        },
+        {
           name:"اعدادات الحساب",
           icon:<InboxIcon />,
           target:"/Teacher/ProfileSettings"
