@@ -125,16 +125,17 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
         </DrawerHeader>
         <Divider />
         <List>
-          {links.map((AdminLink, index) => (
-            <ListItem key={index}  >
-              
+          {links.map((link, index) => (
+            <ListItem key={index}  > 
                 <ListItemIcon className={`${style.linkIcon}`}>
-                  {AdminLink.icon}
+                  {link.icon}
                 </ListItemIcon>
-                <Link className={`${style.links}`} to={AdminLink.target} >
-                   {AdminLink.name}
+                <Link className={`${style.links}`} to={link.target} >
+                   {link.name}
                 </Link>
-          
+                <Link className={`${style.links}`} to={link.target} >
+                   {link.subName}
+                </Link> 
             </ListItem>
           ))}
         </List> 

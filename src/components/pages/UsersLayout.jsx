@@ -58,7 +58,13 @@ export default function UsersLayout({role}) {
       name:"ادارة شؤون الطلاب",
       icon:<InboxIcon />,
       target:"/Teacher/StudentManagement"
-   }  
+   }  ,
+   {
+    name:"التقارير",
+    subName:"تقرير الانجاز اليومي",
+    icon:<InboxIcon />,
+    target:"/Teacher/DailyAchievementReport"
+   }
       ] 
       NavTitle="ملتقى فلسطين التقنية خضوري > بالقرآن نحيا"
       SideBarTitle="بوابة المعلم"

@@ -26,6 +26,7 @@ import PostForm from "./components/forms/PostForm";
 import Posts from "./components/pages/Posts/Posts";
 import StudentManagement from "./components/teacher/studentManagement/StudentManagement";
 import DefaultTeacherBage from "./components/teacher/defaultTeacherBage/DefaultTeacherBage";
+import DailyAchaievements from "./components/teacher/reports/dailyAchaievements/DailyAchaievements";
   
 export default function App() {
   //استفدت منه باظهار واخفاء جزء من الكود حسب هو مسجل دخوله او لا !
@@ -177,6 +178,10 @@ export default function App() {
         {
           path:"StudentManagement",
           element:<StudentManagement/>
+        },
+        {
+          path:"DailyAchievementReport",
+          element:<DailyAchaievements/>
         }
       ],
     },
