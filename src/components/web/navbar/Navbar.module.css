@@ -16,7 +16,7 @@ background-color:var(--main-color)!important;
     color: var(--text-color-against-dark-background);
  }
 
- a{
+a{
     text-decoration: none !important;
   }
 
@@ -62,6 +62,5 @@ background-color:var(--main-color)!important;
     margin-right: 18px; 
 }
 .navbar .navbarNav .logo{
-    margin-top: 3px;
-  
+    margin-top: 3px; 
 }
