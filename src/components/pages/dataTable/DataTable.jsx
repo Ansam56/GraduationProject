@@ -159,14 +159,9 @@ export default function DataTable() {
     <Box sx={{ overflowX: 'auto', width: '100%' }} className=" py-3"> 
          
       <div className="table-responsive">  {/* Make table responsive using Bootstrap */}
-         <Button
-                      variant="contained"
-                      style={{ backgroundColor: '#4CAF50', color: '#fff' }}
-                      onClick={openAchaievementDialog}
-                    >
-                      تسجيل الحضور والغياب
-                      <AddIcon/>
-                    </Button>
+         <Button variant="contained" style={{ backgroundColor: '#4CAF50', color: '#fff' }}
+           onClick={openAchaievementDialog}  >  تسجيل الحضور والغياب <AddIcon/>
+           </Button>
         <table id="example" className="table  table-bordered table-hover" style={{ width: '100%' }}>
           <thead>
             <tr>

@@ -52,6 +52,17 @@ export const forgetPasswordSchema = yup.object({
     .length(4, "يجب أن يتكون الرمز من 4 أرقام"),
 });
 
+export const AddNewAchaievementSchema = yup.object({
+  creationDate:yup.date().required("يرجى ادخال تاريخ الانشاء"),
+  achievementType: yup.string().required("يرجى تحديد نوع الانجاز"),
+  startSurah:yup.string().required("يرجى اختيار السورة"),
+  endSurah: yup.string().required("يرجى اختيار السورة"),
+  // pageCount:yup.string().required("يرجى ادخال عدد الصفحات المنجزة"),
+  // rating: '',
+  startVerse: yup.number().required("يرجى اختيار رقم آية البدء"),
+  endVerse:yup.number().required("يرجى اختيار رقم آية الانتهاء"),
+   
+});
 // const CITIES = [
 //   "القدس",
 //   "رام الله",

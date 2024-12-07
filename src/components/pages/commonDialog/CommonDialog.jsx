@@ -22,19 +22,19 @@ export default function CommonDialog({ open, onClose ,width,title,content,action
       <Dialog
         open={open}
         onClose={onClose}
-        aria-labelledby="confirm-delete-dialog-title"
-        aria-describedby="confirm-delete-dialog-description" 
+        aria-labelledby="dialog-title"
+        aria-describedby="dialog-description" 
         fullWidth // Makes the dialog full width
         maxWidth={width}// Sets the dialog to large size 
       >
-       <div className=' d-flex justify-content-between'>
-      <DialogTitle  className={`${style.title} custom-text`}  id="confirm-delete-dialog-title">{title}</DialogTitle> 
+       <div className={`d-flex justify-content-between ${style.title_and_closeIcon} `}>
+      <DialogTitle  className={`${style.title} custom-text`}  id="dialog-title">{title}</DialogTitle> 
       <DialogActions className={`${style.dialogActions}`}>
       <CloseIcon onClick={onClose} sx={{ fontSize: 30 }} />
       </DialogActions>
       </div>
          
-          <DialogContent id="confirm-delete-dialog-description" className={`${style.content} custom-text`}>
+          <DialogContent id="dialog-description" className={`${style.content} custom-text`}>
           {content}
           </DialogContent>
        

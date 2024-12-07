@@ -1,10 +1,15 @@
+ 
 .dialogActions:hover{
     cursor: pointer;
 }
 .content{
     font-size:  large !important;
 }
-.title{
+.title , .dialogActions{
     font-weight: bold;
     font-size:  x-large !important;
+    color:var(--main-color)
+}
+.title_and_closeIcon{
+    background-color: var(--primary-color);
 }

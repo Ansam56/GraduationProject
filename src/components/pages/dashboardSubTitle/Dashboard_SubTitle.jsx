@@ -5,8 +5,8 @@ import style from './Dashboard_SubTitle.module.css'
 export default function Dashboard_SubTitle({title}) {
   return (
   <>
-    <legend className={`${style.title}`}>{title}</legend>
-    <Divider />
+    <h2 className={`${style.title}`}>{title}</h2>
+    <Divider className={`${style.divider}`} />
   </>
   )
 }

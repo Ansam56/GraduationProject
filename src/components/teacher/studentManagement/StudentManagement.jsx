@@ -11,7 +11,7 @@ export default function StudentManagement() {
   return (
     <>
      <Dashboard_SubTitle title=" ادارة شؤون الطلاب"/> 
-     <h4 className='mt-3 text-center'>حلقة بالقرآن نحيا</h4>
+     <h3 className='mt-3 text-center'>حلقة بالقرآن نحيا</h3>
      <DataTable/>
     </>
   )
