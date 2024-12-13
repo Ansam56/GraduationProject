@@ -14,7 +14,6 @@ import schoolModel from '../../../DB/models/schools/school.js';
 export const register=async(req,res,next)=>{
     
         const{userName,email,password}=req.body;
-
         // validation
        // const result =await registerSchema.body.validate({email,password,userName,gender,cpassword},{abortEarly:false})
         //return res.json(result)
@@ -48,16 +47,21 @@ export const register=async(req,res,next)=>{
     
 }
 
+
 export const login = async(req,res,next)=>{
     const{email,password}=req.body;
+    let user;
    // return res.json(req.body)
-
-   
-   
-    const user =await adminModel.findOne({email});
+     user =await userModel.findOne({email});
+     const confirmEmail=user.confirmEmail;
+    // return res.json(confirmEmail)
+     
     if(!user){
         return next(new AppError("email not found",409))
     }
+    if(!user.confirmEmail){
+        return next(new AppError("PLZ confirm your email",409))
+     }
     const match=bcrypt.compareSync(password,user.password);
     if(!match){
         return next(new AppError("invalid password",409))
@@ -66,6 +70,24 @@ export const login = async(req,res,next)=>{
         )
 
     return res.status(201).json({message:"sucsess",token})
+    }
+ export const confirmEmail =async(req,res,next)=>{
+   // return res.json(req.params)
+        const {token} =req.params;
+        const decoded =jwt.verify(token,process.env.confirmEmailToken)
+        const user =await userModel.findOneAndUpdate({email:decoded.email},{confirmEmail:true})
+        const schoolAdmin=await schoolAdminModel.findOne({email:decoded.email})
+        if(schoolAdmin.role==="schoolAdmin"){
+          //  return res.json(schoolAdmin.confirmEmail)
+            await schoolAdminModel.findOneAndUpdate({email:decoded.email},{confirmEmail:true})
+        }
+        /*else if(user.role=="student"){
+            await studentModel.findOneAndUpdate({email:decoded.email},{confirmEmail:true})
+        }else{
+            await teacherModel.findOneAndUpdate({email:decoded.email},{confirmEmail:true})
+
+        }*/
+        return next(new AppSucc("success",200))
     }
  // ger All (schoolAdmin ,teacher,student)
 export const getAllUsers=async(req,res)=>{
@@ -117,7 +139,7 @@ export const updateStatus=async(req,res,next)=>{
     })
 
 
-    return res.json({message:"success",newSchool})
+    return next(new AppSucc("success",201))
 
 
 }
@@ -151,5 +173,26 @@ export const UploadImage=async(req,res,next)=>{
    
 //update request
 
+// log in user
+
+export const loginUser = async(req,res,next)=>{
+    const{email,password}=req.body;
+   // return res.json(req.body)
+
+   
+   
+    const user =await userModel.findOne({email});
+    if(!user){
+        return next(new AppError("email not found",409))
+    }
+    const match=bcrypt.compareSync(password,user.password);
+    if(!match){
+        return next(new AppError("invalid password",409))
+    }
+    const token=await jwt.sign({id:user._id,role:user.role},process.env.Signiture,
+        )
+
+    return res.status(201).json({message:"sucsess",token})
+    }
 
 

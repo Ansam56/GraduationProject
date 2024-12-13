@@ -9,7 +9,7 @@ import userModel from "../../../DB/models/Admin/user.model.js";
 
 //register
 export const register =async(req,res,next)=>{
-    const{email,password}=req.body;
+    const{userName,email,password}=req.body;
 
     const admin =await schoolAdminModel.findOne({email}); //to confirm its new person
     if (admin){
@@ -17,21 +17,26 @@ export const register =async(req,res,next)=>{
     }
     const hashPass= bcrypt.hashSync(password,parseInt(process.env.SALTROUND));
 
-  /*  const html = `
-    <div>
-     <p style='color:tomato'>Dear : <b>${userName}</b></p>
-     <h1 style='text-align:center;color:blue;width:40%'> Welcome in SARAHA SITE !</h1>
-     <h2 style='text-align:center;color:blue;width:40%'>Hello <b>${userName}</b> , You are register in our site ,How can help you?</h2>
-    </div>
-    `
-    sendEmail(email,"WELCOME",html);
-    */
+   const token =jwt.sign({email},process.env.confirmEmailToken)
+   await sendEmail(email,"WELCOME in TUBA ",userName,token);
    req.body.password=hashPass;
+   const newUser =await userModel.create(req.body);
+   req.body.role='schoolAdmin'
     const newAdmin =await schoolAdminModel.create(req.body);
-    const newUser =await userModel.create(req.body);
+    
 
     return next(new AppSucc("success",201))
 }
+/*export const confirmEmail =async(req,res,next)=>{
+    const {token} =req.params;
+    const decoded =jwt.verify(token,process.env.confirmEmailToken)
+    await schoolAdminModel.findOneAndUpdate({email:decoded.email},{confirmEmail:true})
+    //return res.json("hi")
+
+    
+    return next(new AppSucc("success",200))
+}*/
+    
 
 export const logIn = async(req,res,next)=>{
     const{email,password}=req.body;
@@ -46,6 +51,9 @@ export const logIn = async(req,res,next)=>{
     const match=bcrypt.compareSync(password,user.password);
     if(!match){
         return next(new AppError("invalid password",409))
+    }
+    if(!user.confirmEmail){
+        return next(new AppError("plz confirm your email"))
     }
     const token=await jwt.sign({id:user._id,role:user.role},process.env.Signiture, )
 

@@ -9,7 +9,9 @@ import { asyncHandler } from "../../utils/catchError.js";
 import fileUpload from "../../utils/multer.js";
 
 app.post('/register',Admin,asyncHandler(authController.register));
-app.post('/login',asyncHandler(authController.login));
+//app.post('/login',asyncHandler(authController.login));
+app.post('/login',asyncHandler(authController.loginUser));
+app.get('/confirmEmail/:token',asyncHandler(authController.confirmEmail))
 //get all users
 app.get('/allUsers',auth,asyncHandler(authController.getAllUsers));
 //get all schoolsAdmins

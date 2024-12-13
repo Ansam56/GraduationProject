@@ -13,7 +13,7 @@ const initApp=(app,express)=>{
     app.use(cors())
 
     app.use(express.json());
-    app.use('/admin',adminRouter);
+    app.use('/auth',adminRouter);
     app.use('/schoolAdmin',schoolAdminRouter)
   //  app.use('/message',messageRouter)
    // app.use('/post',postRouter)

@@ -10,6 +10,9 @@ const userSchema =new Schema({
         required:true,
         unique:true
     
+    },confirmEmail:{
+        type:Boolean,
+        default:false,
     },password:{
         type:String,
         required:true 
@@ -24,6 +27,11 @@ const userSchema =new Schema({
         type:String,
         enum:['user','admin','schoolSdmin','teacher','student'],
         default:'user'
+    },
+    status:{
+        type:String,
+        default:'suspend',
+        enum:['active','suspend','rejected']
     }
 },{
     timestamps:true
