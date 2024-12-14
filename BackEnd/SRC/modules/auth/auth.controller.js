@@ -1,7 +1,7 @@
 import userModel from '../../../DB/models/Admin/user.model.js';
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { sendEmail } from "../../Utils/sendEmail.js";
+import { sendEmail } from "../../utils/sendEmail.js";
 import { LoginSchema, registerSchema } from "./auth.validation.js";
 import { AppError } from "../../../appError.js";
 import { AppSucc } from "../../../AppSucc.js";
@@ -23,9 +23,6 @@ export const register=async(req,res,next)=>{
         // if(result.error?.details){
         //     return res.status(404).json({message:"error validation",error:result.error.details})
         //    }
-           
-
-
         const user =await userModel.findOne({email}); //to confirm its new person
         if (user){
             return next(new AppError("you have account",409))
@@ -41,6 +38,7 @@ export const register=async(req,res,next)=>{
         `
         sendEmail(email,"WELCOME",html);*/
         const newUser =await userModel.create({userName,password:hashPass,email});
+        const Admin =await adminModel.create({userName,password:hashPass,email});
         return next(new AppSucc("success",201))
        // return res.status(201).json({message:"success"})
 

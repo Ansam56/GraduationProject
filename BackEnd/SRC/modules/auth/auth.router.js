@@ -8,7 +8,7 @@ import { Admin } from "../../midlleware/Admin.js";
 import { asyncHandler } from "../../utils/catchError.js";
 import fileUpload from "../../utils/multer.js";
 
-app.post('/register',Admin,asyncHandler(authController.register));
+app.post('/register',Admin,authController.register);
 //app.post('/login',asyncHandler(authController.login));
 app.post('/login',asyncHandler(authController.loginUser));
 app.get('/confirmEmail/:token',asyncHandler(authController.confirmEmail))

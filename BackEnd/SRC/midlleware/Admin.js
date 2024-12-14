@@ -7,7 +7,7 @@ export const Admin=async(req,res,next)=>{
        // return res.json({email})
         //التاكد من عدم التسجيل لادارة المنصة لاكثر من مالك
     if(!await adminModel.findOne({email})){
-      return next(new AppError("you don't have athentication to register",404))
+      return next(new AppError("you don't have athentication to register",409))
     }
 
     

@@ -4,7 +4,7 @@ import { AppSucc } from "../../../AppSucc.js";
 import cloudinary from "../../utils/cloudinary.js"
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { sendEmail } from '../../Utils/sendEmail.js'
+import { sendEmail } from '../../utils/sendEmail.js'
 import userModel from "../../../DB/models/Admin/user.model.js";
 
 //register
