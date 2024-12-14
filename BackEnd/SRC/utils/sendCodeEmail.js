@@ -1,4 +1,4 @@
-export const emailTemplet =(email,userName,token)=>{
+export const sendCode =(email,userName,code)=>{
     return`
     <!DOCTYPE html>
 <html>
@@ -54,7 +54,7 @@ export const emailTemplet =(email,userName,token)=>{
             <h1>Hello ${userName}</h1>
             <p>We are excited to have you on board. Thank you for registering with us.</p>
             <p>If you have any questions, feel free to reach out to our support team.</p>
-            <a href='http://localhost:3000/auth/confirmEmail/${token}'>confirm email</a>
+            <h2>code is ${code}</h2>
             </div>
         <div class="footer">
             &copy; ${new Date().getFullYear()} Our Service. All rights reserved.

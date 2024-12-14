@@ -32,6 +32,9 @@ const userSchema =new Schema({
         type:String,
         default:'suspend',
         enum:['active','suspend','rejected']
+    },sendCode:{
+        type:String,
+        default:null
     }
 },{
     timestamps:true

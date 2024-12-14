@@ -7,6 +7,7 @@ import cors from'cors';
 import adminRouter from './modules/auth/auth.router.js'
 import schoolAdminRouter from './modules/schoolAdmin/schooladmin.router.js'
 //DBLINK='mongodb://127.0.0.1:27017/tuba'
+//DBLINK='mongodb+srv://sahar123:sahar123@cluster0.bu41s.mongodb.net/tuba'
 
 
 const initApp=(app,express)=>{

@@ -22,6 +22,7 @@ export const register =async(req,res,next)=>{
    req.body.password=hashPass;
    const newUser =await userModel.create(req.body);
    req.body.role='schoolAdmin'
+
     const newAdmin =await schoolAdminModel.create(req.body);
     
 

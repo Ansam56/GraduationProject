@@ -12,6 +12,11 @@ app.post('/register',Admin,authController.register);
 //app.post('/login',asyncHandler(authController.login));
 app.post('/login',asyncHandler(authController.loginUser));
 app.get('/confirmEmail/:token',asyncHandler(authController.confirmEmail))
+//forget password
+app.put('/forgetPassword',asyncHandler(authController.forgetPass))
+//sendcode
+app.put('/sendCode',asyncHandler(authController.sendCode))
+
 //get all users
 app.get('/allUsers',auth,asyncHandler(authController.getAllUsers));
 //get all schoolsAdmins

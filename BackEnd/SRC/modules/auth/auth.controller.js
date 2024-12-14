@@ -9,6 +9,8 @@ import cloudinary from "../../utils/cloudinary.js";
 import schoolAdminModel from "../../../DB/models/SchoolAdmin/schoolAdmin.js";
 import adminModel from "../../../DB/models/Admin/admin.js";
 import schoolModel from '../../../DB/models/schools/school.js';
+import {nanoid ,customAlphabet} from 'nanoid'
+import { sendCodeEmail } from '../../utils/sendEmail.js';
 
 
 export const register=async(req,res,next)=>{
@@ -60,6 +62,9 @@ export const login = async(req,res,next)=>{
     if(!user.confirmEmail){
         return next(new AppError("PLZ confirm your email",409))
      }
+     if(user.status=="suspend" ||user.status=="rejected" ){
+        return next(new AppError(" Your account is blocked",409))
+     }
     const match=bcrypt.compareSync(password,user.password);
     if(!match){
         return next(new AppError("invalid password",409))
@@ -69,6 +74,40 @@ export const login = async(req,res,next)=>{
 
     return res.status(201).json({message:"success",token})
     }
+export const sendCode =async(req,res,next)=>{
+    const {email}=req.body;
+    const code= customAlphabet('1234567890abcdefABCDEF', 5)()
+    const user =await userModel.findOneAndUpdate({email},{
+        sendCode:code
+    },{
+        new:true
+    })
+    if(!user){
+        return next(new AppError("email not found"))
+    }
+       const token =jwt.sign({email},process.env.confirmEmailToken)
+        await sendCodeEmail(email," reset password ",user.userName,code)
+        return next(new AppSucc("success",201))
+       
+    }
+
+
+export const forgetPass =async(req,res,next)=>{
+    const{email,password,code}=req.body;
+    const user =await userModel.findOne({email});
+    if(!user){
+        return next(new AppError("email not found",409))
+    }
+    if(user.sendCode!=code){
+        return next(new AppError("invalid code",409))
+    }
+    user.password=bcrypt.hashSync(password,parseInt(process.env.SALTROUND));
+    user.sendCode=null;
+    user.save();
+    return next(new AppSucc("success",201))
+
+}
+
  export const confirmEmail =async(req,res,next)=>{
    // return res.json(req.params)
         const {token} =req.params;
