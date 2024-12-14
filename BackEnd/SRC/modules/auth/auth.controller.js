@@ -67,7 +67,7 @@ export const login = async(req,res,next)=>{
     const token=await jwt.sign({id:user._id,role:user.role},process.env.Signiture,
         )
 
-    return res.status(201).json({message:"sucsess",token})
+    return res.status(201).json({message:"success",token})
     }
  export const confirmEmail =async(req,res,next)=>{
    // return res.json(req.params)
