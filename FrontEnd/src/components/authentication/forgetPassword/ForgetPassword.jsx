@@ -11,16 +11,15 @@ export default function ForgetPassword() {
   const initialValues = {
     email: "",
     password: "",
-    confirmPassword:"",
+    // confirmPassword:"",
     code: "",
   };
   const navigate = useNavigate();
   const onSubmit = async (values) => {
-    const { data } = await axios.patch(
-      `${import.meta.env.VITE_API_URL}/auth/forgotPassword`,
+    const { data } = await axios.put(
+      `${import.meta.env.VITE_API_URL}/auth/forgetPassword`,
       values
     );
-
     if (data.message == "success") {
       toast.success("لقد تم تغيير كلمة المرور الخاصة بك بنجاح", {
         position: "bottom-center",
@@ -56,13 +55,13 @@ export default function ForgetPassword() {
       title: "كلمة المرور الجديدة",
       value: formik.values.password,
     },
-    {
-        id: "confirmPassword", //lable لربط الليبل مع الانبوت
-        type: "password",
-        name: "confirmPassword",
-        title: "تأكيد كلمة المرور", 
-        value:formik.values.confirmPassword,
-    },
+    // {
+    //     id: "confirmPassword", //lable لربط الليبل مع الانبوت
+    //     type: "password",
+    //     name: "confirmPassword",
+    //     title: "تأكيد كلمة المرور", 
+    //     value:formik.values.confirmPassword,
+    // },
     {
       id: "Code", //lable لربط الليبل مع الانبوت
       name: "code",

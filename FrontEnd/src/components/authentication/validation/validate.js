@@ -41,15 +41,15 @@ export const forgetPasswordSchema = yup.object({
   password: yup
     .string()
     .required("يجب ادخال كلمة المرور*")
-    .min(3, "يجب ادخال 3 أحرف على الاقل")
+    .min(8, "يجب ادخال 8 أحرف على الاقل")
     .max(30, "يجب ادخال 30 حرف كحد أقصى"),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref("password"), null], "يجب ان تتوافق الكلمة مع الكلمة "),
+  // confirmPassword: yup
+  //   .string()
+  //   .oneOf([yup.ref("password"), null], "يجب ان تتوافق الكلمة مع الكلمة "),
   code: yup
     .string()
     .required(" يجب ادخال الرمز*")
-    .length(4, "يجب أن يتكون الرمز من 4 أرقام"),
+    .length(5, "يجب أن يتكون الرمز من 5 أرقام"),
 });
 
 export const AddNewAchaievementSchema = yup.object({
