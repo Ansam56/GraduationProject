@@ -6,6 +6,9 @@ import postRouter from './modules/post/post.router.js'
 import cors from'cors';
 import adminRouter from './modules/auth/auth.router.js'
 import schoolAdminRouter from './modules/schoolAdmin/schooladmin.router.js'
+//DBLINK='mongodb://127.0.0.1:27017/tuba'
+
+//DBLINK='mongodb+srv://sahar123:sahar123@cluster0.bu41s.mongodb.net/tuba'
 
 
 const initApp=(app,express)=>{
@@ -13,7 +16,7 @@ const initApp=(app,express)=>{
     app.use(cors())
 
     app.use(express.json());
-    app.use('/admin',adminRouter);
+    app.use('/auth',adminRouter);
     app.use('/schoolAdmin',schoolAdminRouter)
   //  app.use('/message',messageRouter)
    // app.use('/post',postRouter)

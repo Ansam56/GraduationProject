@@ -20,7 +20,7 @@ app.post('/register',validation(registerSchema),asyncHandler(admistratorControll
 */
 app.post('/createSchool/:id',fileUpload().single('schoolInfo'),asyncHandler(schoolController.creteSchool));
 app.post('/login',schoolAdmin,asyncHandler(admistratorController.logIn))
-
+//app.get('/confirmEmail/:token',asyncHandler(admistratorController.confirmEmail))
 
 //طلبات الانضمام
 app.post('/requests',schoolAdmin,admistratorController.viewRequests)

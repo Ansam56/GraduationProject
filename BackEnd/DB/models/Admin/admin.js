@@ -10,6 +10,9 @@ const adminSchema =new Schema({
         required:true,
         unique:true
     
+    },confirmEmail:{
+        type:Boolean,
+        default:false,
     },password:{
         type:String,
         required:true 
