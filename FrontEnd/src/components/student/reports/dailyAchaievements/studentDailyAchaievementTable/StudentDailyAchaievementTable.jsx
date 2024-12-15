@@ -1,18 +1,11 @@
 import React from "react";
-import ReportTable from "../../../../pages/ReportTable/ReportTable";
-import { Rating } from "@mui/material";
-import { useFormik } from "formik";
+  import ReportTable from "../../../../pages/ReportTable/ReportTable";
 
 //هون رح نجيب الداتا من الباك
 //+رح نستخدم الجدول المشترك لكل التقارير لعرض هذه البيانات
-export default function DailyAchaievementsTable() {
+export default function StudentDailyAchaievementTable() {
   // Table columns definition
-  const columns = [
-    {
-      id: "operations",
-      label: "الاجراءات",
-      minWidth: 170,
-    },
+  const columns = [ 
     {
       id: "notes",
       label: "الملاحظات",
@@ -39,25 +32,16 @@ export default function DailyAchaievementsTable() {
       minWidth: 170,
     },
     {
+        id: "AchaievementType",
+        label: "نوع الانجاز",
+        minWidth: 170,
+      } ,
+    {
       id: "AchaievementDate",
       label: "التاريخ",
       minWidth: 170,
-    },
-    {
-      id: "AchaievementType",
-      label: "نوع الانجاز",
-      minWidth: 170,
-    },
-    {
-      id: "circle",
-      label: "الحلقة",
-      minWidth: 170,
-    },
-    {
-      id: "studentName",
-      label: "اسم الطالب",
-      minWidth: 170,
-    },
+    }
+   
   ];
   //code أتوقع نفسها id الطالب
   const rows = [
@@ -68,10 +52,9 @@ export default function DailyAchaievementsTable() {
       pagesNumber: 10,
       toSurah_Ayah: "آل عمران/8",
       fromSurah_Ayah: "آل عمران/1",
-      AchaievementDate: "2024-12-14",
       AchaievementType: "مراجعة",
-      circle: "بالقرآن نحيا",
-      studentName: "سارة علي",
+      AchaievementDate: "2024-12-14",
+
     },
     {
       code: 2,
@@ -80,10 +63,9 @@ export default function DailyAchaievementsTable() {
       pagesNumber: 20,
       toSurah_Ayah: "النساء/10",
       fromSurah_Ayah: "النساء/1",
-      AchaievementDate: "2024-12-13",
       AchaievementType: "حفظ",
-      circle: "بالقرآن نحيا",
-      studentName: "أحمد سعيد",
+      AchaievementDate: "2024-12-13",
+     
     },
     {
       code: 3,
@@ -92,10 +74,9 @@ export default function DailyAchaievementsTable() {
       pagesNumber: 12,
       toSurah_Ayah: "المائدة/20",
       fromSurah_Ayah: "المائدة/5",
-      AchaievementDate: "2024-12-12",
       AchaievementType: "مراجعة",
-      circle: "بالقرآن نحيا",
-      studentName: "فاطمة خالد",
+      AchaievementDate: "2024-12-12",
+ 
     },
     {
       code: 4,
@@ -104,10 +85,9 @@ export default function DailyAchaievementsTable() {
       pagesNumber: 8,
       toSurah_Ayah: "الأنعام/15",
       fromSurah_Ayah: "الأنعام/5",
-      AchaievementDate: "2024-12-11",
       AchaievementType: "مراجعة",
-      circle: "بالقرآن نحيا",
-      studentName: "يوسف عماد",
+      AchaievementDate: "2024-12-11",
+   
     },
   ];
   return (

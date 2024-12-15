@@ -85,6 +85,22 @@ export default function UsersLayout({role}) {
       ] 
       NavTitle="موقع طوبى"
       SideBarTitle=" بوابة المسؤولون"
+  }else if(role==="student"){
+    SideBarLinks=
+      [ 
+        {
+          name:"الرئيسية",
+          icon:<InboxIcon />,
+          target:"/Student"
+        }, 
+   {
+    name:"تقرير الانجاز اليومي", 
+    icon:<InboxIcon />,
+    target:"/Student/DailyAchievementReport"
+   } 
+      ] 
+      NavTitle="ملتقى فلسطين التقنية خضوري > حلقة بالقرآن نحيا"
+      SideBarTitle="بوابة الطالب"
   }
 
   return (

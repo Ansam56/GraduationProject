@@ -26,7 +26,9 @@ import PostForm from "./components/forms/PostForm";
 import Posts from "./components/pages/Posts/Posts";
 import StudentManagement from "./components/teacher/studentManagement/StudentManagement";
 import DefaultTeacherBage from "./components/teacher/defaultTeacherBage/DefaultTeacherBage";
-import DailyAchaievements from "./components/teacher/reports/dailyAchaievements/DailyAchaievements";
+import TeacherDailyAchaievements from "./components/teacher/reports/dailyAchaievements/TeacherDailyAchaievements";
+import DefaultStudentBage from "./components/student/defaultStudentBage/DefaultStudentBage";
+import StudentDailyAchaievements from "./components/student/reports/dailyAchaievements/StudentDailyAchaievements";
   
 export default function App() {
   //استفدت منه باظهار واخفاء جزء من الكود حسب هو مسجل دخوله او لا !
@@ -181,7 +183,26 @@ export default function App() {
         },
         {
           path:"DailyAchievementReport",
-          element:<DailyAchaievements/>
+          element:<TeacherDailyAchaievements/>
+        }
+      ],
+    },
+    {
+      path: "/Student",
+      element: <UsersLayout role="student" />,
+      //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
+      children: [
+        { // path :'/',
+          index: true,
+          element: <DefaultStudentBage/>,
+        },
+        {
+          path: "*",
+          element: <p className="m-0">Not Found Page</p>,
+        } ,
+        {
+          path:"DailyAchievementReport",
+          element:<StudentDailyAchaievements/>
         }
       ],
     },
