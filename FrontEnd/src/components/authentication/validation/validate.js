@@ -1,18 +1,18 @@
 import * as yup from "yup";
 
-export const validationSchema = yup.object({
-  userName: yup
-    .string()
-    .required("user name is required")
-    .min(3, "userName must be at least 3 character")
-    .max(30, "max is 30"),
-  email: yup.string().required("email is required").email(),
-  password: yup
-    .string()
-    .required("password is required")
-    .min(3, "password must be at least 3 digits")
-    .max(30, "max is 30"),
-});
+// export const validationSchema = yup.object({
+//   userName: yup
+//     .string()
+//     .required("user name is required")
+//     .min(3, "userName must be at least 3 character")
+//     .max(30, "max is 30"),
+//   email: yup.string().required("email is required").email(),
+//   password: yup
+//     .string()
+//     .required("password is required")
+//     .min(3, "password must be at least 3 digits")
+//     .max(30, "max is 30"),
+// });
 //Done
 export const loginSchema = yup.object({
   email: yup
@@ -22,9 +22,10 @@ export const loginSchema = yup.object({
     .min(6)
     .max(50),
   password: yup
-    .string()
-    .required("يجب ادخال كلمة المرور*")
-    .min(8, "يجب ادخال 8 أحرف على الاقل"),
+  .string()
+  .required("يجب ادخال كلمة المرور*")
+  .min(8, "يجب ادخال 8 أحرف على الاقل")
+  .max(30, "يجب ادخال 30 حرف كحد أقصى"),
 });
 export const sendCodeSchema = yup.object({
   email: yup
@@ -43,9 +44,13 @@ export const forgetPasswordSchema = yup.object({
     .required("يجب ادخال كلمة المرور*")
     .min(8, "يجب ادخال 8 أحرف على الاقل")
     .max(30, "يجب ادخال 30 حرف كحد أقصى"),
-  // confirmPassword: yup
-  //   .string()
-  //   .oneOf([yup.ref("password"), null], "يجب ان تتوافق الكلمة مع الكلمة "),
+ cpassword: yup
+    .string()
+    .required("يجب ادخال كلمة المرور*")
+    .min(8, "يجب ادخال 8 أحرف على الاقل")
+    .max(30, "يجب ادخال 30 حرف كحد أقصى")
+    .oneOf([yup.ref("password"), null], "يجب ان تتوافق الكلمة مع الكلمة "),
+
   code: yup
     .string()
     .required(" يجب ادخال الرمز*")

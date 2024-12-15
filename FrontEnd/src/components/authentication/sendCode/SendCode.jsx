@@ -17,7 +17,7 @@ export default function SendCode() {
     
     if (data.message == "success") {
       toast.success("يرجى التحقق من بريدك الإلكتروني", {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,

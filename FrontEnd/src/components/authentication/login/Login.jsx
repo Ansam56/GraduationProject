@@ -17,12 +17,12 @@ export default function Login({saveCurrentUser}) {
 
   const onSubmit= async values=>{//values ممكن تغييرها لاي اسم بدي اياه 
     const {data}= await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`,values);
-    
+    console.log(data.message);
     if(data.message=="success"){//الباك اند رح يرجع token 
      localStorage.setItem("userToken",data.token);
      saveCurrentUser();
      toast.success('Done', {  
-      position: "bottom-center",
+      position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,

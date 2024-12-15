@@ -11,7 +11,7 @@ export default function ForgetPassword() {
   const initialValues = {
     email: "",
     password: "",
-    // confirmPassword:"",
+    cpassword:"",
     code: "",
   };
   const navigate = useNavigate();
@@ -20,9 +20,10 @@ export default function ForgetPassword() {
       `${import.meta.env.VITE_API_URL}/auth/forgetPassword`,
       values
     );
+    console.log(data.message);
     if (data.message == "success") {
       toast.success("لقد تم تغيير كلمة المرور الخاصة بك بنجاح", {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: false,
         hideProgressBar: false,
         closeOnClick: true,
@@ -55,13 +56,13 @@ export default function ForgetPassword() {
       title: "كلمة المرور الجديدة",
       value: formik.values.password,
     },
-    // {
-    //     id: "confirmPassword", //lable لربط الليبل مع الانبوت
-    //     type: "password",
-    //     name: "confirmPassword",
-    //     title: "تأكيد كلمة المرور", 
-    //     value:formik.values.confirmPassword,
-    // },
+    {
+        id: "cpassword", //lable لربط الليبل مع الانبوت
+        type: "password",
+        name: "cpassword",
+        title: "تأكيد كلمة المرور", 
+        value:formik.values.cpassword,
+    },
     {
       id: "Code", //lable لربط الليبل مع الانبوت
       name: "code",
