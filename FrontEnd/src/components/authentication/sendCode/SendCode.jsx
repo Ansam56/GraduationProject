@@ -14,7 +14,7 @@ export default function SendCode() {
   };
   const onSubmit = async (values) => {
     const { data } = await axios.patch(
-      `${import.meta.env.VITE_API_URL}/auth/sendcode`,
+      `${import.meta.env.VITE_API_URL}/auth/confirmEmail`,
       values
     );
     if (data.message == "success") {

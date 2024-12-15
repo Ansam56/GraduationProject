@@ -64,6 +64,12 @@ export default function UsersLayout({role}) {
     subName:"تقرير الانجاز اليومي",
     icon:<InboxIcon />,
     target:"/Teacher/DailyAchievementReport"
+   },
+   {
+    name:"الاحصاءات",
+    subName:"احصاءات الانجاز ",
+    icon:<InboxIcon />,
+    target:"/Teacher/DailyAchievementReport"
    }
       ] 
       NavTitle="ملتقى فلسطين التقنية خضوري > بالقرآن نحيا"

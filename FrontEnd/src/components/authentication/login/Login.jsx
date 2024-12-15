@@ -18,7 +18,7 @@ export default function Login({saveCurrentUser}) {
   const onSubmit= async values=>{//values ممكن تغييرها لاي اسم بدي اياه 
     const {data}= await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`,values);
     
-    if(data.message=='success'){//الباك اند رح يرجع token 
+    if(data.message=="success"){//الباك اند رح يرجع token 
      localStorage.setItem("userToken",data.token);
      saveCurrentUser();
      toast.success('Done', {  
@@ -31,9 +31,26 @@ export default function Login({saveCurrentUser}) {
       progress: undefined,
       theme: "light",
       });
-      navigate('/');
+      navigate('/Admin');
     }
 }
+// const onSubmit = async (values) => {
+//   try {
+//     const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, values);
+//     if (data.message === 'success') {
+//       localStorage.setItem("userToken", data.token);
+//       saveCurrentUser();
+//       toast.success('Login successful');
+//       navigate('/');
+//     } else {
+//       toast.error(data.message);
+//     }
+//   } catch (error) {
+//     console.error('Login error:', error);
+//     toast.error('An error occurred during login. Please try again.');
+//   }
+// };
+
    
   const formik =useFormik({
       initialValues, 
