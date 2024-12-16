@@ -111,7 +111,7 @@ export default function TeacherDailyAchaievementsTable() {
   return (
     <>
       {rows.length === 0 ? (
-        <div class="alert alert-info text-center mt-2" role="alert">
+        <div className="alert alert-info text-center mt-2" role="alert">
           لا يوجد بيانات لعرضها!
         </div>
       ) : (
