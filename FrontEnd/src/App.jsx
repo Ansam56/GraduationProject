@@ -31,6 +31,8 @@ import DefaultStudentBage from "./components/student/defaultStudentBage/DefaultS
 import StudentDailyAchaievements from "./components/student/reports/dailyAchaievements/StudentDailyAchaievements";
 import CertificateForm from "./components/forms/CertificateForm";
 import Certificates from "./components/pages/Certificates/Certificates";
+import ExamTable from "./components/teacher/exam/ExamTable";
+
 
 
 export default function App() {
@@ -195,6 +197,10 @@ export default function App() {
         {
           path: "Certificates",
           element: <Certificates />,
+        },
+       {
+          path: "exams",
+          element: <ExamTable />,
         },
       ],
     },
