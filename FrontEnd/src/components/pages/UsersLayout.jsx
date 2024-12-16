@@ -73,6 +73,11 @@ export default function UsersLayout({ role }) {
         icon: <InboxIcon />,
         target: "/Teacher/Certificates",
       },
+      {
+        name: "الاختبارات",
+        icon: <InboxIcon />,
+        target: "/Teacher/exams",
+      },
     ];
     NavTitle = "ملتقى فلسطين التقنية خضوري > بالقرآن نحيا";
     SideBarTitle = "بوابة المعلم";
