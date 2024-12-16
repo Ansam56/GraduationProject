@@ -29,7 +29,9 @@ import DefaultTeacherBage from "./components/teacher/defaultTeacherBage/DefaultT
 import TeacherDailyAchaievements from "./components/teacher/reports/dailyAchaievements/TeacherDailyAchaievements";
 import DefaultStudentBage from "./components/student/defaultStudentBage/DefaultStudentBage";
 import StudentDailyAchaievements from "./components/student/reports/dailyAchaievements/StudentDailyAchaievements";
-  
+import CertificateForm from "./components/forms/CertificateForm";
+import Certificates from "./components/pages/Certificates/Certificates";
+
 export default function App() {
   //استفدت منه باظهار واخفاء جزء من الكود حسب هو مسجل دخوله او لا !
   //استفدت منه بتغيير حالة اليوزر الى نل في حال سجل خروجه
@@ -184,7 +186,15 @@ export default function App() {
         {
           path:"DailyAchievementReport",
           element:<TeacherDailyAchaievements/>
-        }
+        },
+        {
+          path: "CertificateForm",
+          element: <CertificateForm />,
+        },
+        {
+          path: "Certificates",
+          element: <Certificates />,
+        },
       ],
     },
     {
