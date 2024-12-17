@@ -12,7 +12,7 @@ export default function CirclesAchaievementsTable() {
         minWidth: 170,
     }, 
     {
-        id: "reviewPagesNum",
+        id: "revisionPagesNum",
         label: "عدد صفحات المراجعة",
         minWidth: 170,
     },
@@ -52,9 +52,9 @@ export default function CirclesAchaievementsTable() {
   const rows = [
     {
       code: 1,
-      tathbeetPagesNum:"_",
-      reviewPagesNum:"10",
-      savedPagesNum:"20", 
+      tathbeetPagesNum:0,
+      revisionPagesNum:10,
+      savedPagesNum:20, 
       AchaievementDate: "10/10/2024",
       gender: "ذكور",
       circleType: "حفظ ومراجعة",
@@ -63,9 +63,9 @@ export default function CirclesAchaievementsTable() {
     },
     {
         code: 2,
-        tathbeetPagesNum:"_",
-        reviewPagesNum:"10",
-        savedPagesNum:"20", 
+        tathbeetPagesNum:0,
+        revisionPagesNum:10,
+        savedPagesNum:20, 
         AchaievementDate: "10/10/2024",
         gender: "ذكور",
         circleType: "حفظ ومراجعة",
@@ -74,9 +74,9 @@ export default function CirclesAchaievementsTable() {
       },
       {
         code: 3,
-        tathbeetPagesNum:"_",
-        reviewPagesNum:"10",
-        savedPagesNum:"20", 
+        tathbeetPagesNum:0,
+        revisionPagesNum:10,
+        savedPagesNum:20, 
         AchaievementDate: "10/10/2024",
         gender: "ذكور",
         circleType: "حفظ ومراجعة",
@@ -85,10 +85,10 @@ export default function CirclesAchaievementsTable() {
       },
       {
         code: 4,
-        tathbeetPagesNum:"_",
-        reviewPagesNum:"10",
-        savedPagesNum:"20", 
-        AchaievementDate: "10/10/2024",
+        tathbeetPagesNum:0,
+        revisionPagesNum:10,
+        savedPagesNum:20, 
+        AchaievementDate: "10/11/2024",
         gender: "ذكور",
         circleType: "حفظ ومراجعة",
         circleName: "مشكاة",
@@ -105,7 +105,7 @@ export default function CirclesAchaievementsTable() {
         </div>
       ) : (
         <> 
-          <ReportTable columns={columns} rows={rows} />
+          <ReportTable columns={columns} rows={rows} role="مدير" />
         </>
       )}
     </>

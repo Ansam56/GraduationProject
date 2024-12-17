@@ -5,7 +5,7 @@ import TeacherDailyAchaievementsTable from './dailyAchaievementsTable/TeacherDai
 export default function TeacherDailyAchaievements() {
   return (
   <>
-    <Dashboard_SubTitle title=" تقرير الانجاز اليومي"/>  
+    <Dashboard_SubTitle title="تقرير الانجاز اليومي للحلقة  "/>  
     <TeacherDailyAchaievementsTable/>
   </>
   )

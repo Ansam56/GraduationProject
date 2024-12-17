@@ -47,6 +47,7 @@ export default function StudentDailyAchaievementTable() {
   const rows = [
     {
       code: 1,
+      circleType:"حفظ ومراجعة",
       notes:"انتبهي للحركات أكثر ,ولا تتسرعي أثناء القراءة",
       rating: 3.0,
       pagesNumber: 10,
@@ -58,6 +59,7 @@ export default function StudentDailyAchaievementTable() {
     },
     {
       code: 2,
+      circleType:"حفظ ومراجعة",
       notes:"ممتاز ,استمر!",
       rating: 5.0,
       pagesNumber: 20,
@@ -69,6 +71,7 @@ export default function StudentDailyAchaievementTable() {
     },
     {
       code: 3,
+      circleType:"حفظ ومراجعة",
       notes:" jfkdjfkjskfjs lkjfljfojsofjsofkjo lksljsofjosjfos ljxjsofjsofjosjfosjfopsmx,vxjlfjorfs; fkldjofsj kdjskhdkshkdsjfjksf jkffffffffffffffffffffffff hgggggggggggggggggggggggggg jhdifhisjfisjfsjkoksssssssssssssssssssssssssssssss kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu tttttttttttttttttttttttttttttttttttt mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj ikjkj iojjkjm jkjkjfkhsk hdjkghdskhgsdfhsfh hjdkfhksdhgksdhfs hdfhsdlhfsdlijs dflksdhflsihf kdhgkhsdkjghsdkgh hdjfhskdhgkjsdhk hdjhskhgkdhgjdsk ffffffffffffffffffffffffffffffffffff kjfkjfkjs jfdkdkfjdkfjskjfksjkjskjdksjfksjkf ksjfksjfjskfjskfjksjf skjfkjskfskfj hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh انتبهي للحركات أكثر ,ولا تتسرعي أثناء القراءة",
       rating: 4.0,
       pagesNumber: 12,
@@ -80,6 +83,7 @@ export default function StudentDailyAchaievementTable() {
     },
     {
       code: 4,
+      circleType:"حفظ ومراجعة",
       notes:"",
       rating: 3.5,
       pagesNumber: 8,
@@ -98,7 +102,7 @@ export default function StudentDailyAchaievementTable() {
         </div>
       ) : (
         <> 
-          <ReportTable columns={columns} rows={rows} />
+          <ReportTable columns={columns} rows={rows} role="طالب" />
         </>
       )}
     </>
