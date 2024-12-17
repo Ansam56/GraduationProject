@@ -336,3 +336,10 @@ export const CertificateFormSchema = yup.object().shape({
           ["image/jpeg", "image/png"].includes(value.type))
     ),
 });
+export const ExamFormSchema = yup.object({
+  surahOrPart: yup.string().required("مطلوب اختيار السورة او الجزء"),
+  examDate: yup.date().required("مطلوب تاريخ الامتحان"),
+  examTime: yup.string().required("مطلوب وقت الامتحان"),
+  zoomLink: yup.string().url("رابط غير صالح").required("مطلوب رابط الزوم"),
+  examMark: yup.number().required("مطلوب تحديد علامة الاختبار"),
+});
