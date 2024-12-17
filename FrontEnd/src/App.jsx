@@ -33,6 +33,8 @@ import CertificateForm from "./components/forms/CertificateForm";
 import Certificates from "./components/pages/Certificates/Certificates"; 
 import ExamTable from "./components/teacher/exam/ExamTable"; 
 import CirclesAchaievements from "./components/schoolAdmin/reports/circlesAchaievements/CirclesAchaievements";
+import ExamForm from "./components/forms/ExamForm";
+
  
 
 
@@ -206,6 +208,10 @@ export default function App() {
        {
           path: "exams",
           element: <ExamTable />,
+        },
+        {
+          path: "ExamForm",
+          element: <ExamForm />,
         },
       ],
     },
