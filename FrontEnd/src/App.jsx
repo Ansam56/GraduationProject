@@ -30,9 +30,10 @@ import TeacherDailyAchaievements from "./components/teacher/reports/dailyAchaiev
 import DefaultStudentBage from "./components/student/defaultStudentBage/DefaultStudentBage";
 import StudentDailyAchaievements from "./components/student/reports/dailyAchaievements/StudentDailyAchaievements";
 import CertificateForm from "./components/forms/CertificateForm";
-import Certificates from "./components/pages/Certificates/Certificates";
-import ExamTable from "./components/teacher/exam/ExamTable";
-
+import Certificates from "./components/pages/Certificates/Certificates"; 
+import ExamTable from "./components/teacher/exam/ExamTable"; 
+import CirclesAchaievements from "./components/schoolAdmin/reports/circlesAchaievements/CirclesAchaievements";
+ 
 
 
 export default function App() {
@@ -158,6 +159,10 @@ export default function App() {
           path: "Posts",
           element: <Posts />,
         },
+        {
+          path:"CirclesAchievementsReport",
+          element:<CirclesAchaievements/>,
+        }
       ],
     },
     {

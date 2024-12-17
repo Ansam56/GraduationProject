@@ -26,6 +26,11 @@ export default function UsersLayout({ role }) {
         icon: <InboxIcon />,
         target: "/SchoolAdmin/posts",
       },
+      {
+        name:"تقرير انجاز الحلقات",
+        icon: <InboxIcon />,
+        target: "/SchoolAdmin/CirclesAchievementsReport",
+      }
       //  {
       //   name:"احصائيات المدرسة",
       //   icon:<InboxIcon />,
