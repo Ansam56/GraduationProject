@@ -10,7 +10,6 @@ import "../../assets/css/CertificateForm.css";
 const ExamForm = () => {
   const navigate = useNavigate();
 
-  // Validation schema using Yup
 
   const formik = useFormik({
     initialValues: {
@@ -34,7 +33,6 @@ const ExamForm = () => {
       <Row>
         <Col>
           <Form onSubmit={formik.handleSubmit} className="exam-create-form">
-            {/* Select سورة أو الجزء */}
             <Form.Group controlId="surahOrPart" className="mb-3">
               <Form.Label>اختر السورة أو الجزء</Form.Label>
               <Form.Select
@@ -56,7 +54,6 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Date of Exam */}
             <Form.Group controlId="examDate" className="mb-3">
               <Form.Label>اختر التاريخ</Form.Label>
               <Form.Control
@@ -72,7 +69,6 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Time of Exam */}
             <Form.Group controlId="examTime" className="mb-3">
               <Form.Label>اختر الوقت</Form.Label>
               <Form.Control
@@ -88,7 +84,6 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Zoom Link */}
             <Form.Group controlId="zoomLink" className="mb-3">
               <Form.Label>ضع رابط الزووم</Form.Label>
               <Form.Control
@@ -105,7 +100,6 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Exam Mark */}
             <Form.Group controlId="examMark" className="mb-3">
               <Form.Label>علامة الاختبار</Form.Label>
               <Form.Control
@@ -122,7 +116,6 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Submit Button */}
             <div className="exam-button-container text-center">
               <Button
                 variant="success"
