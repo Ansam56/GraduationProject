@@ -90,7 +90,7 @@ export default function SchoolAndManagerForm() {
         );
 
         console.log("School Created:", schoolResponse.data);
-        toast.success("تم تسجيل المدرسة والمدير بنجاح!");
+        toast.success(" تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني!");
       } catch (error) {
         console.error("Error submitting form:", error.response?.data || error);
         toast.error("حدث خطأ أثناء رفع البيانات");
