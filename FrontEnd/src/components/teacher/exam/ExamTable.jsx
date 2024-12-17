@@ -27,8 +27,10 @@ import NoteIcon from "@mui/icons-material/Note";
 import CloseIcon from "@mui/icons-material/Close";
 import QuizIcon from "@mui/icons-material/Quiz";
 import Dashboard_SubTitle from "../../pages/dashboardSubTitle/Dashboard_SubTitle";
+import { useNavigate } from "react-router-dom";
 
 const ExamTable = () => {
+  const navigate = useNavigate();
   // Mocked Data
   const rows = [
     { id: 1, name: "خالد جلال" },
@@ -128,6 +130,11 @@ const ExamTable = () => {
     console.log("Data to publish:", dataToPublish);
     alert("تم نشر البيانات بنجاح!");
   };
+  const handleQuizClick = () => {
+ 
+    // navigate("/ExamForm", { state: { studentId: student.id } });
+    navigate("../ExamForm");
+  };
 
   return (
     <>
@@ -154,12 +161,12 @@ const ExamTable = () => {
                 <TableCell align="center">
                   <IconButton
                     color="primary"
-                    onClick={() => handleOpenDialog(row, "exam")}
+                    onClick={() => handleQuizClick(row)}
                   >
                     <QuizIcon />
                   </IconButton>
                 </TableCell>
-                {/* Marks Dropdown */}
+              
                 <TableCell align="center">
                   <TextField
                     type="number"
@@ -169,7 +176,7 @@ const ExamTable = () => {
                   />
                 </TableCell>
 
-                {/* Notes Dialog */}
+             
                 <TableCell align="center">
                   <IconButton
                     color="secondary"
@@ -193,7 +200,7 @@ const ExamTable = () => {
                     <EditIcon />
                   </IconButton>
                   <IconButton
-                    onClick={() => handleDelete(row)} // This now opens the confirmation dialog
+                    onClick={() => handleDelete(row)} 
                     sx={{ color: "red" }}
                   >
                     <DeleteIcon />
@@ -220,9 +227,9 @@ const ExamTable = () => {
         />
       </Box>
 
-      {/* Exam Dialog */}
 
-      {/* Notes Dialog */}
+
+  
       <Dialog open={notesDialogOpen} onClose={handleCloseNotesDialog}>
         <DialogTitle>
           الملاحظات - {selectedStudent?.name}
