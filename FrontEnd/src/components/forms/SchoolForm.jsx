@@ -68,8 +68,8 @@ export default function SchoolAndManagerForm() {
 
       try {
         //send a POST request to the backend (manager registration)
-        const managerResponse = await axios.post(
-          " https://tuba-temp-1.onrender.com/schoolAdmin/register",
+         const managerResponse = await axios.post(
+          ` ${import.meta.env.VITE_API_URL}/schoolAdmin/register`,
           finalData.manager //send manager data
         );
         console.log("Manager response:", managerResponse.data);
@@ -84,8 +84,10 @@ export default function SchoolAndManagerForm() {
         schoolFormData.append("schoolPhoto", schoolData.schoolPhoto);
         schoolFormData.append("schoolInfo", schoolData.schoolInfo);
 
-        const schoolResponse = await axios.post(
-          `https://tuba-temp-1.onrender.com/schoolAdmin/createSchool/${managerId}`,
+         const schoolResponse = await axios.post(
+          `${
+            import.meta.env.VITE_API_URL
+          }/schoolAdmin/createSchool/${managerId}`,
           schoolFormData
         );
 
