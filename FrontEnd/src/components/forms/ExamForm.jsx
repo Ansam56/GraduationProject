@@ -10,7 +10,6 @@ import "../../assets/css/CertificateForm.css";
 const ExamForm = () => {
   const navigate = useNavigate();
 
-
   const formik = useFormik({
     initialValues: {
       surahOrPart: "",
