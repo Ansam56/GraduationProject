@@ -74,11 +74,6 @@ export default function UsersLayout({ role }) {
         target: "/Teacher/DailyAchievementReport",
       },
       {
-        name: "الشهادات",
-        icon: <InboxIcon />,
-        target: "/Teacher/Certificates",
-      },
-      {
         name: "الاختبارات",
         icon: <InboxIcon />,
         target: "/Teacher/exams",
@@ -107,6 +102,11 @@ export default function UsersLayout({ role }) {
         name: "تقرير الانجاز اليومي",
         icon: <InboxIcon />,
         target: "/Student/DailyAchievementReport",
+      },
+       {
+        name: "الاختبارات",
+        icon: <InboxIcon />,
+        target: "/Student/Exams",
       },
     ];
     NavTitle = "ملتقى فلسطين التقنية خضوري > حلقة بالقرآن نحيا";
