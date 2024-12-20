@@ -68,7 +68,7 @@ export default function SchoolAndManagerForm() {
 
       try {
         //send a POST request to the backend (manager registration)
-         const managerResponse = await axios.post(
+        const managerResponse = await axios.post(
           ` ${import.meta.env.VITE_API_URL}/schoolAdmin/register`,
           finalData.manager //send manager data
         );
@@ -84,7 +84,7 @@ export default function SchoolAndManagerForm() {
         schoolFormData.append("schoolPhoto", schoolData.schoolPhoto);
         schoolFormData.append("schoolInfo", schoolData.schoolInfo);
 
-         const schoolResponse = await axios.post(
+        const schoolResponse = await axios.post(
           `${
             import.meta.env.VITE_API_URL
           }/schoolAdmin/createSchool/${managerId}`,
@@ -92,7 +92,9 @@ export default function SchoolAndManagerForm() {
         );
 
         console.log("School Created:", schoolResponse.data);
-        toast.success(" تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني!");
+        toast.success(
+          " تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني!"
+        );
       } catch (error) {
         console.error("Error submitting form:", error.response?.data || error);
         toast.error("حدث خطأ أثناء رفع البيانات");
@@ -137,7 +139,7 @@ export default function SchoolAndManagerForm() {
       type: "file",
       name: "schoolInfo",
       title: "الوثيقة الرسمية",
-      value: managerFormik.values.resume,
+      value: schoolFormik.values.schoolInfo,
     },
   ];
   const handleLogoChange = (event) => {
@@ -149,7 +151,7 @@ export default function SchoolAndManagerForm() {
   const handleschoolInfoChange = (event) => {
     const file = event.currentTarget.files[0];
     setschoolInfoFileName(file ? file.name : "الوثيقة الرسمية");
-    managerFormik.setFieldValue("schoolInfoFileName", file);
+    schoolFormik.setFieldValue("schoolInfoFileName", file);
   };
 
   const renderSchoolInputs = schoolInputs.map((input, index) => (
