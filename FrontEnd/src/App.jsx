@@ -197,14 +197,6 @@ export default function App() {
           path:"DailyAchievementReport",
           element:<TeacherDailyAchaievements/>
         },
-        {
-          path: "CertificateForm",
-          element: <CertificateForm />,
-        },
-        {
-          path: "Certificates",
-          element: <Certificates />,
-        },
        {
           path: "exams",
           element: <ExamTable />,
