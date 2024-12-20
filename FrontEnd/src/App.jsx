@@ -29,11 +29,11 @@ import DefaultTeacherBage from "./components/teacher/defaultTeacherBage/DefaultT
 import TeacherDailyAchaievements from "./components/teacher/reports/dailyAchaievements/TeacherDailyAchaievements";
 import DefaultStudentBage from "./components/student/defaultStudentBage/DefaultStudentBage";
 import StudentDailyAchaievements from "./components/student/reports/dailyAchaievements/StudentDailyAchaievements";
-import CertificateForm from "./components/forms/CertificateForm";
-import Certificates from "./components/pages/Certificates/Certificates"; 
 import ExamTable from "./components/teacher/exam/ExamTable"; 
 import CirclesAchaievements from "./components/schoolAdmin/reports/circlesAchaievements/CirclesAchaievements";
 import ExamForm from "./components/forms/ExamForm";
+import Exams from "./components/student/Exams/Exams";
+
 
  
 
@@ -231,7 +231,12 @@ export default function App() {
         {
           path:"DailyAchievementReport",
           element:<StudentDailyAchaievements/>
-        }
+        },
+       {
+          path: "Exams",
+          element: <Exams />,
+        },
+       
       ],
     },
   ]);
