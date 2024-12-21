@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../Input'
 import { useFormik } from 'formik'
 import { loginSchema } from '../validation/validate.js'
 import axios from 'axios'
-import {toast} from 'react-toastify';
 import { useNavigate } from 'react-router-dom'
 import SharedForm from '../sharedForm/SharedForm'
+import Loader from '../../pages/loader/Loader.jsx'
+import { SuccessToast } from '../../pages/toast/toast.js'
 
 export default function Login({saveCurrentUser}) { 
   const navigate =useNavigate();
+  const [loading,setLoading]=useState(false);
   
   const initialValues={//نفس اسماء متغيرات الname, اللي من الباك اند
          email:'',
@@ -16,22 +18,15 @@ export default function Login({saveCurrentUser}) {
   } //هدول القيم همي نفسهم اللي رح نوخدهم من اليوزر ونبعتهم بعدين للباك اند 
 
   const onSubmit= async values=>{//values ممكن تغييرها لاي اسم بدي اياه 
+    setLoading(true);
     const {data}= await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`,values);
+    setLoading(false);
     console.log(data.message);
     if(data.message=="success"){//الباك اند رح يرجع token 
      localStorage.setItem("userToken",data.token);
      saveCurrentUser();
-     toast.success('Done', {  
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      });
-      navigate('/Admin');
+      SuccessToast("!تمت عملية تسجيل الدخول بنجاح " ); 
+      navigate('/Admin'); 
     }
 }
 // const onSubmit = async (values) => {
@@ -88,7 +83,9 @@ export default function Login({saveCurrentUser}) {
    touched={formik.touched}//لتخزين الاماكن اللي قمنا بزيارتها ورح يتم اعتبارها ترو فقط لما اطلع من الانبوت 
    key={index} />
    )
-
+if(loading){
+  return  <Loader/>
+}
   return ( 
     <SharedForm
     title={'تسجيل الدخول'}
