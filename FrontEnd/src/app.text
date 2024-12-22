@@ -1,10 +1,14 @@
+import React, { useEffect, useState } from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./components/web/home/Home";
 import WebLayout from "./components/web/WebLayout";
+import { jwtDecode } from "jwt-decode";
 import Login from "./components/authentication/login/Login";
 import SendCode from "./components/authentication/sendCode/SendCode";
 import ForgetPassword from "./components/authentication/forgetPassword/ForgetPassword";
 import ScrollDialog from "./components/web/home/scrollingDialog/ScrollDialog";
-import Profile from "./components/schoolAdmin/profile/Profile"; 
+import Profile from "./components/schoolAdmin/profile/Profile";
+// import PersistentDrawerRight from "./components/schoolAdmin/drawer/PersistentDrawerRight";
 import UsersLayout from "./components/pages/UsersLayout";
 import TeacherProfile from "./components/teacher/profile/TeacherProfile";
 import StudentForm from "./components/forms/StudentForm";
@@ -16,7 +20,8 @@ import StudentsRequests from "./components/teacher/StudentsRequests/StudentsRequ
 import EditProfile from "./components/schoolAdmin/editProfile/EditProfile";
 import FeaturesSP from "./components/web/navbarSections/FeaturesSP";
 import SchoolsSP from "./components/web/navbarSections/SchoolsSP";
-import StatisticsSP from "./components/web/navbarSections/StatisticsSP"; 
+import StatisticsSP from "./components/web/navbarSections/StatisticsSP";
+ 
 import PostForm from "./components/forms/PostForm";
 import Posts from "./components/pages/Posts/Posts";
 import StudentManagement from "./components/teacher/studentManagement/StudentManagement";
@@ -28,12 +33,32 @@ import ExamTable from "./components/teacher/exam/ExamTable";
 import CirclesAchaievements from "./components/schoolAdmin/reports/circlesAchaievements/CirclesAchaievements";
 import ExamForm from "./components/forms/ExamForm";
 import Exams from "./components/student/Exams/Exams";
-import {createBrowserRouter } from "react-router-dom";  
 
-export const router = createBrowserRouter([
+
+ 
+
+
+export default function App() {
+  //استفدت منه باظهار واخفاء جزء من الكود حسب هو مسجل دخوله او لا !
+  //استفدت منه بتغيير حالة اليوزر الى نل في حال سجل خروجه
+  const [user, setUser] = useState(null);
+
+  //سيتم استدعاءه مرتين من صفحة اللوغ ان ومن اليوز افكت اول ما نعمل ريفريش للصفحة علما بانه بنكون مسجلين دخولنا من قبل
+  const saveCurrentUser = () => {
+    const token = localStorage.getItem("userToken");
+    const decoded = jwtDecode(token);
+    console.log(decoded);
+    setUser(decoded);
+  };
+  useEffect(() => {
+    if (localStorage.getItem("userToken")) {
+      saveCurrentUser();
+    }
+  }, []);
+  const router = createBrowserRouter([
     {
       path: "/",
-      element: <WebLayout/>,
+      element: <WebLayout user={user} setUser={setUser} />,
       children: [
         {
           // path :'/',
@@ -58,7 +83,7 @@ export const router = createBrowserRouter([
         },
         {
           path: "login",
-          element: <Login/>,
+          element: <Login saveCurrentUser={saveCurrentUser} />,
         },
 
         {
@@ -207,3 +232,5 @@ export const router = createBrowserRouter([
       ],
     },
   ]);
+  return <RouterProvider router={router} />;
+}
