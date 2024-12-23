@@ -8,6 +8,8 @@ export default function UserContextProvider({children}) {
     const [userToken,setUserToken]= useState(null);//توكن مشفرة 
     const [userData,setUserData]=useState(null);//برسل التوكن المشفرة للباك عشان يرجعلي بيانات اليوزر المسجل دخوله وبخزنها هون وبنشرها 
     const [loading,setLoading]=useState(true);
+    const [userRole,setUserRole]=useState("student");
+
     const Logout = ()=>{
       localStorage.removeItem("userToken");
       setUserToken(null); 
@@ -20,6 +22,7 @@ export default function UserContextProvider({children}) {
     //      { headers: {Authorization:`Tariq__${userToken}`} } )   
     //     // console.log(data);message and user info 
     //      setUserData(data.user); 
+    //      setUserRole(data.role);
     //      setLoading(false);
     //    } 
     // }
@@ -28,7 +31,7 @@ export default function UserContextProvider({children}) {
     //  getUserData();
     // },[userToken])
    
-  return (<UserContext.Provider value={{userToken,setUserToken,Logout,userData,setUserData,loading,setLoading}} >
+  return (<UserContext.Provider value={{userToken,setUserToken,Logout,userData,setUserData,loading,setLoading, userRole}} >
     {children}
   </UserContext.Provider>
   )

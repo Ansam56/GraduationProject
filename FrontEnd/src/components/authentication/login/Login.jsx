@@ -11,7 +11,7 @@ import { UserContext } from '../../context/UserContext.jsx'
 
 export default function Login() { 
   const navigate =useNavigate();
-  let {setUserToken}= useContext(UserContext);
+  let {setUserToken,userRole}= useContext(UserContext);
   const [loading,setLoading]=useState(false);
   
   const initialValues={//نفس اسماء متغيرات الname, اللي من الباك اند
@@ -23,15 +23,22 @@ export default function Login() {
 
     setLoading(true);
     const {data}= await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`,values);
-    setLoading(false);
-    
+    setLoading(false); 
 
     if(data.message=="success"){//الباك اند رح يرجع token 
      localStorage.setItem("userToken",data.token);
      setUserToken(data.token);
      
      SuccessToast("!تمت عملية تسجيل الدخول بنجاح " ); 
-     navigate('/Admin'); 
+if (userRole=="admin"){
+  navigate('/Admin'); 
+}else if(userRole=="schoolAdmin"){
+  navigate('/SchoolAdmin'); 
+}else if(userRole=="teacher"){
+  navigate('/Teacher'); 
+}else if(userRole=="student"){
+  navigate('/Student'); 
+}
     }
 }
 // const onSubmit = async (values) => {

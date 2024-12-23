@@ -29,6 +29,7 @@ import CirclesAchaievements from "./components/schoolAdmin/reports/circlesAchaie
 import ExamForm from "./components/forms/ExamForm";
 import Exams from "./components/student/Exams/Exams";
 import {createBrowserRouter } from "react-router-dom";  
+import UserProtectedRoute from "./components/protectedRoute/UserProtectedRoute";
 
 export const router = createBrowserRouter([
     {
@@ -58,7 +59,8 @@ export const router = createBrowserRouter([
         },
         {
           path: "login",
-          element: <Login/>,
+          element:<Login/>
+           ,
         },
 
         {
@@ -85,7 +87,11 @@ export const router = createBrowserRouter([
     },
     {
       path: "/Admin",
-      element: <UsersLayout role="admin" />,
+      element:
+      <UserProtectedRoute role="admin" >
+        <UsersLayout role="admin" />
+        {/* الرول هون ممكن تنحذف */}
+      </UserProtectedRoute>,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
       children: [
         {
@@ -104,7 +110,10 @@ export const router = createBrowserRouter([
     },
     {
       path: "/SchoolAdmin",
-      element: <UsersLayout role="schoolAdmin" />,
+      element:
+      <UserProtectedRoute role="schoolAdmin">
+        <UsersLayout role="schoolAdmin" />
+     </UserProtectedRoute>,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
       children: [
         // {
@@ -144,7 +153,10 @@ export const router = createBrowserRouter([
     },
     {
       path: "/Teacher",
-      element: <UsersLayout role="teacher" />,
+      element:
+      <UserProtectedRoute role="teacher" >
+        <UsersLayout role="teacher" />
+      </UserProtectedRoute> ,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
       children: [
         {
@@ -184,7 +196,10 @@ export const router = createBrowserRouter([
     },
     {
       path: "/Student",
-      element: <UsersLayout role="student" />,
+      element: 
+      <UserProtectedRoute role="student">
+        <UsersLayout role="student" />
+      </UserProtectedRoute>,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
       children: [
         { // path :'/',
