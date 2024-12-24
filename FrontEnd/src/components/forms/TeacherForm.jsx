@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import axios from "axios";
 import {
   teacherFormSchema,
   circleFormSchema,
@@ -23,7 +24,8 @@ export default function CircleAndTeacherForm() {
   });
 
   const [logoFileName, setLogoFileName] = useState("شعار الحلقة");
-  const [resumeFileName, setResumeFileName] = useState("السيرة الذاتية");
+  const [teacherInfoFileName, setteacherInfoFileName] =
+    useState("السيرة الذاتية");
 
   const toggleDaySelection = (day) => {
     const updatedDays = { ...selectedDays, [day]: !selectedDays[day] };
@@ -40,11 +42,9 @@ export default function CircleAndTeacherForm() {
       days: [],
       startTime: "",
       endTime: "",
-      image: null,
+      logo: null,
     },
     validationSchema: circleFormSchema,
-    validateOnChange: true,
-    validateOnBlur: true,
     onSubmit: (values) => {
       const daysSelected = Object.keys(selectedDays).filter(
         (day) => selectedDays[day]
@@ -58,39 +58,86 @@ export default function CircleAndTeacherForm() {
     initialValues: {
       firstName: "",
       lastName: "",
-      id: "",
+      idNumber: "",
       email: "",
-      birthDate: "",
       phonePrefix: "",
       phone: "",
       gender: "",
       password: "",
-      confirmPassword: "",
-      resume: null,
-      city: "",
+      cpassword: "",
+      teacherInfo: null,
+      country: "",
     },
     validationSchema: teacherFormSchema,
-    onSubmit: (teacherValues) => {
+
+    onSubmit: async (teacherValues) => {
       const finalPhone = `${teacherValues.phonePrefix}${teacherValues.phone}`;
+      const genderInEnglish =
+        teacherValues.gender === "ذكر" ? "Male" : "Female";
       const finalData = {
-        ...circleData,
-        teacher: { ...teacherValues, phone: finalPhone },
+        ...circleData, //circle info from Step 1
+        teacher: {
+          userName: `${teacherValues.firstName} ${teacherValues.lastName}`, //combine names
+          password: teacherValues.password,
+          cpassword: teacherValues.cpassword,
+          email: teacherValues.email,
+          teacherInfo: teacherValues.teacherInfo,
+          idNumber: teacherValues.idNumber,
+          mobile: finalPhone,
+          gender: genderInEnglish,
+          country: teacherValues.country,
+        },
       };
-      console.log("Final Data Submitted:", finalData);
-      toast.success("تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني");
+
+      // console.log("Final Data Submitted:", finalData.teacherInfo);
+
+      try {
+        //send a POST request to the backend (teacher registration)
+        const teacherResponse = await axios.post(
+          ` ${import.meta.env.VITE_API_URL}/teacher/register`,
+          finalData.teacher //send teacher data
+        );
+        console.log("teacher response:", teacherResponse.data.userName);
+
+        //extract teacher ID to use for the circle
+        const teacherId = teacherResponse.data;
+
+        //send another POST request to create the circle
+        const circleFormData = new FormData();
+        circleFormData.append("circleName", circleData.circleName);
+        circleFormData.append("logo", circleData.logo);
+        circleFormData.append("days", circleData.days);
+        circleFormData.append("startTime", circleData.startTime);
+        circleFormData.append("endTime", circleData.endTime);
+
+        const circleResponse = await axios.post(
+          `${
+            import.meta.env.VITE_API_URL
+          }/teacher/${teacherId}/circle/createCircle`,
+          circleFormData
+        );
+
+        console.log("Circle Created:", circleResponse.data);
+        toast.success(
+          " تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني!"
+        );
+      } catch (error) {
+        console.error("Error submitting form:", error.response?.data || error);
+        toast.error("حدث خطأ أثناء رفع البيانات");
+      }
     },
   });
 
   const handleLogoChange = (event) => {
     const file = event.currentTarget.files[0];
     setLogoFileName(file ? file.name : "شعار الحلقة");
-    circleFormik.setFieldValue("image", file);
+    circleFormik.setFieldValue("logo", file);
   };
 
-  const handleResumeChange = (event) => {
+  const handleteacherInfoChange = (event) => {
     const file = event.currentTarget.files[0];
-    setResumeFileName(file ? file.name : "السيرة الذاتية");
-    teacherFormik.setFieldValue("resume", file);
+    setteacherInfoFileName(file ? file.name : "السيرة الذاتية");
+    teacherFormik.setFieldValue("teacherInfo", file);
   };
 
   const circleInputs = [
@@ -116,11 +163,11 @@ export default function CircleAndTeacherForm() {
       value: circleFormik.values.endTime,
     },
     {
-      id: "image",
+      id: "logo",
       type: "file",
-      name: "image",
+      name: "logo",
       title: "صورة الحلقة",
-      value: circleFormik.values.image,
+      value: circleFormik.values.logo,
     },
     {
       id: "days",
@@ -206,11 +253,11 @@ export default function CircleAndTeacherForm() {
       value: teacherFormik.values.lastName,
     },
     {
-      id: "id",
+      id: "idNumber",
       type: "text",
-      name: "id",
+      name: "idNumber",
       title: "رقم الهوية",
-      value: teacherFormik.values.id,
+      value: teacherFormik.values.idNumber,
     },
     {
       id: "email",
@@ -220,11 +267,11 @@ export default function CircleAndTeacherForm() {
       value: teacherFormik.values.email,
     },
     {
-      id: "city",
+      id: "country",
       type: "select",
-      name: "city",
+      name: "country",
       title: "المدينة",
-      value: teacherFormik.values.city,
+      value: teacherFormik.values.country,
       options: [
         "القدس",
         "رام الله",
@@ -243,13 +290,6 @@ export default function CircleAndTeacherForm() {
         "جباليا",
         "دير البلح",
       ],
-    },
-    {
-      id: "birthDate",
-      type: "date",
-      name: "birthDate",
-      title: "تاريخ الميلاد",
-      value: teacherFormik.values.birthDate,
     },
     {
       id: "phonePrefix",
@@ -282,18 +322,18 @@ export default function CircleAndTeacherForm() {
       value: teacherFormik.values.password,
     },
     {
-      id: "confirmPassword",
+      id: "cpassword",
       type: "password",
-      name: "confirmPassword",
+      name: "cpassword",
       title: "تأكيد كلمة المرور",
-      value: teacherFormik.values.confirmPassword,
+      value: teacherFormik.values.cpassword,
     },
     {
-      id: "resume",
+      id: "teacherInfo",
       type: "file",
-      name: "resume",
+      name: "teacherInfo",
       title: "السيرة الذاتية",
-      value: teacherFormik.values.resume,
+      value: teacherFormik.values.teacherInfo,
     },
   ];
 
@@ -307,19 +347,22 @@ export default function CircleAndTeacherForm() {
         {input.type === "file" ? (
           <>
             <label htmlFor={input.id} className={formStyle.fileInputLabel}>
-              {resumeFileName}
+              {teacherInfoFileName}
             </label>
             <input
               id={input.id}
               type="file"
               name={input.name}
               className={formStyle.fileInput}
-              onChange={handleResumeChange}
+              onChange={handleteacherInfoChange}
               onBlur={teacherFormik.handleBlur}
             />
-            {teacherFormik.errors.resume && teacherFormik.touched.resume && (
-              <div className="text-danger">{teacherFormik.errors.resume}</div>
-            )}
+            {teacherFormik.errors.teacherInfo &&
+              teacherFormik.touched.teacherInfo && (
+                <div className="text-danger">
+                  {teacherFormik.errors.teacherInfo}
+                </div>
+              )}
           </>
         ) : (
           <Input
