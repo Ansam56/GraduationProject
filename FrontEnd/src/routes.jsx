@@ -30,6 +30,7 @@ import ExamForm from "./components/forms/ExamForm";
 import Exams from "./components/student/Exams/Exams";
 import {createBrowserRouter } from "react-router-dom";  
 import UserProtectedRoute from "./components/protectedRoute/UserProtectedRoute";
+import PageNotFound from "./components/pages/PageNotFound";
 
 export const router = createBrowserRouter([
     {
@@ -55,7 +56,7 @@ export const router = createBrowserRouter([
         },
         {
           path: "*",
-          element: <p className="m-0">Not Found Page</p>,
+         element={<PageNotFound/>},
         },
         {
           path: "login",
