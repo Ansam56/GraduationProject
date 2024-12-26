@@ -14,8 +14,7 @@ export default function SchoolAndManagerForm() {
   const [step, setStep] = useState(1);
   const [schoolData, setSchoolData] = useState(null);
   const [schoolPhoto, setschoolPhoto] = useState("شعار المدرسة");
-  const [schoolInfoFileName, setschoolInfoFileName] =
-    useState("الوثيقة الرسمية");
+  const [schoolInfo, setschoolInfoFileName] = useState("الوثيقة الرسمية");
 
   const schoolFormik = useFormik({
     initialValues: {
@@ -151,7 +150,7 @@ export default function SchoolAndManagerForm() {
   const handleschoolInfoChange = (event) => {
     const file = event.currentTarget.files[0];
     setschoolInfoFileName(file ? file.name : "الوثيقة الرسمية");
-    schoolFormik.setFieldValue("schoolInfoFileName", file);
+    schoolFormik.setFieldValue("schoolInfo", file);
   };
 
   const renderSchoolInputs = schoolInputs.map((input, index) => (
@@ -174,7 +173,7 @@ export default function SchoolAndManagerForm() {
         ) : (
           <>
             <label htmlFor={input.id} className={formStyle.fileInputLabel}>
-              {schoolInfoFileName}
+              {schoolInfo}
             </label>
             <input
               id={input.id}
