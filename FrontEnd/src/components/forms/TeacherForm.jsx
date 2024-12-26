@@ -74,35 +74,30 @@ export default function CircleAndTeacherForm() {
       const finalPhone = `${teacherValues.phonePrefix}${teacherValues.phone}`;
       const genderInEnglish =
         teacherValues.gender === "ذكر" ? "Male" : "Female";
-      const finalData = {
-        ...circleData, //circle info from Step 1
-        teacher: {
-          userName: `${teacherValues.firstName} ${teacherValues.lastName}`, //combine names
-          password: teacherValues.password,
-          cpassword: teacherValues.cpassword,
-          email: teacherValues.email,
-          teacherInfo: teacherValues.teacherInfo,
-          idNumber: teacherValues.idNumber,
-          mobile: finalPhone,
-          gender: genderInEnglish,
-          country: teacherValues.country,
-        },
-      };
-
-      // console.log("Final Data Submitted:", finalData.teacherInfo);
 
       try {
-        //send a POST request to the backend (teacher registration)
-        const teacherResponse = await axios.post(
-          ` ${import.meta.env.VITE_API_URL}/teacher/register`,
-          finalData.teacher //send teacher data
+        const teacherFormData = new FormData();
+        teacherFormData.append(
+          "userName",
+          `${teacherValues.firstName} ${teacherValues.lastName}`
         );
-        console.log("teacher response:", teacherResponse.data.userName);
+        teacherFormData.append("password", teacherValues.password);
+        teacherFormData.append("cpassword", teacherValues.cpassword);
+        teacherFormData.append("email", teacherValues.email);
+        teacherFormData.append("teacherInfo", teacherValues.teacherInfo);
+        teacherFormData.append("idNumber", teacherValues.idNumber);
+        teacherFormData.append("mobile", finalPhone);
+        teacherFormData.append("gender", genderInEnglish);
+        teacherFormData.append("country", teacherValues.country);
 
-        //extract teacher ID to use for the circle
-        const teacherId = teacherResponse.data;
+        const teacherResponse = await axios.post(
+          `${import.meta.env.VITE_API_URL}/teacher/register`,
+          teacherFormData
+        );
+        console.log("Teacher response:", teacherResponse.data);
 
-        //send another POST request to create the circle
+        const teacherId = teacherResponse.data.id;
+
         const circleFormData = new FormData();
         circleFormData.append("circleName", circleData.circleName);
         circleFormData.append("logo", circleData.logo);
@@ -110,6 +105,7 @@ export default function CircleAndTeacherForm() {
         circleFormData.append("startTime", circleData.startTime);
         circleFormData.append("endTime", circleData.endTime);
 
+        //Send circle creation request
         const circleResponse = await axios.post(
           `${
             import.meta.env.VITE_API_URL
@@ -118,9 +114,7 @@ export default function CircleAndTeacherForm() {
         );
 
         console.log("Circle Created:", circleResponse.data);
-        toast.success(
-          " تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني!"
-        );
+        toast.success("تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني!");
       } catch (error) {
         console.error("Error submitting form:", error.response?.data || error);
         toast.error("حدث خطأ أثناء رفع البيانات");
