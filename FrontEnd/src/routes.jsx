@@ -13,7 +13,7 @@ import TeacherForm from "./components/forms/TeacherForm";
 import Admin from "./components/admin/schoolsRequest/Admin";
 import TeachersRequests from "./components/schoolAdmin/TeachersRequests/TeachersRequests";
 import StudentsRequests from "./components/teacher/StudentsRequests/StudentsRequests";
-import EditProfile from "./components/schoolAdmin/editProfile/EditProfile";
+// import EditProfile from "./components/schoolAdmin/editProfile/EditProfile";
 import FeaturesSP from "./components/web/navbarSections/FeaturesSP";
 import SchoolsSP from "./components/web/navbarSections/SchoolsSP";
 import StatisticsSP from "./components/web/navbarSections/StatisticsSP"; 
@@ -30,7 +30,13 @@ import ExamForm from "./components/forms/ExamForm";
 import Exams from "./components/student/Exams/Exams";
 import {createBrowserRouter } from "react-router-dom";  
 import UserProtectedRoute from "./components/protectedRoute/UserProtectedRoute";
+ 
 import PageNotFound from "./components/pages/PageNotFound";
+ 
+import AuthProtectedRoute from "./components/protectedRoute/AuthProtectedRoute";
+import SchoolAdminContextProvider from "./components/context/SchoolAdminContext";
+import TeacherContextProvider from "./components/context/TeacherContext";
+ 
 
 export const router = createBrowserRouter([
     {
@@ -44,15 +50,24 @@ export const router = createBrowserRouter([
         },
         {
           path: "SchoolForm",
-          element: <SchoolForm />,
+          element: 
+          <AuthProtectedRoute>
+            <SchoolForm />
+          </AuthProtectedRoute>
         },
         {
           path: "StudentForm",
-          element: <StudentForm />,
+          element: 
+          <AuthProtectedRoute>
+            <StudentForm />
+          </AuthProtectedRoute>
         },
         {
           path: "TeacherForm",
-          element: <TeacherForm />,
+          element:
+          <AuthProtectedRoute>
+            <TeacherForm />
+          </AuthProtectedRoute>
         },
         {
           path: "*",
@@ -60,17 +75,26 @@ export const router = createBrowserRouter([
         },
         {
           path: "login",
-          element:<Login/>
-           ,
+          element:
+          <AuthProtectedRoute>
+            <Login/>
+          </AuthProtectedRoute>
+           
         },
 
         {
           path: "sendCode",
-          element: <SendCode />,
+          element: 
+          <AuthProtectedRoute> 
+            <SendCode />
+          </AuthProtectedRoute> 
         },
         {
           path: "forgetPassword",
-          element: <ForgetPassword />,
+          element:
+          <AuthProtectedRoute> 
+            <ForgetPassword />
+          </AuthProtectedRoute>
         },
         {
           path: "features",
@@ -112,9 +136,11 @@ export const router = createBrowserRouter([
     {
       path: "/SchoolAdmin",
       element:
-      <UserProtectedRoute role="schoolAdmin">
-        <UsersLayout role="schoolAdmin" />
-     </UserProtectedRoute>,
+         <UserProtectedRoute role="schoolAdmin">
+      <SchoolAdminContextProvider>
+            <UsersLayout role="schoolAdmin" />
+      </SchoolAdminContextProvider>
+         </UserProtectedRoute>,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
       children: [
         // {
@@ -127,13 +153,14 @@ export const router = createBrowserRouter([
           element: <p className="m-0">Not Found Page</p>,
         },
         {
+          
           path: "ProfileSettings",
           element: <Profile />,
         },
-        {
-          path: "EditProfile",
-          element: <EditProfile />,
-        },
+        // {
+        //   path: "EditProfile",
+        //   element: <EditProfile />,
+        // },
         {
           path: "TeachersRequests",
           element: <TeachersRequests />,
@@ -156,7 +183,9 @@ export const router = createBrowserRouter([
       path: "/Teacher",
       element:
       <UserProtectedRoute role="teacher" >
+      <TeacherContextProvider>
         <UsersLayout role="teacher" />
+      </TeacherContextProvider>
       </UserProtectedRoute> ,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
       children: [

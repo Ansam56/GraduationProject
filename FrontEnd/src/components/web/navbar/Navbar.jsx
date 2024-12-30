@@ -24,6 +24,7 @@ import { Link, useNavigate} from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home'; 
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
+import Loader from '../../pages/loader/Loader';
 
 
 const drawerWidth = 240;
@@ -96,9 +97,11 @@ ScrollTop.propTypes = {
 function DrawerAppBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  let {userToken,Logout}=useContext(UserContext); 
-  let navigate=useNavigate();
+  let {userToken,Logout,userData}=useContext(UserContext); 
+  
+  // console.log(userData);
 
+  let navigate=useNavigate(); 
    const logout=()=>{
      Logout();
      // navigate('/login', { replace: true }); // Replace history to prevent back navigation
@@ -142,7 +145,7 @@ function DrawerAppBar(props) {
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
-
+   
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -184,7 +187,7 @@ function DrawerAppBar(props) {
                 
                : 
                   <Link className={`${styles.btn} btn `} onClick={logout}>
-                  تسجيل الخروج
+                  {userData&&userData.userName}
                   </Link>
                 }
             </Box>

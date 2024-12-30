@@ -23,9 +23,22 @@ export const loginSchema = yup.object({
     .max(50),
   password: yup
   .string()
-  .required("يجب ادخال كلمة المرور*")
-  .min(8, "يجب ادخال 8 أحرف على الاقل")
-  .max(30, "يجب ادخال 30 حرف كحد أقصى"),
+  .required("يجب إدخال كلمة المرور")
+  .min(8, "كلمة السر قصيرة جداً - يجب أن تتكون من 8 أحرف على الأقل")
+  .max(30, "كلمة السر طويلة جداً - الحد الأقصى 30 حرفاً")
+  .matches(
+    /[A-Z]/,
+    "كلمة السر يجب أن تحتوي على حرف كبير واحد على الأقل (Uppercase)"
+  )
+  .matches(
+    /[a-z]/,
+    "كلمة السر يجب أن تحتوي على حرف صغير واحد على الأقل (Lowercase)"
+  )
+  .matches(/\d/, "كلمة السر يجب أن تحتوي على رقم واحد على الأقل")
+  .matches(
+    /[@$!%*?&]/,
+    "كلمة السر يجب أن تحتوي على حرف خاص واحد على الأقل (مثل: @, $, !, %, *, ?, &)"
+  ),
 });
 export const sendCodeSchema = yup.object({
   email: yup
@@ -40,17 +53,28 @@ export const forgetPasswordSchema = yup.object({
     .required("يجب ادخال البريد الاكتروني*")
     .email("يجب كتابة البريد الالكتروني بالصيغة الصحيحة"),
   password: yup
-    .string()
-    .required("يجب ادخال كلمة المرور*")
-    .min(8, "يجب ادخال 8 أحرف على الاقل")
-    .max(30, "يجب ادخال 30 حرف كحد أقصى"),
+  .string()
+  .required("يجب ادخال كلمة المرور*")
+  .min(8, "كلمة السر قصيرة جداً - يجب أن تتكون من 8 أحرف على الأقل")
+  .max(30, "كلمة السر طويلة جداً - الحد الأقصى 30 حرفاً")
+  .matches(
+    /[A-Z]/,
+    "كلمة السر يجب أن تحتوي على حرف كبير واحد على الأقل (Uppercase)"
+  )
+  .matches(
+    /[a-z]/,
+    "كلمة السر يجب أن تحتوي على حرف صغير واحد على الأقل (Lowercase)"
+  )
+  .matches(/\d/, "كلمة السر يجب أن تحتوي على رقم واحد على الأقل")
+  .matches(
+    /[@$!%*?&]/,
+    "كلمة السر يجب أن تحتوي على حرف خاص واحد على الأقل (مثل: @, $, !, %, *, ?, &)"
+  ),
  cpassword: yup
-    .string()
-    .required("يجب ادخال كلمة المرور*")
-    .min(8, "يجب ادخال 8 أحرف على الاقل")
-    .max(30, "يجب ادخال 30 حرف كحد أقصى")
-    .oneOf([yup.ref("password"), null], "يجب ان تتوافق الكلمة مع الكلمة "),
-
+ .string()
+ .oneOf([yup.ref("password"), null], "يجب أن تتطابق كلمتا السر")
+ .required("يجب ادخال تأكيد كلمة المرور"),
+    
   code: yup
     .string()
     .required(" يجب ادخال الرمز*")
@@ -93,7 +117,31 @@ const SUPPORTED_DOC_FORMATS = [
   "application/msword",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ];
-
+//schoolAdmin profile(المعلومات الشخصية)
+export const schoolAdminDataSchema=yup.object({
+  phonePrefix: yup
+    .string()
+    .oneOf(["+970", "+972"], " اختر +972 أو +970"),
+  phone: yup
+    .string()
+    .matches(PHONE_NUMBER_REGEX, "رقم الجوال غير صالح"),
+    email: yup
+    .string()
+    .email("الرجاء إدخال بريد إلكتروني صالح"),
+    profilePicture: yup
+    .mixed()
+    .nullable()
+    .test("fileSize", "حجم الملف كبير جدًا", (value) => {
+      return !value || value.size <= 1024 * 1024;
+    })
+    .test("fileType", "نوع الملف غير مدعوم", (value) => {
+      return (
+        !value || ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+      );
+    }),
+  
+    
+})
 export const managerFormSchema = yup.object({
   firstName: yup
     .string()
@@ -142,11 +190,25 @@ export const managerFormSchema = yup.object({
   cpassword: yup
     .string()
     .oneOf([yup.ref("password"), null], "يجب أن تتطابق كلمتا السر")
-    .required("يجب أدخال تأكيد كلمة المرور"),
+    .required("يجب ادخال تأكيد كلمة المرور"),
   gender: yup.string().required("يجب ادخال الجنس"),
   country: yup.string().required("يجب ادخال المدينة"),
 });
+//schoolAdmin profile(معلومات المدرسة)
+export const schoolDataSchema = yup.object({
+  schoolName: yup
+    .string() 
+    .min(3, "اسم المدرسة يجب أن يكون على الأقل 3 أحرف")
+    .max(100, "اسم المدرسة لا يمكن أن يزيد عن 100 حرف"),
 
+  address: yup
+    .string()
+    .min(5, "العنوان يجب أن يكون على الأقل 5 أحرف")
+    .max(200, "العنوان لا يمكن أن يزيد عن 200 حرف"),
+
+  
+ 
+});
 export const schoolFormSchema = yup.object().shape({
   schoolName: yup
     .string()

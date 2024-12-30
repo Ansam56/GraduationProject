@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Outlet } from "react-router-dom";
 import PersistentDrawerRight from "./sharedDashboard/PersistentDrawerRight";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Logo from "./logo/Logo";
+import { SchoolAdminContext } from "../context/SchoolAdminContext";
+import { TeacherContext } from "../context/TeacherContext";
 
 export default function UsersLayout({ role }) {
+  
   let SideBarLinks = [];
   let NavTitle = "";
   let SideBarTitle = "";
 
   if (role === "schoolAdmin") {
+    let {schoolAdminInfo,schoolInfo}=useContext(SchoolAdminContext);
     SideBarLinks = [
       {
         name: "عرض طلبات انضمام المعلمين",
@@ -37,9 +41,11 @@ export default function UsersLayout({ role }) {
       //   target:"/SchoolAdmin/ProfileSettings"
       //   },
     ];
-    NavTitle = "ملتقى جامعة فلسطين التقنية_خضوري";
+    NavTitle = schoolInfo?.schoolName ;
     SideBarTitle = "بوابة الإدارة";
+    
   } else if (role === "teacher") {
+    let {circleInfo,teacherInfo}=useContext(TeacherContext);
     SideBarLinks = [
       {
         name: "الرئيسية",
@@ -79,7 +85,8 @@ export default function UsersLayout({ role }) {
         target: "/Teacher/exams",
       },
     ];
-    NavTitle = "ملتقى فلسطين التقنية خضوري > بالقرآن نحيا";
+    // NavTitle = "ملتقى فلسطين التقنية خضوري > بالقرآن نحيا";
+    NavTitle = teacherInfo.userName;
     SideBarTitle = "بوابة المعلم";
   } else if (role === "admin") {
     SideBarLinks = [

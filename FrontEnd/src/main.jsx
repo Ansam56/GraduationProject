@@ -8,15 +8,16 @@ import './index.css'
 import { ToastContainer } from 'react-toastify'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import UserContextProvider from './components/context/UserContext.jsx';
-   
+
+
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
     <UserContextProvider>
       <QueryClientProvider client={queryClient}>
-      <ToastContainer/>
-      <App/>
+       <ToastContainer/>
+       <App/>
       </QueryClientProvider>
     </UserContextProvider>
     </>
