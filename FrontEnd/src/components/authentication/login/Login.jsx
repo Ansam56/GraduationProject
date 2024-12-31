@@ -51,7 +51,7 @@ export default function Login() {
   // } 
       }
     }catch(error){ 
-      // console.log(error);
+      console.log(error);
       if (error.response) {
         if(error.response.data.message==="email not found"){
           ErrorToast("عذرًا، البريد الإلكتروني الذي أدخلته غير مسجل لدينا");  
@@ -59,6 +59,10 @@ export default function Login() {
         ErrorToast("يرجى التحقق من بريدك الإلكتروني وتأكيده");
       }if(error.response.data.message==="invalid password"){
         ErrorToast("تعذر تسجيل الدخول. يرجى التحقق من البيانات والمحاولة مرة أخرى.")
+      }if(error.response.data.message===" SchoolAdmin account is blocked"){
+        ErrorToast("هذا الحساب غير مفعل بعد ! سيتم معالجة الطلب من قبل مسؤول الموقع قريباً واخبارك بالقبول أو الرفض عبر الايميل")
+      }if(error.response.data.message===" Teacher account is blocked"){
+        ErrorToast("هذا الحساب غير مفعل بعد ! سيتم معالجة الطلب من قبل مدير المدرسة قريباً واخبارك بالقبول أو الرفض عبر الايميل")
       }
         // // الخطأ من الخادم (مثل بيانات خاطئة أو مشكلة بالباك)
         // if (error.response.status === 404) {

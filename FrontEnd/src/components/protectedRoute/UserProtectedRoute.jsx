@@ -5,7 +5,7 @@ import { UserContext } from '../context/UserContext'
 import Loader from '../pages/loader/Loader';
 import Cookies from "js-cookie";
 
-export default function UserProtectedRoute({children, role=""} ) {//هون بدي أتأكد هل اليوزر مسجل دخوله؟عن طريق التوكن +هون متل الشرطي بمنع وصول اشخاص معينين للمكان المطلوب 
+export default function UserProtectedRoute({children, role="",role1,role2} ) {//هون بدي أتأكد هل اليوزر مسجل دخوله؟عن طريق التوكن +هون متل الشرطي بمنع وصول اشخاص معينين للمكان المطلوب 
   let {userData,loading}= useContext(UserContext); 
   console.log("hi from user protected");
     // if(localStorage.getItem("userToken")== null){//(لا يوجد لديه صلاحية)اذاً اليوزر عامل تسجيل خروج وممنوع يدخل على الراوت اللي كتبه
@@ -17,7 +17,11 @@ export default function UserProtectedRoute({children, role=""} ) {//هون بد�
     }
     //في حال كان مسجل دخول
     //1)ما كان اله الصلاحية
-     if (userData && userData.role!== role) {
+    if(role=="student or user"){
+      if(userData&&userData.role !==role1 && userData&&userData.role !==role2){
+        return <Navigate to ='/'/>;
+      }
+    } else if (userData && userData.role!== role) {
       return <Navigate to='/' />;
      }
     //  if(loading ){

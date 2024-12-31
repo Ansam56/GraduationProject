@@ -29,11 +29,19 @@ export default function UserContextProvider({children}) {
             { headers: {Authorization:`Tuba__${userToken}`} } )  ;
             // console.log(data);
             setUserData(data.user); 
-        }catch(error){ 
-          if (error.request) {
-            // الخطأ بسبب مشكلة في الشبكة (مثل انقطاع الإنترنت)
-            ErrorToast("تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك."); 
-          }  
+        }catch(error){  
+          if (error.response) {
+            if(error.response.data.message==="user not found"){
+            ErrorToast("عذرًا، المستخدم غير موجود.");
+            Logout(); 
+             }   
+         } else if (error.request) {
+                // الخطأ بسبب مشكلة في الشبكة (مثل انقطاع الإنترنت)
+                ErrorToast("تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك."); 
+         } else {
+                // خطأ آخر
+                ErrorToast(`حدث خطأ: ${error.message}`); 
+        } 
         }  
        }  
       setLoading(false);

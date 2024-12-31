@@ -5,36 +5,32 @@ import Loader from "../pages/loader/Loader";
 import { UserContext } from "./UserContext";
 import { ErrorToast } from "../pages/toast/toast";
 
-export let SchoolAdminContext =createContext(); 
+export let StudentContext =createContext(); 
  
-export default function SchoolAdminContextProvider({children}) {
+export default function StudentContextProvider({children}) {
     const {userToken,Logout}= useContext(UserContext); 
-    const [schoolAdminInfo,setSchoolAdminInfo]=useState(null);
-    const [schoolInfo,setSchoolInfo]=useState(null);
+    const [studentInfo,setStudentInfo]=useState(null);  
     const [loading,setLoading]=useState(true);
-    console.log("hi");
-    const getSchoolAdminData=async()=>{ 
+
+    console.log("hi from student context");
+    const getStudentData=async()=>{ 
        if(userToken){
         try{
-          const {data}=await axios.get(`${import.meta.env.VITE_API_URL}/schoolAdmin/profile`,
+          const {data}=await axios.get(`${import.meta.env.VITE_API_URL}/student/profile`,
             { headers: {Authorization:`Tuba__${userToken}`} } )  ;
-            setSchoolAdminInfo(data.schoolAdmin);
-            setSchoolInfo(data.school); 
-        }catch(error){
+            console.log(data);
+            setStudentInfo(data.student);
+         
+        }catch(error){ 
           if (error.response) {
-            //مستحيل يوصل لهاد الايرور لان لما دخل على هاي الصفحة قبلها كنا زايرين الprotected route ومتأكدين انه الرول اله schoolAdmin
-            // if(error.response.data.message==="you are not schoolAdmin"){
-            //   ErrorToast("عذرًا، أنت لست مدير مدرسة!.");
+            // if(error.response.data.message==="you are not student"){
+            //   ErrorToast("عذرًا، أنت لست طالب.");
             //   Logout(); 
             //    }   
               if(error.response.data.message==="user not found"){
               ErrorToast("عذرًا، المستخدم غير موجود.");
               Logout(); 
-               }   
-               if(error.response.data.message==="school not found"){
-                ErrorToast("عذرًا،المدرسة غير موجودة.");
-                Logout(); 
-                 }   
+               }    
            } else if (error.request) {
                   // الخطأ بسبب مشكلة في الشبكة (مثل انقطاع الإنترنت)
                   ErrorToast("تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك."); 
@@ -49,15 +45,15 @@ export default function SchoolAdminContextProvider({children}) {
     } 
     
     useEffect(()=>{
-      getSchoolAdminData();
+      getStudentData();
     },[])
 
   if(loading){
     return <Loader/>
   }
-  return (<SchoolAdminContext.Provider value={{schoolAdminInfo,schoolInfo}} >
+  return (<StudentContext.Provider value={{studentInfo}} >
     {children}
-  </SchoolAdminContext.Provider>
+  </StudentContext.Provider>
   )
 }
  

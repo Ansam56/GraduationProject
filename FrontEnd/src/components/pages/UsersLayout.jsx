@@ -5,14 +5,17 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Logo from "./logo/Logo";
 import { SchoolAdminContext } from "../context/SchoolAdminContext";
 import { TeacherContext } from "../context/TeacherContext";
+import { UserContext } from "../context/UserContext";
+import { StudentContext } from "../context/StudentContext";
 
-export default function UsersLayout({ role }) {
-  
+export default function UsersLayout() {
+  let {userData}=useContext(UserContext);
+
   let SideBarLinks = [];
   let NavTitle = "";
   let SideBarTitle = "";
 
-  if (role === "schoolAdmin") {
+  if (userData?.role === "schoolAdmin") {
     let {schoolAdminInfo,schoolInfo}=useContext(SchoolAdminContext);
     SideBarLinks = [
       {
@@ -44,7 +47,7 @@ export default function UsersLayout({ role }) {
     NavTitle = schoolInfo?.schoolName ;
     SideBarTitle = "بوابة الإدارة";
     
-  } else if (role === "teacher") {
+  } else if (userData?.role === "teacher") {
     let {circleInfo,teacherInfo}=useContext(TeacherContext);
     SideBarLinks = [
       {
@@ -86,9 +89,9 @@ export default function UsersLayout({ role }) {
       },
     ];
     // NavTitle = "ملتقى فلسطين التقنية خضوري > بالقرآن نحيا";
-    NavTitle = teacherInfo.userName;
+    NavTitle = teacherInfo?.userName;
     SideBarTitle = "بوابة المعلم";
-  } else if (role === "admin") {
+  } else if (userData?.role === "admin") {
     SideBarLinks = [
       {
         name: "ادارة الطلبات",
@@ -98,24 +101,48 @@ export default function UsersLayout({ role }) {
     ];
     NavTitle = "موقع طوبى";
     SideBarTitle = " بوابة المسؤولون";
-  } else if (role === "student") {
-    SideBarLinks = [
-      {
-        name: "الرئيسية",
-        icon: <InboxIcon />,
-        target: "/Student",
-      },
-      {
-        name: "تقرير الانجاز اليومي",
-        icon: <InboxIcon />,
-        target: "/Student/DailyAchievementReport",
-      },
-       {
-        name: "الاختبارات",
-        icon: <InboxIcon />,
-        target: "/Student/Exams",
-      },
-    ];
+  } else if (userData?.role === "student"||userData?.role==="user") {
+    let {studentInfo}=useContext(StudentContext); 
+    if(userData?.role==="student"){
+      SideBarLinks = [
+        {
+          name: "الرئيسية",
+          icon: <InboxIcon />,
+          target: "/Student",
+        },
+        {
+          name: "الملف الشخصي",
+          icon: <InboxIcon />,
+          target: "/Student/Profile",
+        },
+        {
+          name: "تقرير الانجاز اليومي",
+          icon: <InboxIcon />,
+          target: "/Student/DailyAchievementReport",
+        },
+         {
+          name: "الاختبارات",
+          icon: <InboxIcon />,
+          target: "/Student/Exams",
+        },
+      ];
+     
+    }else if(userData?.role==="user"){
+      SideBarLinks = [
+        {
+          name: "الرئيسية",
+          icon: <InboxIcon />,
+          target: "/Student",
+        },  
+        {
+          name: "الملف الشخصي",
+          icon: <InboxIcon />,
+          target: "/Student/Profile",
+        },
+      ];
+     
+    }
+    //from studentInfo
     NavTitle = "ملتقى فلسطين التقنية خضوري > حلقة بالقرآن نحيا";
     SideBarTitle = "بوابة الطالب";
   }

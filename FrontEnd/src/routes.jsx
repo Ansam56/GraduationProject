@@ -36,6 +36,8 @@ import PageNotFound from "./components/pages/PageNotFound";
 import AuthProtectedRoute from "./components/protectedRoute/AuthProtectedRoute";
 import SchoolAdminContextProvider from "./components/context/SchoolAdminContext";
 import TeacherContextProvider from "./components/context/TeacherContext";
+import StudentContextProvider from "./components/context/StudentContext";
+import StudentProfile from "./components/student/profile/StudentProfile";
  
 
 export const router = createBrowserRouter([
@@ -114,8 +116,7 @@ export const router = createBrowserRouter([
       path: "/Admin",
       element:
       <UserProtectedRoute role="admin" >
-        <UsersLayout role="admin" />
-        {/* الرول هون ممكن تنحذف */}
+        <UsersLayout /> 
       </UserProtectedRoute>,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
       children: [
@@ -136,9 +137,9 @@ export const router = createBrowserRouter([
     {
       path: "/SchoolAdmin",
       element:
-         <UserProtectedRoute role="schoolAdmin">
-      <SchoolAdminContextProvider>
-            <UsersLayout role="schoolAdmin" />
+      <UserProtectedRoute role="schoolAdmin">
+      <SchoolAdminContextProvider> {/* ما رح يوصل هون الا والرول اله سكول ادمن */}
+            <UsersLayout  />
       </SchoolAdminContextProvider>
          </UserProtectedRoute>,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
@@ -182,9 +183,9 @@ export const router = createBrowserRouter([
     {
       path: "/Teacher",
       element:
-      <UserProtectedRoute role="teacher" >
+      <UserProtectedRoute role="teacher" >  {/* تعتمد على الuserContext */}
       <TeacherContextProvider>
-        <UsersLayout role="teacher" />
+        <UsersLayout />
       </TeacherContextProvider>
       </UserProtectedRoute> ,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
@@ -227,14 +228,20 @@ export const router = createBrowserRouter([
     {
       path: "/Student",
       element: 
-      <UserProtectedRoute role="student">
-        <UsersLayout role="student" />
+      <UserProtectedRoute role="student or user" role1="student" role2="user">  {/* بالحالتين لازم الطالب يقدر يوصل للداشبورد اللي اله  */}
+        <StudentContextProvider> 
+        <UsersLayout />  {/*  (هل هو طالب زائر او طالب رسمي)سيتم هنا تحديد شكل الداشبورد للطالب */}
+        </StudentContextProvider>
       </UserProtectedRoute>,
       //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
       children: [
         { // path :'/',
           index: true,
           element: <DefaultStudentBage/>,
+        },
+        {
+          path: "Profile",
+          element: <StudentProfile/>,
         },
         {
           path: "*",
