@@ -2,16 +2,16 @@ import React from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import { studentFormSchema } from "../authentication/validation/validate";
 import Input from "../authentication/Input";
 import style from "./Form.module.css";
 import formStyle from "../authentication/Auth.module.css";
 export default function StudentForm() {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
-      // firstName: "",
-      // lastName: "",
       userName: "",
       idNumber: "",
       email: "",
@@ -28,6 +28,7 @@ export default function StudentForm() {
       const finalPhone = `${values.phonePrefix}${values.phone}`;
       const genderInEnglish = values.gender === "ذكر" ? "Male" : "Female";
       const userName = `${values.firstName} ${values.lastName}`;
+      const schoolId = "67738acb7a5c44806ffd1995";
 
       const payload = {
         userName,
@@ -43,10 +44,11 @@ export default function StudentForm() {
 
       try {
         const studentResponse = await axios.post(
-          ` ${import.meta.env.VITE_API_URL}/student/register`,
+          ` ${import.meta.env.VITE_API_URL}/student/register/${schoolId}`,
           payload //send student data
         );
         toast.success(" تم انشاء الحساب ");
+        navigate("../");
         console.log("teacher response:", studentResponse.data);
       } catch (error) {
         console.error("Error submitting form:", error.response?.data || error);
@@ -212,7 +214,7 @@ export default function StudentForm() {
             touched={formik.touched}
             options={input.options}
           />
-          {phoneInputs} {/* Add phone inputs after birthDate */}
+          {phoneInputs} 
         </React.Fragment>
       );
     }
