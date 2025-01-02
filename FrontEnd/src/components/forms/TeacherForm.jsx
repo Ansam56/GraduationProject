@@ -9,8 +9,10 @@ import {
 import Input from "../authentication/Input";
 import style from "./Form.module.css";
 import formStyle from "../authentication/Auth.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function CircleAndTeacherForm() {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [circleData, setCircleData] = useState(null);
   const [selectedDays, setSelectedDays] = useState({
@@ -39,6 +41,7 @@ export default function CircleAndTeacherForm() {
   const circleFormik = useFormik({
     initialValues: {
       circleName: "",
+      circleType: "",
       days: [],
       startTime: "",
       endTime: "",
@@ -74,6 +77,7 @@ export default function CircleAndTeacherForm() {
       const finalPhone = `${teacherValues.phonePrefix}${teacherValues.phone}`;
       const genderInEnglish =
         teacherValues.gender === "ذكر" ? "Male" : "Female";
+      const schoolId = "67738acb7a5c44806ffd1995";
 
       try {
         const teacherFormData = new FormData();
@@ -91,7 +95,7 @@ export default function CircleAndTeacherForm() {
         teacherFormData.append("country", teacherValues.country);
 
         const teacherResponse = await axios.post(
-          `${import.meta.env.VITE_API_URL}/teacher/register`,
+          `${import.meta.env.VITE_API_URL}/teacher/register/${schoolId}`,
           teacherFormData
         );
         console.log("Teacher response:", teacherResponse.data);
@@ -100,6 +104,7 @@ export default function CircleAndTeacherForm() {
 
         const circleFormData = new FormData();
         circleFormData.append("circleName", circleData.circleName);
+        circleFormData.append("circleType", circleData.circleType);
         circleFormData.append("logo", circleData.logo);
         circleFormData.append("days", circleData.days);
         circleFormData.append("startTime", circleData.startTime);
@@ -114,7 +119,10 @@ export default function CircleAndTeacherForm() {
         );
 
         console.log("Circle Created:", circleResponse.data);
-        toast.success("تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني!");
+        toast.success(
+          "تم رفع الطلب , سيتم التواصل معك قريبا عبر البريد الالكتروني"
+        );
+        navigate("../");
       } catch (error) {
         console.error("Error submitting form:", error.response?.data || error);
         toast.error("حدث خطأ أثناء رفع البيانات");
@@ -141,6 +149,14 @@ export default function CircleAndTeacherForm() {
       name: "circleName",
       title: "اسم الحلقة",
       value: circleFormik.values.circleName,
+    },
+    {
+      id: "circleType",
+      type: "select",
+      name: "circleType",
+      title: "نوع الحلقة",
+      value: circleFormik.values.circleType,
+      options: ["حفظ ومراجعة", "تثبيت"],
     },
     {
       id: "startTime",
@@ -227,6 +243,7 @@ export default function CircleAndTeacherForm() {
           onChange={circleFormik.handleChange}
           onBlur={circleFormik.handleBlur}
           touched={circleFormik.touched}
+          options={input.options}
         />
       )}
     </div>
