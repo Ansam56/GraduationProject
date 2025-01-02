@@ -368,6 +368,9 @@ export const circleFormSchema = yup.object().shape({
     .required("يجب ادخال اسم الحلقة")
     .min(3, "اسم الحلقة يجب أن يكون على الأقل 3 أحرف")
     .max(100, "اسم الحلقة لا يمكن أن يزيد عن 100 حرف"),
+  
+    circleType: yup.string().required("يجب اختيار نوع الحلقة"),
+
 
   days: yup
     .array()
