@@ -96,7 +96,11 @@ export default function SchoolAndManagerForm() {
         );
       } catch (error) {
         console.error("Error submitting form:", error.response?.data || error);
-        toast.error("حدث خطأ أثناء رفع البيانات");
+        const errorMessage = error.response?.data?.message;
+        if (errorMessage === "email exit") toast.error("المستخدم موجود");
+        else {
+          toast.error("حدث خطأ أثناء رفع البيانات");
+        }
       }
     },
 
