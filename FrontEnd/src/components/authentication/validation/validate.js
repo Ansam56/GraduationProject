@@ -124,20 +124,15 @@ export const schoolAdminDataSchema=yup.object({
     .oneOf(["+970", "+972"], " اختر +972 أو +970"),
   phone: yup
     .string()
-    .matches(PHONE_NUMBER_REGEX, "رقم الجوال غير صالح"),
-    email: yup
-    .string()
-    .email("الرجاء إدخال بريد إلكتروني صالح"),
+    .matches(PHONE_NUMBER_REGEX, "رقم الجوال غير صالح"), 
     profilePicture: yup
     .mixed()
     .nullable()
     .test("fileSize", "حجم الملف كبير جدًا", (value) => {
-      return !value || value.size <= 1024 * 1024;
+      return !value || value.size <= 1024 * 1024; // الحد الأقصى للحجم هو 1MB
     })
     .test("fileType", "نوع الملف غير مدعوم", (value) => {
-      return (
-        !value || ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-      );
+      return !value || ["image/jpeg", "image/png", "image/jpg"].includes(value.type); // الأنواع المدعومة
     }),
   
     

@@ -3,7 +3,7 @@ import WebLayout from "./components/web/WebLayout";
 import Login from "./components/authentication/login/Login";
 import SendCode from "./components/authentication/sendCode/SendCode";
 import ForgetPassword from "./components/authentication/forgetPassword/ForgetPassword";
-import ScrollDialog from "./components/web/home/scrollingDialog/ScrollDialog";
+// import ScrollDialog from "./components/web/home/scrollingDialog/ScrollDialog";
 import Profile from "./components/schoolAdmin/profile/Profile"; 
 import UsersLayout from "./components/pages/UsersLayout";
 import TeacherProfile from "./components/teacher/profile/TeacherProfile";
@@ -38,6 +38,7 @@ import SchoolAdminContextProvider from "./components/context/SchoolAdminContext"
 import TeacherContextProvider from "./components/context/TeacherContext";
 import StudentContextProvider from "./components/context/StudentContext";
 import StudentProfile from "./components/student/profile/StudentProfile";
+import SchoolCircles from "./components/student/schoolCircles/SchoolCircles";
  
 
 export const router = createBrowserRouter([
@@ -58,14 +59,14 @@ export const router = createBrowserRouter([
           </AuthProtectedRoute>
         },
         {
-          path: "StudentForm",
+          path: "StudentForm/:schoolId",
           element: 
           <AuthProtectedRoute>
             <StudentForm />
           </AuthProtectedRoute>
         },
         {
-          path: "TeacherForm",
+          path: "TeacherForm/:schoolId",
           element:
           <AuthProtectedRoute>
             <TeacherForm />
@@ -255,6 +256,10 @@ export const router = createBrowserRouter([
           path: "Exams",
           element: <Exams />,
         },
+        {
+          path:"SchoolCircles/:schoolId",
+          element:<SchoolCircles/>
+        }
        
       ],
     },

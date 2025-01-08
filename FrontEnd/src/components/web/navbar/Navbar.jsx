@@ -25,6 +25,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Loader from '../../pages/loader/Loader';
+import { Skeleton } from '@mui/material';
 
 
 const drawerWidth = 240;
@@ -98,10 +99,19 @@ function DrawerAppBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   let {userToken,Logout,userData}=useContext(UserContext); 
-  
-  // console.log(userData);
-
-  let navigate=useNavigate(); 
+ 
+  let controlPanelTarget='/';
+  if (userData&&userData.role=="admin"){
+    controlPanelTarget='/Admin';  
+    }else if(userData&&userData.role=="schoolAdmin"){
+      controlPanelTarget='/SchoolAdmin';   
+    }else if(userData&&userData.role=="teacher"){
+      controlPanelTarget='/Teacher';  
+    }else if(userData&&userData.role=="student" ||userData&&userData.role==="user"){
+      controlPanelTarget='/Student';   
+    } 
+    
+  //متل فكرة ال adapter
    const logout=()=>{
      Logout();
      // navigate('/login', { replace: true }); // Replace history to prevent back navigation
@@ -125,9 +135,16 @@ function DrawerAppBar(props) {
           <ListItem  key={index} sx={{ display: 'flex', justifyContent: 'center' }}  >
             <Link to={item.target} className={`${styles.navLinkSidebar} `}  > 
                 <ListItemText primary={item.name} className='custom-text' />  
-            </Link>   
+            </Link>
+               
           </ListItem>
         ))}
+          {userToken&&<ListItem  sx={{ display: 'flex', justifyContent: 'center' }}  >
+            <Link to={controlPanelTarget} className={`${styles.navLinkSidebar} `}  > 
+                <ListItemText primary="لوحة التحكم" className='custom-text' />  
+            </Link>
+               
+          </ListItem>}
           <ListItem sx={{ display: 'flex', justifyContent: 'center' }} className='custom-text' >
            {!userToken?
                   <Link className={`${styles.btnSidebar} btn `} to="/login">
@@ -177,7 +194,10 @@ function DrawerAppBar(props) {
                   <Link to={item.target} key={index}  className={`${styles.navLink} me-4`} >
                      {item.name}
                   </Link>  
-            ))}  
+            ))} 
+            {userToken&&  <Link to={controlPanelTarget} className={`${styles.navLink} me-4`} >
+                     لوحة التحكم
+           </Link>} 
           </Box>
           <Box  sx={{ display: { xs: 'none', sm: 'block' } }} className='custom-text'>
           {!userToken?
@@ -186,9 +206,13 @@ function DrawerAppBar(props) {
                  </Link>
                 
                : 
-                  <Link className={`${styles.btn} btn `} onClick={logout}>
-                  {userData&&userData.userName}
+               <>
+                <Link className={`${styles.btn} btn `} onClick={logout}>
+                  {/* {userData?userData.userName:<Skeleton variant="text" sx={{ fontSize: '1rem',width:"5rem" }} />} */}
+                  تسجيل الخروج
                   </Link>
+               </>
+                 
                 }
             </Box>
          

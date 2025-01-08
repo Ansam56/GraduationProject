@@ -57,7 +57,7 @@ export default function TeacherContextProvider({children}) {
             setTeacherInfo(data.teacher);
             // setCircleInfo(data.circle); 
         }catch(error){
-          //you are not teacher
+         
            if (error.response) {
             // if(error.response.data.message==="you are not teacher"){
             //   ErrorToast("عذرًا، أنت لست معلم!.");

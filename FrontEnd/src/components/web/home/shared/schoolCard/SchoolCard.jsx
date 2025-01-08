@@ -45,7 +45,7 @@
 //   </Card>
 //   )
 // }
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import style from "./SchoolCard.module.css";
 import Card from "react-bootstrap/Card";
 import GroupsIcon from "@mui/icons-material/Groups";
@@ -53,19 +53,27 @@ import PersonIcon from "@mui/icons-material/Person";
 import SchoolIcon from "@mui/icons-material/School";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import { Link } from "react-router-dom";
-import ScrollDialog from "../../scrollingDialog/ScrollDialog";
+// import ScrollDialog from "../../scrollingDialog/ScrollDialog";
 import { Tooltip, Zoom } from "@mui/material";
+import Img1 from '../../../img/Ellipse2.png';
+import CommonDialog from "../../../../pages/commonDialog/CommonDialog";
+import Circles from './../../circles/Circles';
+import { UserContext } from "../../../../context/UserContext";
 
 export default function SchoolCard({
   title,
   text,
-  imageUrl = "",
+  imageUrl = Img1,
   studentNum,
   teacherNum,
   circlesNum,
+  schoolId,
+  availableforTeacher ,
+  availableforStudent 
 }) {
   const [openDialog, setOpenDialog] = useState(false); // حالة للتحكم في فتح وإغلاق الـ Dialog
-
+  let {userToken}=useContext(UserContext); 
+  
   const openScroll = () => {
     setOpenDialog(true); // فتح الـ Dialog
   };
@@ -114,20 +122,31 @@ export default function SchoolCard({
               <p className={`${style.numbers}`}>{circlesNum}</p>
             </div>
           </div>
-          {/* الروابط */}
-          <div className="d-flex justify-content-between">
-            <Link className={`${style.links}`} to="/TeacherForm">
+          {/*تظهر هذه الروابط فقط للشخص الغير مسجل دخوله*/}
+          {!userToken&& <div className="d-flex justify-content-around">
+            {availableforTeacher&& 
+             <Link className={`${style.links} `} to={`/TeacherForm/${schoolId}`}>
               الانضمام كمعلم
-            </Link>
-            <Link className={`${style.links}`} to="/StudentForm">
-              الانضمام كطالب
-            </Link>
-          </div>
+            </Link>}
+          {availableforStudent&&
+           <Link className={`${style.links} `} to={`/StudentForm/${schoolId}`}>
+           الانضمام كطالب
+         </Link>}
+           
+          </div>}
+          
         </Card.Body>
       </Card>
 
       {/* مكون الـ Dialog */}
-      {openDialog && <ScrollDialog open={openDialog} onClose={closeScroll} />}
+      {openDialog&&<CommonDialog
+                open={openDialog}
+                onClose={closeScroll}
+                width="lg"
+                title={title}
+                content={<Circles schoolId={schoolId}/>} 
+              />}
+      {/* {openDialog && <ScrollDialog  />} */}
     </React.Fragment>
   );
 }

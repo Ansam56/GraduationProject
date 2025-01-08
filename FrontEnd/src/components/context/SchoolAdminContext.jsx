@@ -18,8 +18,9 @@ export default function SchoolAdminContextProvider({children}) {
         try{
           const {data}=await axios.get(`${import.meta.env.VITE_API_URL}/schoolAdmin/profile`,
             { headers: {Authorization:`Tuba__${userToken}`} } )  ;
-            setSchoolAdminInfo(data.schoolAdmin);
-            setSchoolInfo(data.school); 
+            console.log(data.schollAdmin);
+            setSchoolAdminInfo(data.schollAdmin);
+            setSchoolInfo(data.school[0]); 
         }catch(error){
           if (error.response) {
             //مستحيل يوصل لهاد الايرور لان لما دخل على هاي الصفحة قبلها كنا زايرين الprotected route ومتأكدين انه الرول اله schoolAdmin
@@ -55,7 +56,7 @@ export default function SchoolAdminContextProvider({children}) {
   if(loading){
     return <Loader/>
   }
-  return (<SchoolAdminContext.Provider value={{schoolAdminInfo,schoolInfo}} >
+  return (<SchoolAdminContext.Provider value={{schoolAdminInfo,schoolInfo,getSchoolAdminData}} >
     {children}
   </SchoolAdminContext.Provider>
   )

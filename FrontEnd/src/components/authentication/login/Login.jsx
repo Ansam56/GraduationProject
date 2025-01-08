@@ -50,8 +50,7 @@ export default function Login() {
   //   navigate('/Student'); 
   // } 
       }
-    }catch(error){ 
-      console.log(error);
+    }catch(error){   
       if (error.response) {
         if(error.response.data.message==="email not found"){
           ErrorToast("عذرًا، البريد الإلكتروني الذي أدخلته غير مسجل لدينا");  

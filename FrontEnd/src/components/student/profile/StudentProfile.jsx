@@ -11,7 +11,7 @@ export default function StudentProfile() {
    return (
       <>
         <Dashboard_SubTitle title="الملف الشخصي" />
- 
+        
        </>
     );
 }

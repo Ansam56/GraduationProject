@@ -9,10 +9,18 @@ import {
 import Input from "../authentication/Input";
 import style from "./Form.module.css";
 import formStyle from "../authentication/Auth.module.css";
+ 
 import { useNavigate } from "react-router-dom";
+ 
+import { useParams } from "react-router-dom";
+ 
 
 export default function CircleAndTeacherForm() {
+ 
   const navigate = useNavigate();
+ 
+   const {schoolId}=useParams();  //from Raghad
+ 
   const [step, setStep] = useState(1);
   const [circleData, setCircleData] = useState(null);
   const [selectedDays, setSelectedDays] = useState({

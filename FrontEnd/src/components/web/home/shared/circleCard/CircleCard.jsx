@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card } from "react-bootstrap";
 import Image from "../../../img/test.jpg";
 import style from "./CircleCard.module.css";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../../../context/UserContext";
+import axios from "axios";
+import { StudentContext } from './../../../../context/StudentContext';
+import { SuccessToast } from "../../../../pages/toast/toast";
 //لازم امنع التكرار اكثر
 export default function CircleCard({
-  id,
+  circleId, 
   teacherName,
   name,
   type,
@@ -13,8 +17,29 @@ export default function CircleCard({
   availability,
   instructions,
   days,
-  time,
-}) {
+  startTime,
+  endTime,
+  // schoolId,
+  circleImg,
+  from,
+  studentId
+})
+
+{
+
+  let {userToken,userData}=useContext(UserContext); 
+  
+  const joinToCircle=async(circleId,studentId)=>{
+    try{
+            const {data}=await axios.post(`${import.meta.env.VITE_API_URL}/student/joinCircle/${circleId}/${studentId}`);
+            {data?.message==="success"&&  
+              SuccessToast("!تم تقديم طلب الانضمام إلى الحلقة بنجاح " ); 
+             }
+         
+          }catch(error){
+  
+          }
+  }
   return (
     <>
       <Card
@@ -46,19 +71,22 @@ export default function CircleCard({
               <p>الفئة: </p>
               <Card.Text>{gender}</Card.Text>
             </div>
-            <div className="d-flex justify-content-around">
+            {/* <div className="d-flex justify-content-around">
               <p>الأيام: </p>
               <Card.Text>{days}</Card.Text>
-            </div>
+            </div> */}
             <div className="d-flex justify-content-around">
               <p>الوقت: </p>
-              <Card.Text>{time}</Card.Text>
+              <Card.Text>{`${startTime} _ ${endTime}`}</Card.Text>
             </div>
 
             {/*الرابط عليه شروط يمكن متل هيك :اذا في توكن للطالب نظهرله هالزر وواذا لا ما نظهر  */}
+           {userToken&&userData?.role==="user"&&from==="initialStudentDashboard"&&
             <div>
-              <Link className={`${style.links}`}>الانضمام للحلقة</Link>
-            </div>
+            <Link className={`${style.links}`} onClick={()=>joinToCircle(circleId,studentId)}>الانضمام للحلقة</Link>
+          </div>
+           } 
+           
           </Card.Body>
         </div>
       </Card>

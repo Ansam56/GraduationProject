@@ -2,13 +2,15 @@ import React from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { studentFormSchema } from "../authentication/validation/validate";
 import Input from "../authentication/Input";
 import style from "./Form.module.css";
 import formStyle from "../authentication/Auth.module.css";
 export default function StudentForm() {
+  const {schoolId}=useParams();  //from Raghad
+  
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -28,7 +30,7 @@ export default function StudentForm() {
       const finalPhone = `${values.phonePrefix}${values.phone}`;
       const genderInEnglish = values.gender === "ذكر" ? "Male" : "Female";
       const userName = `${values.firstName} ${values.lastName}`;
-      const schoolId = "67738acb7a5c44806ffd1995";
+      // const schoolId = "67738acb7a5c44806ffd1995";
 
       const payload = {
         userName,

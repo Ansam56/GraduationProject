@@ -18,14 +18,11 @@
 
 .image_container .overlay {
   background-color: rgb(0, 0, 0, 0.2);
-  transform: scaleY(0);
+  transform: scaleY(1);
   transition: transform 0.5s;
 }
 
-.image_container:hover .overlay {
-  transform: scaleY(1);
-}
-
+  
 .zoomInIcon {
   background-color: var(--action-color);
   border-radius: 50%;

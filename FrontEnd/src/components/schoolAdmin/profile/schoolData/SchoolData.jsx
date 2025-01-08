@@ -8,6 +8,8 @@ import { ErrorToast, SuccessToast } from '../../../pages/toast/toast';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { schoolDataSchema } from '../../../authentication/validation/validate.js';
+import { UserContext } from '../../../context/UserContext.jsx';
+import axios from 'axios';
 //المتبقي : مراجعة الكود مرة اخرى +فالديشن للصورة 
 //ضايل اعمل كود مشترك لكل البروفايلات 
 /*
@@ -27,9 +29,9 @@ availableToTeachers =false
 */
 export default function SchoolData() {
     let {schoolInfo}=useContext(SchoolAdminContext);
-
+ let {userToken}=useContext(UserContext);
         // حالة لحفظ الصورة المعروضة
-    const [previewImage, setPreviewImage] = useState( schoolInfo?.schoolPhoto =="null"&& defaultProfilePicture|| schoolInfo?.schoolPhoto.secure_url);
+    const [previewImage, setPreviewImage] = useState( schoolInfo?.schoolPhoto =="null"&& defaultProfilePicture );
      const handleFieldChange=(event)=>{
       const file = event.target.files[0];
       if (file) {
@@ -53,7 +55,7 @@ export default function SchoolData() {
 
       schoolName: schoolInfo?.schoolName,
       address: schoolInfo?.address,
-      schoolPhoto:schoolInfo?.schoolPhoto.secure_url|| "null",
+      schoolPhoto:schoolInfo?.schoolPhoto || "null",
       // schoolPhoto:"null" =="null"&& defaultProfilePicture|| schoolInfo?.schoolPhoto.secure_url ,//null or file
       availableToStudents:schoolInfo?.availableToStudents||false,
       availableToTeachers:schoolInfo?.availableToTeachers||false,
@@ -68,18 +70,19 @@ export default function SchoolData() {
       //عشان هيك انا هون بغلف البيانات باشي اسمه فورم داتا 
       //فهو عبارة عن اوبجيكت فاضي
          const formData = new FormData();
-         formData.append("_id",values._id);
+        //  formData.append("_id",values._id);
          formData.append("schoolName",values.schoolName);
          formData.append("address", values.address);
          formData.append("schoolPhoto",values.schoolPhoto);
          formData.append("availableToStudents",values.availableToStudents);
          formData.append("availableToTeachers",values.availableToTeachers);
 
-         formData.forEach((value, key) => {
-          console.log(`${key}:`, value);
-        });
+        
+        const {data}= await axios.put(`${import.meta.env.VITE_API_URL}/schoolAdmin/updateSchool`,formData,
+          {headers:{Authorization:`Tuba__${userToken}` }}
+         );
+         console.log(data);
            SuccessToast("تم تعديل البيانات بنجاح");
-        //  const {data}= await axios.post(`${import.meta.env.VITE_API_URL}/auth/signup`,formData);
         //  if(data.message=='success'){
         //   formik.resetForm();
         //   toast.success('account created successfully, please verify your email to login', {

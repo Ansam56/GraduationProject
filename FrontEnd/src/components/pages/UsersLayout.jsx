@@ -103,7 +103,9 @@ export default function UsersLayout() {
     SideBarTitle = " بوابة المسؤولون";
   } else if (userData?.role === "student"||userData?.role==="user") {
     let {studentInfo}=useContext(StudentContext); 
-    if(userData?.role==="student"){
+    console.log(studentInfo);
+    console.log(userData);
+    if(userData?.role==="student" &&userData?.status==="active"){
       SideBarLinks = [
         {
           name: "الرئيسية",
@@ -124,10 +126,10 @@ export default function UsersLayout() {
           name: "الاختبارات",
           icon: <InboxIcon />,
           target: "/Student/Exams",
-        },
+        }
       ];
      
-    }else if(userData?.role==="user"){
+    }else if(userData?.role==="user"||(userData?.role==="student"&&userData?.status==="suspend")){
       SideBarLinks = [
         {
           name: "الرئيسية",
@@ -139,6 +141,12 @@ export default function UsersLayout() {
           icon: <InboxIcon />,
           target: "/Student/Profile",
         },
+        {
+          //هاي لازم انقلها للطالب الزائر بس مؤقتا رح أشتغلها هون
+          name:"حلقات المدرسة",
+          icon :<InboxIcon />,
+          target:`/Student/SchoolCircles/${studentInfo?.schoolId}`
+        }
       ];
      
     }
