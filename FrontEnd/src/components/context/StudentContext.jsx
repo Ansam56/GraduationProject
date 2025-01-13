@@ -79,7 +79,7 @@ export default function StudentContextProvider({children}) {
   if(loading){
     return <Loader/>
   }
-  return (<StudentContext.Provider value={{studentInfo,getStudentData}} >
+  return (<StudentContext.Provider value={{studentInfo,getStudentData,setStudentInfo}} >
     {children}
   </StudentContext.Provider>
   )

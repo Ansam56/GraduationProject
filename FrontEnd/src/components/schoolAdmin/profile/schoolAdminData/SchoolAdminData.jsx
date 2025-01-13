@@ -32,15 +32,14 @@ profilePicture:null;
 */
 //لازم نشيك على حالة عدم وجود انترنت 
 export default function SchoolAdminData() {
-    let {schoolAdminInfo} =useContext(SchoolAdminContext); 
+    let {schoolAdminInfo,setSchoolAdminInfo} =useContext(SchoolAdminContext); 
     let {userToken}=useContext(UserContext);
  
         // حالة لحفظ الصورة المعروضة
-    const [previewImage, setPreviewImage] = useState(schoolAdminInfo?.profilePicture || defaultProfilePicture);
+    const [previewImage, setPreviewImage] = useState(schoolAdminInfo?.profilePicture.secure_url);
 
     const splitPhoneNumber=(mobile)=>{
-        const match=mobile?.match(/^(\+\d+)(\d{9,})$/);   //Regex
-
+        const match=mobile?.match(/^(\+\d+)(\d{9,})$/);   //Regex 
         const phonePrefix = match?match[1]:""; // الجزء الأول (المقدمة)
         const phone = match?match[2]:"";       // الجزء الثاني (رقم الهاتف)
         return { phonePrefix, phone };  
@@ -78,9 +77,9 @@ export default function SchoolAdminData() {
      
     const handleRemovePicture = () => {
       //لليوزر
-      setPreviewImage(defaultProfilePicture); // إعادة الصورة الافتراضية 
+      // setPreviewImage(defaultProfilePicture); // إعادة الصورة الافتراضية 
      //للباك
-      formik.setFieldValue('profilePicture', null); // حذف الصورة من الـ Formik
+      // formik.setFieldValue('profilePicture', defaultProfilePicture); // حذف الصورة من الـ Formik
   };
 
     const initialValues={// المعلومات التي سيتم عرضها لليوزر
@@ -95,7 +94,7 @@ export default function SchoolAdminData() {
         gender: genderInArabic,
         // password:"", 
         country:schoolAdminInfo?.country,
-        profilePicture:schoolAdminInfo?.profilePicture || null,
+        profilePicture:schoolAdminInfo?.profilePicture.secure_url ,
  } //هدول القيم همي نفسهم اللي رح نوخدهم من اليوزر ونبعتهم بعدين للباك اند 
 
  const onSubmit=async values=>{//values ممكن تغييرها لاي اسم بدي اياه 
@@ -110,21 +109,27 @@ export default function SchoolAdminData() {
      formData.append("mobile",`${values.phonePrefix}${values.phone}`);
      formData.append("profilePicture",values.profilePicture);
      
-       formData.forEach((value, key) => {
-        console.log(`${key}:`, value);
-      });
-     const {data}= await axios.put(`${import.meta.env.VITE_API_URL}/schoolAdmin/updateProfile`,formData,
-      {headers:{Authorization:`Tuba__${userToken}` }}
-     );
-      console.log(data);
+      //  formData.forEach((value, key) => {
+      //   console.log(`${key}:`, value);
+      // });
+      try{ 
+        const {data}= await axios.put(`${import.meta.env.VITE_API_URL}/schoolAdmin/updateProfile`,formData,
+         {headers:{Authorization:`Tuba__${userToken}` }}
+        );
+        console.log(data);
+        setSchoolAdminInfo(data.schoolAdmin);
       // console.log(userToken);
     SuccessToast("تم تعديل البيانات بنجاح");
+      }catch(error){
+
+      }
+      
  }
     const formik =useFormik({
         initialValues, 
         onSubmit,
         //سيتم ارسال معولمات اخرى كما بالاعلى بالكومينت
-        validationSchema:schoolAdminDataSchema //لازمها تشييك ولازم افصلها
+        validationSchema:schoolAdminDataSchema  //لازمها تشييك ولازم افصلها
     });
     const Inputs = [
         // {
@@ -233,6 +238,7 @@ export default function SchoolAdminData() {
        key={index}
        disabled={input.disabled} />
        )
+       
   return (
     <> 
       <div > 
@@ -291,7 +297,7 @@ export default function SchoolAdminData() {
               </div>
             </div>
             <div className='d-flex justify-content-center mt-3'>
-                   <button className='rounded-5 border-1 w-50 btn  btn-success ' type='submit' disabled={!formik.isValid}>حفظ التعديلات</button> 
+                   <button className='rounded-5 border-1 w-50 btn  btn-success ' type='submit' disabled={!formik.isValid }>حفظ التعديلات</button> 
                 </div>
           </div>
     

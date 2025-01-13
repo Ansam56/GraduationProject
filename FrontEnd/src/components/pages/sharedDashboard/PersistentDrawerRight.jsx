@@ -21,10 +21,11 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { Button, Card } from 'react-bootstrap';
-import { CardContent} from '@mui/material';
+import { CardContent, Skeleton} from '@mui/material';
 import { Link } from 'react-router-dom';
 import style from './PersistentDrawerRight.module.css'
 import Logo from '../logo/Logo';
+import { UserContext } from '../../context/UserContext';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -91,7 +92,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerRight({component, links, title, SideBarTitle}) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
+  let {Logout, userData}=React.useContext(UserContext);
    
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -121,16 +123,31 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton> 
-          <h2 className={`${style.SideBarTitle}`}>{SideBarTitle}</h2>
+          {userData?
+           <Typography className={`${style.SideBarTitle} m-auto`} variant="h4" noWrap sx={{ flexGrow: 1 }} component="div">
+          {SideBarTitle}
+ </Typography>:<Skeleton variant="text" sx={{ fontSize: '2rem',width:"10rem" }} />}
         </DrawerHeader>
         <Divider />
-        <List>
-          {links.map((link, index) => (
-            <ListItem key={index}  > 
-                <ListItemIcon className={`${style.linkIcon}`}>
+        <List className="text-center">
+          {userData?
+          <>
+          {links.map((link, index) => ( 
+            <ListItem 
+             className="text-end"
+              key={index} 
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#f1ece118", // تغيير لون الخلفية عند التحويم
+                  transition: "background-color 0.3s ease",
+                },
+              }}
+            
+            > 
+                <ListItemIcon className={`${style.linkIcon} `}>
                   {link.icon}
                 </ListItemIcon>
-                <Link className={`${style.links}`} to={link.target} >
+                <Link className={`${style.links} `} to={link.target} >
                    {link.name}
                 </Link>
                 <Link className={`${style.links}`} to={link.target} >
@@ -138,6 +155,13 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
                 </Link> 
             </ListItem>
           ))}
+ <Link className={`${style.btnSidebar} btn mt-3 `} onClick={Logout}>
+               تسجيل الخروج
+        </Link>
+          </>
+          :<Skeleton className='m-auto' variant="rectangular" width={210} height={200}   />}
+          
+         
         </List> 
      
       </Drawer>
@@ -153,7 +177,7 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
          <MenuIcon />
         </IconButton> 
         <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-          {title}
+         {userData?title:<Skeleton variant="text" sx={{ fontSize: '2rem',width:"10rem" }} />} 
         </Typography>
       
         </Toolbar>
@@ -162,7 +186,8 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
         <DrawerHeader />
         <Card sx={{ minWidth: 275, marginBottom: 2 }}>
           <CardContent>
-           {component}
+            {userData? component:<Skeleton className='m-auto' variant="rectangular" width="100%" height={200} />}
+          
           </CardContent>
         </Card>
       </Main>

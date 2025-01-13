@@ -28,10 +28,10 @@ availableToStudents=false
 availableToTeachers =false
 */
 export default function SchoolData() {
-    let {schoolInfo}=useContext(SchoolAdminContext);
+    let {schoolInfo,setSchoolInfo}=useContext(SchoolAdminContext);
  let {userToken}=useContext(UserContext);
         // حالة لحفظ الصورة المعروضة
-    const [previewImage, setPreviewImage] = useState( schoolInfo?.schoolPhoto =="null"&& defaultProfilePicture );
+    const [previewImage, setPreviewImage] = useState(schoolInfo?.schoolPhoto.secure_url );
      const handleFieldChange=(event)=>{
       const file = event.target.files[0];
       if (file) {
@@ -55,7 +55,7 @@ export default function SchoolData() {
 
       schoolName: schoolInfo?.schoolName,
       address: schoolInfo?.address,
-      schoolPhoto:schoolInfo?.schoolPhoto || "null",
+      schoolPhoto:schoolInfo?.schoolPhoto.secure_url  ,
       // schoolPhoto:"null" =="null"&& defaultProfilePicture|| schoolInfo?.schoolPhoto.secure_url ,//null or file
       availableToStudents:schoolInfo?.availableToStudents||false,
       availableToTeachers:schoolInfo?.availableToTeachers||false,
@@ -77,25 +77,18 @@ export default function SchoolData() {
          formData.append("availableToStudents",values.availableToStudents);
          formData.append("availableToTeachers",values.availableToTeachers);
 
-        
-        const {data}= await axios.put(`${import.meta.env.VITE_API_URL}/schoolAdmin/updateSchool`,formData,
-          {headers:{Authorization:`Tuba__${userToken}` }}
-         );
-         console.log(data);
-           SuccessToast("تم تعديل البيانات بنجاح");
-        //  if(data.message=='success'){
-        //   formik.resetForm();
-        //   toast.success('account created successfully, please verify your email to login', {
-        //    position: "bottom-center",
-        //    autoClose: false,
-        //    hideProgressBar: false,
-        //    closeOnClick: true,
-        //    pauseOnHover: true,
-        //    draggable: true,
-        //    progress: undefined,
-        //    theme: "light",
-        //    });
-        //  }
+        try{
+          const {data}= await axios.put(`${import.meta.env.VITE_API_URL}/schoolAdmin/updateSchool`,formData,
+            {headers:{Authorization:`Tuba__${userToken}` }}
+           );  
+           console.log(data);
+           setSchoolInfo(data.school);
+             SuccessToast("تم تعديل البيانات بنجاح");
+        }catch(error){
+
+        }
+       
+      
      }
     const formik =useFormik({
            initialValues, 

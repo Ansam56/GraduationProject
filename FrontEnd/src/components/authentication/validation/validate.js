@@ -125,15 +125,15 @@ export const schoolAdminDataSchema=yup.object({
   phone: yup
     .string()
     .matches(PHONE_NUMBER_REGEX, "رقم الجوال غير صالح"), 
-    profilePicture: yup
-    .mixed()
-    .nullable()
-    .test("fileSize", "حجم الملف كبير جدًا", (value) => {
-      return !value || value.size <= 1024 * 1024; // الحد الأقصى للحجم هو 1MB
-    })
-    .test("fileType", "نوع الملف غير مدعوم", (value) => {
-      return !value || ["image/jpeg", "image/png", "image/jpg"].includes(value.type); // الأنواع المدعومة
-    }),
+    // profilePicture: yup
+    // .mixed()
+    // .nullable()
+    // .test("fileSize", "حجم الملف كبير جدًا", (value) => {
+    //   return !value || value.size <= 5*1024*1024; // الحد الأقصى للحجم هو 1MB
+    // })
+    // .test("fileType", "نوع الملف غير مدعوم", (value) => {
+    //   return !value || ["image/jpeg", "image/png", "image/jpg"].includes(value.type); // الأنواع المدعومة
+    // }),
   
     
 })

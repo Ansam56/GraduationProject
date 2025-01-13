@@ -17,6 +17,7 @@ export default function UsersLayout() {
 
   if (userData?.role === "schoolAdmin") {
     let {schoolAdminInfo,schoolInfo}=useContext(SchoolAdminContext);
+    
     SideBarLinks = [
       {
         name: "عرض طلبات انضمام المعلمين",
@@ -135,12 +136,7 @@ export default function UsersLayout() {
           name: "الرئيسية",
           icon: <InboxIcon />,
           target: "/Student",
-        },  
-        {
-          name: "الملف الشخصي",
-          icon: <InboxIcon />,
-          target: "/Student/Profile",
-        },
+        } ,
         {
           //هاي لازم انقلها للطالب الزائر بس مؤقتا رح أشتغلها هون
           name:"حلقات المدرسة",
