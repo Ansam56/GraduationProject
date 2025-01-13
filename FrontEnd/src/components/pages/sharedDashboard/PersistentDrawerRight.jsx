@@ -21,12 +21,13 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { Button, Card } from 'react-bootstrap';
-import { CardContent, Skeleton} from '@mui/material';
+import { Avatar, CardContent, Skeleton} from '@mui/material';
 import { Link } from 'react-router-dom';
 import style from './PersistentDrawerRight.module.css'
 import Logo from '../logo/Logo';
 import { UserContext } from '../../context/UserContext';
-const drawerWidth = 240;
+import DropdownMenu from '../dropdownMenu/DropdownMenu';
+ const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme }) => ({
@@ -90,7 +91,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-start',
 }));
 
-export default function PersistentDrawerRight({component, links, title, SideBarTitle}) {
+export default function PersistentDrawerRight({component, links, title, SideBarTitle,image}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   let {Logout, userData}=React.useContext(UserContext);
@@ -124,9 +125,8 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton> 
           {userData?
-           <Typography className={`${style.SideBarTitle} m-auto`} variant="h4" noWrap sx={{ flexGrow: 1 }} component="div">
-          {SideBarTitle}
- </Typography>:<Skeleton variant="text" sx={{ fontSize: '2rem',width:"10rem" }} />}
+          <h3 className={`${style.SideBarTitle} m-auto `}>{SideBarTitle}</h3> 
+  :<Skeleton variant="text" sx={{ fontSize: '2rem',width:"10rem" }} />}
         </DrawerHeader>
         <Divider />
         <List className="text-center">
@@ -179,6 +179,8 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
         <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
          {userData?title:<Skeleton variant="text" sx={{ fontSize: '2rem',width:"10rem" }} />} 
         </Typography>
+        <DropdownMenu />
+        {userData?<Avatar alt="user image" src={image} />:<Skeleton variant="circular" width={40} height={40} />}
       
         </Toolbar>
       </AppBar>

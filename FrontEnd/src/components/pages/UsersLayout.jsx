@@ -14,6 +14,7 @@ export default function UsersLayout() {
   let SideBarLinks = [];
   let NavTitle = "";
   let SideBarTitle = "";
+  let image;
 
   if (userData?.role === "schoolAdmin") {
     let {schoolAdminInfo,schoolInfo}=useContext(SchoolAdminContext);
@@ -47,7 +48,8 @@ export default function UsersLayout() {
     ];
     NavTitle = schoolInfo?.schoolName ;
     SideBarTitle = "بوابة الإدارة";
-    
+    image=schoolAdminInfo?.profilePicture.secure_url;
+
   } else if (userData?.role === "teacher") {
     let {circleInfo,teacherInfo}=useContext(TeacherContext);
     SideBarLinks = [
@@ -92,6 +94,7 @@ export default function UsersLayout() {
     // NavTitle = "ملتقى فلسطين التقنية خضوري > بالقرآن نحيا";
     NavTitle = teacherInfo?.userName;
     SideBarTitle = "بوابة المعلم";
+    image=teacherInfo?.profilePicture.secure_url;
   } else if (userData?.role === "admin") {
     SideBarLinks = [
       {
@@ -149,6 +152,7 @@ export default function UsersLayout() {
     //from studentInfo
     NavTitle = "ملتقى فلسطين التقنية خضوري > حلقة بالقرآن نحيا";
     SideBarTitle = "بوابة الطالب";
+    image=studentInfo?.profilePicture.secure_url;
   }
 
   return (
@@ -158,6 +162,7 @@ export default function UsersLayout() {
         links={SideBarLinks}
         title={NavTitle}
         SideBarTitle={SideBarTitle}
+        image={image}
       />
     </>
   );
