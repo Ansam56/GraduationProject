@@ -10,22 +10,22 @@ export default function Cards({data}) {
     const cards=[
         {
           icon:<MosqueIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/>,
-          cardTitle:data[1]["schools no "],
+          cardTitle:data&&data[1]["schools no "],
           cardText:"عدد المدارس"
         },
         {
           icon:<GroupsIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/>,
-          cardTitle:data[4]["students no "],
+          cardTitle:data&&data[4]["students no "],
           cardText:"عدد الطلاب"  
         },
         {
           icon: <PersonIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/> ,
-          cardTitle:data[2]["teachers no "],
+          cardTitle:data&&data[2]["teachers no "],
           cardText:"عدد المعلمين"  
         },
         {
           icon:<SchoolIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/> ,
-          cardTitle:data[3]["circles no "] ,
+          cardTitle:data&&data[3]["circles no "] ,
           cardText:"عدد الحلقات"  
         },
       ]

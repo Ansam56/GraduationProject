@@ -8,12 +8,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CloseIcon from '@mui/icons-material/Close';
 import style from './CommonDialog.module.css'
 
-export default function CommonDialog({ open, onClose ,width,title,content,actions }) {
+export default function CommonDialog({ open, onClose ,width,title,content,actions,actionFunction }) {
    
-  const handleConfirmDelete = () => {
-    // Perform delete action
-    console.log('Item deleted');
-    {onClose}
+  const handleConfirmAction = () => {
+    if (actionFunction) {
+      actionFunction(); // Invoke the passed action function
+    }
+    if (onClose) {
+      onClose(); // Invoke the onClose function to close the dialog
+    }
   };
 
   return (
@@ -39,7 +42,7 @@ export default function CommonDialog({ open, onClose ,width,title,content,action
           </DialogContent>
        
         <DialogActions>
-        {actions === "delete" && (
+        {actions && (
   <>
     <Button 
       onClick={onClose} 
@@ -49,12 +52,12 @@ export default function CommonDialog({ open, onClose ,width,title,content,action
       إلغاء
     </Button>
     <Button 
-      onClick={handleConfirmDelete} 
+      onClick={handleConfirmAction} 
       color="error" 
       autoFocus  
       className={`${style.content} custom-text`}
     >
-      حذف
+      {actions}
     </Button>
   </>
         )}

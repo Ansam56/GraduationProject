@@ -8,57 +8,63 @@ import axios from "axios";
 import { TeacherContext } from "../../../context/TeacherContext";
 
 export default function CircleData() {
-  const { circleInfo, setCircleInfo } = useContext(TeacherContext);
+  const { circleInfo } = useContext(TeacherContext);
   const { userToken } = useContext(UserContext);
 
   const [previewImage, setPreviewImage] = useState(circleInfo?.logo.secure_url);
 
-  const handleFieldChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setPreviewImage(imageUrl);
-      formik.setFieldValue("logo", file);
-    }
+  const daysInArabic = {
+    sunday: "الأحد",
+    monday: "الإثنين",
+    tuesday: "الثلاثاء",
+    wednesday: "الأربعاء",
+    thursday: "الخميس",
+    friday: "الجمعة",
+    saturday: "السبت",
   };
+
+  const circleGenderInArabic =
+    circleInfo?.circleGender === "Male"
+      ? "ذكور"
+      : circleInfo?.circleGender === "Female"
+      ? "إناث"
+      : "ذكور وإناث";
 
   const initialValues = {
     teacherId: circleInfo?.teacherId,
     circleName: circleInfo?.circleName,
-    circleGender: circleInfo?.circleGender,
+    circleGender: circleGenderInArabic,
     type: circleInfo?.type,
+    days: circleInfo?.days || [],
     startTime: circleInfo?.startTime || "",
     endTime: circleInfo?.endTime || "",
-    availableForStudent: circleInfo?.avilableForStudent || false,
-    days: {
-      sunday: circleInfo?.days.includes("sunday") || false,
-      monday: circleInfo?.days.includes("monday") || false,
-      tuesday: circleInfo?.days.includes("tuesday") || false,
-      wednesday: circleInfo?.days.includes("wednesday") || false,
-      thursday: circleInfo?.days.includes("thursday") || false,
-      friday: circleInfo?.days.includes("friday") || false,
-      saturday: circleInfo?.days.includes("saturday") || false,
-    },
+    avilableForStudent: circleInfo?.avilableForStudent || false,
     logo: circleInfo?.logo.secure_url || "",
   };
 
   const onSubmit = async (values) => {
     const formData = new FormData();
+    formData.append("circleName", values.circleName);
     formData.append("startTime", values.startTime);
     formData.append("endTime", values.endTime);
-    formData.append("days", JSON.stringify(Object.keys(values.days).filter((day) => values.days[day])));
-    formData.append("availableForStudent", values.availableForStudent);
-    formData.append("logo", values.logo);
+    formData.append("days", JSON.stringify(values.days)); // استخدام days مباشرة
+    formData.append("avilableForStudent", values.avilableForStudent);
+    formData.append("logo", values.logo); 
+    formData.append("status","active");
+
+
     formData.forEach((value, key) => {
       console.log(`${key}:`, value);
     });
+
     try {
       const { data } = await axios.put(
         `${import.meta.env.VITE_API_URL}/teacher/${values.teacherId}/circle/updateCircle`,
         formData,
         { headers: { Authorization: `Tuba__${userToken}` } }
       );
-      setCircleInfo(data?.circle);
+      console.log(data);
+
       SuccessToast("تم تعديل البيانات بنجاح");
     } catch (error) {
       ErrorToast("حدث خطأ أثناء تحديث البيانات");
@@ -111,29 +117,17 @@ export default function CircleData() {
       value: formik.values.endTime,
     },
     {
-      id: "days",
-      formControlLable: true,
-      title: "أيام الحلقة",
-      formControlLables: Object.keys(formik.values.days).map((day) => ({
-        name: `days.${day}`,
-        value: formik.values.days[day],
-        lable: day,
-      })),
-    }
-    ,
-    {
       id: "circleStatus",
       formControlLable: true,
       title: "حالة الحلقة",
       formControlLables: [
         {
-          name: "availableForStudent",
-          value: formik.values.availableForStudent,
+          name: "avilableForStudent",
+          value: formik.values.avilableForStudent,
           lable: "متاح للطلاب",
         },
       ],
     },
-  
   ];
 
   const renderInputs = Inputs.map((input, index) => (
@@ -175,7 +169,32 @@ export default function CircleData() {
               />
             </Box>
           </div>
-          <div className="col-md-8">{renderInputs}</div>
+          <div className="col-md-8">
+            {renderInputs}
+            <Typography variant="h6" gutterBottom>
+              أيام الحلقة
+            </Typography>
+            <div>
+              {Object.entries(daysInArabic).map(([dayEnglish, dayArabic]) => (
+                <FormControlLabel
+                  key={dayEnglish}
+                  control={
+                    <Switch
+                      checked={formik.values.days.includes(dayEnglish)}
+                      onChange={() => {
+                        const updatedDays = formik.values.days.includes(dayEnglish)
+                          ? formik.values.days.filter((d) => d !== dayEnglish)
+                          : [...formik.values.days, dayEnglish];
+                        formik.setFieldValue("days", updatedDays);
+                      }}
+                      color="primary"
+                    />
+                  }
+                  label={dayArabic}
+                />
+              ))}
+            </div>
+          </div>
         </div>
         <div className="d-flex justify-content-center mt-3">
           <button className="rounded-5 border-1 w-50 btn btn-success" type="submit">

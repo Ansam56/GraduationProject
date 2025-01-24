@@ -27,39 +27,44 @@ import style from './PersistentDrawerRight.module.css'
 import Logo from '../logo/Logo';
 import { UserContext } from '../../context/UserContext';
 import DropdownMenu from '../dropdownMenu/DropdownMenu';
- const drawerWidth = 240;
-
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginRight: -drawerWidth,
-    /**
-     * This is necessary to enable the selection of content. In the DOM, the stacking order is determined
-     * by the order of appearance. Following this rule, elements appearing later in the markup will overlay
-     * those that appear earlier. Since the Drawer comes after the Main content, this adjustment ensures
-     * proper interaction with the underlying content.
-     */
-    position: 'relative',
-    variants: [
-      {
-        props: ({ open }) => open,
-        style: {
-          transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-          marginRight: 0,
-        },
-      },
-    ],
-  }),
-);
-
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import Collapse from '@mui/material/Collapse';
+//  const drawerWidth = 240;
+const drawerWidth = 290;
+// const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+//   ({ theme }) => ({
+//     flexGrow: 1,
+//     padding: theme.spacing(3),
+//     transition: theme.transitions.create('margin', {
+//       easing: theme.transitions.easing.sharp,
+//       duration: theme.transitions.duration.leavingScreen,
+//     }),
+//     marginRight: -drawerWidth,
+//     /**
+//      * This is necessary to enable the selection of content. In the DOM, the stacking order is determined
+//      * by the order of appearance. Following this rule, elements appearing later in the markup will overlay
+//      * those that appear earlier. Since the Drawer comes after the Main content, this adjustment ensures
+//      * proper interaction with the underlying content.
+//      */
+//     position: 'relative',
+//     variants: [
+//       {
+//         props: ({ open }) => open,
+//         style: {
+//           transition: theme.transitions.create('margin', {
+//             easing: theme.transitions.easing.easeOut,
+//             duration: theme.transitions.duration.enteringScreen,
+//           }),
+//           marginRight: 0,
+//         },
+//       },
+//     ],
+//   }),
+// );
+const Main = styled('main')(({ theme }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+}));
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme }) => ({
@@ -94,6 +99,14 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerRight({component, links, title, SideBarTitle,image}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const [activeButton, setActiveButton] = React.useState(0);// زر مفعّل افتراضيًا
+  const [openDropDounMenu, setOpenDropDownMenu] = React.useState(true);
+
+  const handleClick = (index) => {
+    setOpenDropDownMenu(!openDropDounMenu);
+    handleButtonClick(index);
+  };
+
   let {Logout, userData}=React.useContext(UserContext);
    
   const handleDrawerOpen = () => {
@@ -102,6 +115,10 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const handleButtonClick = (index) => {
+    setActiveButton(index); // تحديث الزر النشط عند الضغط
+    //  handleDrawerClose();
   };
 
   return (
@@ -116,7 +133,9 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
              backgroundColor: '#688860',
           },
         }}
-        variant="persistent"
+        // variant="persistent"
+        variant="temporary"
+        onClose={handleDrawerClose}
         anchor="right"
         open={open}
       >
@@ -132,36 +151,120 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
         <List className="text-center">
           {userData?
           <>
-          {links.map((link, index) => ( 
-            <ListItem 
-             className="text-end"
-              key={index} 
-              sx={{
-                "&:hover": {
-                  backgroundColor: "#f1ece118", // تغيير لون الخلفية عند التحويم
-                  transition: "background-color 0.3s ease",
-                },
+          {links.map((link, index) => (
+            link.children?
+            <>  
+             <ListItem 
+             key={index}
+              className={`${style.links} text-end`} 
+              style={{
+                color: activeButton === index ? "#506550" : "#F1ECE1", 
+                cursor: 'pointer',
+                padding:"15px"
+              }}  
+              sx={{ 
+                backgroundColor: activeButton === index ? "#f1ece1" : "inherit", // لون الخلفية للزر النشط 
+                borderTopLeftRadius: '20px', // زاوية مستديرة من الأعلى يسار
+                borderBottomLeftRadius: '20px', // زاوية مستديرة من الأسفل يسار
+                "&:hover":
+                activeButton !== index
+                  ? { backgroundColor: "#f1ece118",transition: "background-color 0.3s ease", } // hover فقط للأزرار غير النشطة
+                  : {},
               }}
-            
+              onClick={() => handleClick(index)} // تحديث الزر النشط عند الضغط 
             > 
-                <ListItemIcon className={`${style.linkIcon} `}>
+                <ListItemIcon className={`${style.linkIcon} `}
+                style={{
+                  color: activeButton === index ? "#506550" : "#F1ECE1", 
+                }}
+                >
                   {link.icon}
                 </ListItemIcon>
-                <Link className={`${style.links} `} to={link.target} >
+              
                    {link.name}
-                </Link>
-                <Link className={`${style.links}`} to={link.target} >
-                   {link.subName}
-                </Link> 
+                {openDropDounMenu ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-          ))}
- <Link className={`${style.btnSidebar} btn mt-3 `} onClick={Logout}>
-               تسجيل الخروج
-        </Link>
+             
+            
+        <Collapse in={openDropDounMenu} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          {link.children.map((subItem,index)=>(
+          <Link  key={index} className={`${style.links} `} to={subItem.target} 
+                   style={{
+                     color: "#F1ECE1", 
+                   }} >  
+           <ListItem 
+             className="pe-5" 
+              sx={{ 
+                borderTopLeftRadius: '20px', // زاوية مستديرة من الأعلى يسار
+                borderBottomLeftRadius: '20px', // زاوية مستديرة من الأسفل يسار
+                 "&:hover": 
+                  { backgroundColor: "#f1ece118",transition: "background-color 0.3s ease", } // hover فقط للأزرار غير النشطة
+              }} 
+               
+            > 
+                <ListItemIcon className={`${style.linkIcon} `}
+                style={{
+                  color:"#F1ECE1", 
+                }}
+                >
+                   {subItem.icon}
+                </ListItemIcon>
+               
+                {subItem.name}
+                
+            </ListItem>
+            
+          </Link>
+          ))} 
+        </List>
+           </Collapse>
+            </>
+            : 
+            <Link  key={index} className={`${style.links} `} to={link.target} 
+             style={{
+               color: activeButton === index ? "#506550" : "#F1ECE1", 
+             }} >
+            <ListItem 
+             className="text-end" 
+             style={{
+              padding:"15px"
+             }}
+              sx={{ 
+                backgroundColor: activeButton === index ? "#f1ece1" : "inherit", // لون الخلفية للزر النشط 
+                borderTopLeftRadius: '20px', // زاوية مستديرة من الأعلى يسار
+                borderBottomLeftRadius: '20px', // زاوية مستديرة من الأسفل يسار
+                "&:hover":
+                activeButton !== index
+                  ? { backgroundColor: "#f1ece118",transition: "background-color 0.3s ease", } // hover فقط للأزرار غير النشطة
+                  : {},
+                  
+              }}
+              onClick={() => handleButtonClick(index)} // تحديث الزر النشط عند الضغط 
+            > 
+                <ListItemIcon className={`${style.linkIcon} `}
+                style={{
+                  color: activeButton === index ? "#506550" : "#F1ECE1", 
+                }}
+                >
+                  {link.icon}
+                </ListItemIcon>
+              
+                   {link.name}
+                {/* </Link> */}
+                {/* <Link className={`${style.links}`} to={link.target} 
+                style={{
+                  color: activeButton === index ? "#506550" : "#F1ECE1", 
+                }}
+                >
+                   {link.subName}
+                </Link>  */}
+            </ListItem>
+            </Link>
+             
+          ))} 
           </>
-          :<Skeleton className='m-auto' variant="rectangular" width={210} height={200}   />}
-          
-         
+          :<Skeleton className='m-auto' variant="rectangular" width={210} height={200}/>}
         </List> 
      
       </Drawer>
@@ -187,9 +290,8 @@ export default function PersistentDrawerRight({component, links, title, SideBarT
       <Main open={open}>
         <DrawerHeader />
         <Card sx={{ minWidth: 275, marginBottom: 2 }}>
-          <CardContent>
+          <CardContent >
             {userData? component:<Skeleton className='m-auto' variant="rectangular" width="100%" height={200} />}
-          
           </CardContent>
         </Card>
       </Main>

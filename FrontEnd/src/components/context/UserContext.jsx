@@ -75,7 +75,15 @@ export default function UserContextProvider({children}) {
 
     }
    }
-
+   
+   const deleteUserPhoto =async()=>{
+    try{
+      const {data}=await axios.delete(`${import.meta.env.VITE_API_URL}/auth/delete`,
+        { headers: {Authorization:`Tuba__${userToken}`} } )  ;  
+       return(data); //رح يرجع معلومات المستخدم الخاصة 
+    }catch(error){ 
+    }
+   }
 
 //يتم استدعاءها اول ما يحمل الموقع + بعد تسجيل الدخول مباشرة عندما تتغير قيمة اليوزر توكن
     useEffect(()=>{
@@ -85,7 +93,7 @@ export default function UserContextProvider({children}) {
     if (loading) {
       return <Loader/>;
     }
-  return (<UserContext.Provider value={{userToken,setUserToken,Logout,userData,loading,getActiveSchools,getTubaStatistics,getSchoolCircles}} >
+  return (<UserContext.Provider value={{userToken,setUserToken,Logout,userData,loading,getActiveSchools,getTubaStatistics,getSchoolCircles,deleteUserPhoto}} >
     {children}
   </UserContext.Provider>
   )

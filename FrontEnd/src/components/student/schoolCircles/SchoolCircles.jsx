@@ -7,7 +7,7 @@ import Alert from '../../pages/alert/Alert';
 
 export default function SchoolCircles() {
     const {schoolId}=useParams();
-     let {studentInfo}=useContext(StudentContext); 
+    let {studentInfo,setStudentInfo}=useContext(StudentContext); 
 
   if(studentInfo?.role==="student"&&studentInfo?.status==="suspend"){
     return <Alert message="شكراً لك على تقديم طلب الانضمام إلى الحلقة! سيتم مراجعة طلبك من قبل المعلم والرد عليك قريباً. نسعد بانضمامك معنا!"/>
@@ -16,7 +16,9 @@ export default function SchoolCircles() {
   return (
     <>
     <Dashboard_SubTitle title="حلقات المدرسة" />
-    <Circles schoolId={schoolId} from="initialStudentDashboard" studentId={studentInfo?._id} />
+    {/* هاد كومبوننت مشترك ما بشوف غير اليوزر ما بشوف student context
+    عشان هيك لازم نبعتله معلومات للطالب من الكونتكست */}
+    <Circles schoolId={schoolId} from="initialStudentDashboard" setStudentInfo={setStudentInfo} studentId={studentInfo?._id} />
     </>
   )
 }

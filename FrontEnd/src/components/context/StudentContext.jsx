@@ -28,7 +28,9 @@ _id:"6773e6e302de1983b5230fd4"
 */
 export default function StudentContextProvider({children}) {
     const {userToken,Logout}= useContext(UserContext); 
-    const [studentInfo,setStudentInfo]=useState(null);  
+    const [studentInfo,setStudentInfo]=useState(null);
+    const [circleName,setCircleName]=useState(null); 
+    const [schoolName,setSchoolsName]=useState(null);  
     const [loading,setLoading]=useState(true);
 
     console.log("hi from student context");
@@ -36,15 +38,18 @@ export default function StudentContextProvider({children}) {
        if(userToken){
         try{
           const {data}=await axios.get(`${import.meta.env.VITE_API_URL}/student/profile`,
-            { headers: {Authorization:`Tuba__${userToken}`} } )  ; 
+            { headers: {Authorization:`Tuba__${userToken}`} } )  ;  
+            console.log(data);
             setStudentInfo(data?.student); 
+            setCircleName(data?.circle[1]);
+            setSchoolsName(data?.circle[3]); 
         }catch(error){ 
           if (error.response) {
             // if(error.response.data.message==="you are not student"){
             //   ErrorToast("عذرًا، أنت لست طالب.");
             //   Logout(); 
             //    }   
-              if(error.response.data.message==="user not found"){
+              if(error.response.data.message==="user not found"||error.response.data.message==="you are not student"){
               ErrorToast("عذرًا، المستخدم غير موجود.");
               Logout(); 
                }    
@@ -79,7 +84,7 @@ export default function StudentContextProvider({children}) {
   if(loading){
     return <Loader/>
   }
-  return (<StudentContext.Provider value={{studentInfo,getStudentData,setStudentInfo}} >
+  return (<StudentContext.Provider value={{studentInfo,getStudentData,setStudentInfo,circleName,schoolName}} >
     {children}
   </StudentContext.Provider>
   )

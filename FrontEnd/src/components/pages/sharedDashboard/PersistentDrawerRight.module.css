@@ -2,7 +2,7 @@
     background-color: var(--primary-color) !important;
 
 }
-.SideBarTitle , .links, .linkIcon{
+.SideBarTitle  {
   color: var(--main-color) !important;
 }
  .btnSidebar{
@@ -11,6 +11,8 @@
     font-weight: bold !important;
     border-radius: 1rem;
     transition: all 0.4s ease-in-out !important;
-    
+}
+.links{
+font-weight: bold;
 }
  

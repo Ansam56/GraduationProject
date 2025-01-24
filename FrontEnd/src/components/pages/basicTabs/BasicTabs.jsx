@@ -42,19 +42,48 @@ export default function BasicTabs({firstTap,firstComponent,secondTap,secondCompo
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box >
-        <Tabs value={value} onChange={handleChange}  aria-label="basic tabs example">
-          <Tab label={firstTap} {...a11yProps(0)} />
-          <Tab label={secondTap} {...a11yProps(1)} /> 
+      <Box className='mt-3 mb-1'>
+        <Tabs value={value} onChange={handleChange}  aria-label="basic tabs example" sx={{
+    '& .MuiTabs-indicator': {
+      display: 'none', // إخفاء خط المؤشر
+    },
+  }}>
+          <Tab 
+           sx={{ 
+             '&.Mui-selected': {
+              color: 'white', // اللون عند التحديد
+              background:'#688860',
+            }, 
+            fontSize:'17px',
+            fontWeight:'bold' , 
+            borderRadius: '20px',
+          }}
+          label={firstTap} 
+           {...a11yProps(0)}
+            />
+          <Tab 
+           sx={{ 
+             '&.Mui-selected': {
+              color: 'white', // اللون عند التحديد
+              background:'#688860',
+            }, 
+            fontSize:'17px',
+            fontWeight:'bold',
+            borderRadius: '20px',
+          }}
+          label={secondTap}
+           {...a11yProps(1)} 
+           /> 
         </Tabs>
+
+
       </Box>
       <CustomTabPanel value={value} index={0}>
         {firstComponent}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         {secondComponent}
-      </CustomTabPanel>
-      
+      </CustomTabPanel> 
     </Box>
   );
 }

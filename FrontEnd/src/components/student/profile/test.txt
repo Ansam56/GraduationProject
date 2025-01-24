@@ -1,21 +1,55 @@
-import React, { useContext, useState } from 'react'; 
+// import React, { useContext } from 'react'
+// import Dashboard_SubTitle from '../../pages/dashboardSubTitle/Dashboard_SubTitle';
+  
+// export default function StudentProfile() {
+//     let {studentInfo,setStudentInfo}=useContext(StudentContext);
+//    console.log(studentInfo);
+//    return (
+//       <>
+//         <Dashboard_SubTitle title="الملف الشخصي" />
+        
+//        </>
+//     );
+// }
+import React, { useContext, useState } from 'react'
+ import { Avatar, Box, Typography } from '@mui/material';
  import { useFormik } from 'formik';
-  import axios from 'axios'; 
+// import { schoolAdminDataSchema } from '../../../authentication/validation/validate';
+ import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+ import axios from 'axios';
+import { StudentContext } from '../../context/StudentContext';
 import Dashboard_SubTitle from './../../pages/dashboardSubTitle/Dashboard_SubTitle';
 import SharedInput_Profiles from '../../pages/sharedInput_profiles/SharedInput_Profiles';
-import {SuccessToast } from '../../pages/toast/toast';
-import SharedProfile from '../../pages/sharedProflle/SharedProfile';
-import { StudentContext } from '../../context/StudentContext';
+import { ErrorToast, SuccessToast } from '../../pages/toast/toast';
 import { UserContext } from '../../context/UserContext';
- 
+import Loader from '../../pages/loader/Loader';
+import SharedProfile from '../../pages/sharedProflle/SharedProfile';
+/*
+confirmEmail: true
+country: سلفيت"
+createdAt :"2024-12-24T19:58:41.318Z"
+email: "raghadmoqady@gmail.com"
+gender: "Female"
+idNumber: 112233445
+mobile: "+970598973354"
+password: "$2a$08$hLFOJ4gWyhrbOKzOBXHLLugn77GcCmHyYIsm1AJ/uvYPulkkQE/.6"
+role: "schoolAdmin"
+status: "active"
+updatedAt: "2024-12-25T08:00:16.174Z"
+userName: "رغد موقدي"
+__v: 0
+_id: "676b1271649b41cff135cc33"
+بدي اياها من سحر 
+profilePicture:null;
+
+*/
 //لازم نشيك على حالة عدم وجود انترنت 
 export default function StudentProfile() {
     let {studentInfo,setStudentInfo}=useContext(StudentContext);
     console.log(studentInfo);
-    let {userToken,deleteUserPhoto}=useContext(UserContext);
+    let {userToken,deleteStudentPhoto}=useContext(UserContext);
     let [loader,setLoader]=useState(false);
-    let [isDefault,setIsDefault]=useState(true);//عشان ايقونة الحذف انها تكون disabled
-    
         // حالة لحفظ الصورة المعروضة
     const [previewImage, setPreviewImage] = useState(studentInfo?.profilePicture.secure_url);
 
@@ -26,8 +60,11 @@ export default function StudentProfile() {
         return { phonePrefix, phone };  
     }
     const { phonePrefix, phone }  = splitPhoneNumber(studentInfo?.mobile);
-    const genderInArabic = studentInfo?.gender === "Male" ? "ذكر" : "أنثى";
-     
+    // const [FirstName, ...LastNameParts] =schoolAdminInfo?schoolAdminInfo.userName.split(" "):["!حدث خطأ",'!حدث خطأ']; // تقسيم النص إلى أجزاء بناءً على الفراغ
+    // const LastName = LastNameParts.join(" ") ; // تجميع باقي النص كاسم عائلة 
+    const genderInArabic = studentInfo?studentInfo.gender === "Male" ? "ذكر" : "أنثى":"الجنس";
+    // const genderInEnglish=schoolAdminInfo?.gender==="ذكر"?"Male":"Female";
+    
     //لازمها  تشييك ضروري والتأكد من الفالديشن للصورة من validate.js
     const handleFieldChange=(event)=>{
       const file = event.target.files[0];
@@ -38,21 +75,23 @@ export default function StudentProfile() {
           setPreviewImage(imageUrl); // عرض الصورة مباشرة
           //للباك
           formik.setFieldValue('profilePicture', file); // حفظ الملف في الـ Formik
-          setIsDefault(false);
       } 
-    } 
-    const handleRemovePicture =async() => {
-      let {userUpdate} =await deleteUserPhoto();
-       if(userUpdate){
-          //للباك
-          setStudentInfo(userUpdate); 
-          //لليوزر
-          setPreviewImage(userUpdate?.profilePicture.secure_url);
-          SuccessToast("تم حذف الصورة بنجاح");
-          setIsDefault(true);
-          }
-      
-       // deleteStudentPhoto();
+    }
+  //   const handleFieldChange = (event) => {
+  //     const file = event.target.files[0];
+  //     if (file) { 
+  //         // إذا كانت الصورة صالحة، عرضها وتحديث القيمة في Formik
+  //         const reader = new FileReader();
+  //         reader.onloadend = () => {
+  //             setPreviewImage(reader.result); // عرض الصورة
+  //             formik.setFieldValue('profilePicture', file); // تحديث Formik
+  //         };
+  //         reader.readAsDataURL(file);
+  //     }
+  // };
+     
+    const handleRemovePicture = () => {
+      deleteStudentPhoto();
       //لليوزر
       // setPreviewImage(defaultProfilePicture); // إعادة الصورة الافتراضية 
      //للباك
@@ -62,13 +101,13 @@ export default function StudentProfile() {
     const initialValues={// المعلومات التي سيتم عرضها لليوزر
         //اسم المدرسة 
         //اسم الحلقة اللي مسجل فيها 
-        //تاريخ الميلاد
         userName:studentInfo?.userName,
         idNumber: studentInfo?.idNumber,
         email: studentInfo?.email,
         phonePrefix: phonePrefix,
         phone: phone,
         gender: genderInArabic,
+        // password:"", 
         country:studentInfo?.country,
         profilePicture:studentInfo?.profilePicture.secure_url ,
  } //هدول القيم همي نفسهم اللي رح نوخدهم من اليوزر ونبعتهم بعدين للباك اند 
@@ -79,27 +118,28 @@ export default function StudentProfile() {
   //عشان هيك انا هون بغلف البيانات باشي اسمه فورم داتا 
   //فهو عبارة عن اوبجيكت فاضي
      const formData = new FormData();
+    //  formData.append("_id",values._id);
+    //  formData.append("email",values.email);///
      formData.append("userName",values.userName);
      formData.append("mobile",`${values.phonePrefix}${values.phone}`);
      formData.append("profilePicture",values.profilePicture);
      formData.append("country",values.country);
-       formData.forEach((value, key) => {
-        console.log(`${key}:`, value);
-      });
+      //  formData.forEach((value, key) => {
+      //   console.log(`${key}:`, value);
+      // });
       try{ 
         setLoader(true);
         const {data}= await axios.put(`${import.meta.env.VITE_API_URL}/student/updateProfile`,formData,
          {headers:{Authorization:`Tuba__${userToken}`}} 
         );
         setLoader(false);
-        // console.log("from studeennnnt edit");
-        // console.log(data);
+        console.log("from studeennnnt edit");
+        console.log(data);
         setStudentInfo(data?.student); 
       // console.log(userToken);
     SuccessToast("تم تعديل البيانات بنجاح");
       }catch(error){
-        setLoader(false);
-       console.log(error);
+
       }
       
  }
@@ -109,7 +149,21 @@ export default function StudentProfile() {
         //سيتم ارسال معولمات اخرى كما بالاعلى بالكومينت
         // validationSchema:schoolAdminDataSchema  //لازمها تشييك ولازم افصلها
     });
-    const Inputs = [ 
+    const Inputs = [
+        // {
+        //   id: "firstName",
+        //   type: "text",
+        //   name: "firstName",
+        //   title: "الاسم الأول",
+        //   value: formik.values.firstName,
+        // },
+        // {
+        //   id: "lastName",
+        //   type: "text",
+        //   name: "lastName",
+        //   title: "اسم العائلة",
+        //   value: formik.values.lastName,
+        // },
         {
           id: "userName",
           type: "text",
@@ -128,7 +182,7 @@ export default function StudentProfile() {
         },
         {
           id: "gender",
-          type: "text",
+          type: "select",
           name: "gender",
           title: "الجنس",
           value: formik.values.gender,
@@ -136,7 +190,7 @@ export default function StudentProfile() {
         },
         {
           id: "country",
-          type: "text",
+          type: "select",
           name: "country",
           title: "المدينة",
           value: formik.values.country, 
@@ -149,7 +203,8 @@ export default function StudentProfile() {
           title: "البريد الإلكتروني",
           value: formik.values.email,
           disabled: true,
-        }, 
+        },
+      
         {
           id: "phonePrefix",
           type: "select",
@@ -164,7 +219,23 @@ export default function StudentProfile() {
           name: "phone",
           title: "رقم الجوال",
           value: formik.values.phone,
-        } 
+        }
+        ,
+        // {
+        //   id: "password",
+        //   type: "password",
+        //   name: "password",
+        //   title: "كلمة المرور",
+        //   value: formik.values.password,
+        // }
+        ,
+        // {
+        //   id: "profilePicture",
+        //   type: "file",
+        //   name: "profilePicture",
+        //   title: "تعديل الصورة الشخصية",
+        //   onChange:handleFieldChange,
+        // },
       ];
    
       const renderInputs= Inputs.map((input,index)=>//array
@@ -175,6 +246,7 @@ export default function StudentProfile() {
        title={input.title}
        value={input.value} 
        errors={formik.errors} 
+      // // onChange={input.onChange ||formik.handleChange}
        onChange={formik.handleChange}//هون في خيارين يا اما خيار الصورة او الانبوت العادي
        //formik.handleChange>>
        //  عشان اقدر اشوف الحروف اللي بكتبها بالانبوت على الشاشة 1)(from me )
@@ -182,14 +254,13 @@ export default function StudentProfile() {
        onBlur={formik.handleBlur}//لتتبع الحقول التي تمت زيارتها ..الزيارة=لمس الانبوت والضغط على اي مكان بالصفحة خارج الانبوت
        touched={formik.touched}//لتخزين الاماكن اللي قمنا بزيارتها ورح يتم اعتبارها ترو فقط لما اطلع من الانبوت 
        key={index}
-       disabled={input.disabled}
-       options={input.options} />
+       disabled={input.disabled} />
        ) 
   return (
     <> 
       <div > 
       <Dashboard_SubTitle title="الملف الشخصي" />
-      
+      <div className='mt-5'> 
          <SharedProfile
             formikHandelSubmit={formik.handleSubmit}
             renderInputs={renderInputs}
@@ -204,9 +275,8 @@ export default function StudentProfile() {
             loader={loader}
             formikIsValid={formik.isValid}
             deleteIcon="true"
-            isDefault={isDefault}
             />  
-       
+      </div>
     
       </div>
     </>

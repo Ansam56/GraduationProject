@@ -19,7 +19,7 @@ export default function SchoolAdminContextProvider({children}) {
           const {data}=await axios.get(`${import.meta.env.VITE_API_URL}/schoolAdmin/profile`,
             { headers: {Authorization:`Tuba__${userToken}`} } )  ;
             console.log("from context neww");
-            console.log(data.school[0]);
+            console.log(data?.schollAdmin);
             setSchoolAdminInfo(data?.schollAdmin);
             setSchoolInfo(data?.school[0]); 
         }catch(error){

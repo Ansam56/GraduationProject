@@ -25,7 +25,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Loader from '../../pages/loader/Loader';
-import { Skeleton } from '@mui/material';
+import { Skeleton, useMediaQuery } from '@mui/material';
 
 
 const drawerWidth = 240;
@@ -99,7 +99,8 @@ function DrawerAppBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   let {userToken,Logout,userData}=useContext(UserContext); 
- 
+  const isMobile = useMediaQuery('(max-width:995px)');
+
   let controlPanelTarget='/';
   if (userData&&userData.role=="admin"){
     controlPanelTarget='/Admin';  

@@ -194,6 +194,18 @@ export const schoolDataSchema = yup.object({
     .min(5, "العنوان يجب أن يكون على الأقل 5 أحرف")
     .max(200, "العنوان لا يمكن أن يزيد عن 200 حرف"),
 });
+
+export const teacherDataSchema= yup.object({
+  phonePrefix: yup
+  .string()
+  .required("مقدمة الهاتف مطلوبة")
+  .oneOf(["+970", "+972"], "مقدمة الهاتف غير صالحة"),
+phone: yup
+  .string()
+  .matches(PHONE_NUMBER_REGEX, "رقم الجوال غير صالح")
+  .required("يجب إدخال رقم الجوال"),
+})
+
 export const schoolFormSchema = yup.object().shape({
   schoolName: yup
     .string()

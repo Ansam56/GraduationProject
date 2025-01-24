@@ -14,7 +14,7 @@ import Loader from "../../../pages/loader/Loader";
 //حاليا رح اعمل شيء محلي وفيما بعد بستبدله مع الباك Done
 //سيتم استدعاءها بinitialDashboard for student 
 //يتم استدعاءها من scroll
-export default function Circles({schoolId,from="",studentId=""}) {
+export default function Circles({schoolId,from="",studentId="",setStudentInfo=""}) {
  
   // الحالة لحفظ بيانات الحلقات
   // const schoolCircles = [
@@ -107,8 +107,7 @@ const getCircles=async()=>{
   const schoolCircles= await getSchoolCircles(schoolId);
   return(schoolCircles);  
  }
-const {data,isLoading} =useQuery("schoolCircles",getCircles);
-  console.log(data);
+const {data,isLoading} =useQuery("schoolCircles",getCircles); 
  if(isLoading){
   return <Loader/>
 }
@@ -127,6 +126,7 @@ const {data,isLoading} =useQuery("schoolCircles",getCircles);
     setTypeFilter(e.target.value);
   };
 
+
   // تصفية الحلقات بناءً على جميع الفلاتر
   const filteredCircles = data?.filter((circle) => {
     const matchesSearch = circle.circleName.toLowerCase().includes(searchTerm.toLowerCase());
@@ -136,6 +136,20 @@ const {data,isLoading} =useQuery("schoolCircles",getCircles);
     // return matchesSearch && matchesGender && matchesType;
     return matchesSearch && matchesType;
   });
+  let circleDaysInArabic = (days) => {
+    const daysInArabic = {
+      sunday: "الأحد",
+      monday: "الإثنين",
+      tuesday: "الثلاثاء",
+      wednesday: "الأربعاء",
+      thursday: "الخميس",
+      friday: "الجمعة",
+      saturday: "السبت",
+    };
+  
+    // تحويل الأيام إلى اللغة العربية والانضمام باستخدام ", "
+    return days?.map((day) => daysInArabic[day]).join("، ");
+  }; 
 
   return (
     <>
@@ -173,20 +187,22 @@ const {data,isLoading} =useQuery("schoolCircles",getCircles);
               <div key={circle?.id} className="col-lg-4">
                 <CircleCard
                   circleId={circle?.id}
-                  teacherName="رغد موقدي"
+                  teacherName={circle?.teacherId.userName}
                   name={circle?.circleName}/////
                   type={circle?.type}////
-                  gender="اناث"
+                  gender={circle?.circleGender=="Male"?"ذكور":circle?.circleGender=="Female"?"إناث":"ذكور و إناث"}
                   // availability={circle.availability}
-                  // instructions={circle.instructions}
-                  days={circle?.days}////array
+                  // instructions={circle.instructions} 
                   startTime={circle?.startTime}////
                   endTime={circle?.endTime}////
+                  days={circleDaysInArabic(circle?.days)||"_"}
                   // schoolId={circle?.schoolId}////
-                  circleImg='صورة'
+                  circleImg={circle?.logo?.secure_url}
+                  // circleImg=""
                   //good to join circle ,came from student initial dashboard
                   from={from}
                   studentId={studentId}
+                  setStudentInfo={setStudentInfo}
                 />
               </div>
             ))

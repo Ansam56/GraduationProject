@@ -1,16 +1,13 @@
 import React, { useContext, useState } from 'react'
-import { SchoolAdminContext } from '../../../context/SchoolAdminContext'
-import style from './SchoolAdminData.module.css'
-import { Avatar, Box, Typography } from '@mui/material';
+import { SchoolAdminContext } from '../../../context/SchoolAdminContext' 
 import defaultProfilePicture from "../../../web/img/defaultProfilePicture.png"
 import { useFormik } from 'formik';
 import { schoolAdminDataSchema } from '../../../authentication/validation/validate';
-import SharedInput_Profiles from '../../../pages/sharedInput_profiles/SharedInput_Profiles';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { ErrorToast, SuccessToast } from '../../../pages/toast/toast';
+import SharedInput_Profiles from '../../../pages/sharedInput_profiles/SharedInput_Profiles'; 
+import { SuccessToast } from '../../../pages/toast/toast';
 import { UserContext } from '../../../context/UserContext';
 import axios from 'axios';
+import SharedProfile from '../../../pages/sharedProflle/SharedProfile';
 /*
 confirmEmail: true
 country: سلفيت"
@@ -33,11 +30,12 @@ profilePicture:null;
 //لازم نشيك على حالة عدم وجود انترنت 
 export default function SchoolAdminData() {
     let {schoolAdminInfo,setSchoolAdminInfo} =useContext(SchoolAdminContext); 
-    let {userToken}=useContext(UserContext);
- 
+    let {userToken,deleteUserPhoto}=useContext(UserContext);  
+    let [loader,setLoader]=useState(false);
+    let [isDefault,setIsDefault]=useState(true);//عشان ايقونة الحذف انها تكون disabled
         // حالة لحفظ الصورة المعروضة
     const [previewImage, setPreviewImage] = useState(schoolAdminInfo?.profilePicture.secure_url);
-
+    
     const splitPhoneNumber=(mobile)=>{
         const match=mobile?.match(/^(\+\d+)(\d{9,})$/);   //Regex 
         const phonePrefix = match?match[1]:""; // الجزء الأول (المقدمة)
@@ -60,6 +58,7 @@ export default function SchoolAdminData() {
           setPreviewImage(imageUrl); // عرض الصورة مباشرة
           //للباك
           formik.setFieldValue('profilePicture', file); // حفظ الملف في الـ Formik
+          setIsDefault(false);
       } 
     }
   //   const handleFieldChange = (event) => {
@@ -75,11 +74,17 @@ export default function SchoolAdminData() {
   //     }
   // };
      
-    const handleRemovePicture = () => {
-      //لليوزر
-      // setPreviewImage(defaultProfilePicture); // إعادة الصورة الافتراضية 
-     //للباك
-      // formik.setFieldValue('profilePicture', defaultProfilePicture); // حذف الصورة من الـ Formik
+    const handleRemovePicture =async() => {
+     let {userUpdate} =await deleteUserPhoto();
+     if(userUpdate){
+    //للباك
+    setSchoolAdminInfo(userUpdate);
+    //لليوزر
+    setPreviewImage(userUpdate?.profilePicture.secure_url); 
+    SuccessToast("تم حذف الصورة بنجاح");
+    setIsDefault(true);
+    }
+    
   };
 
     const initialValues={// المعلومات التي سيتم عرضها لليوزر
@@ -102,26 +107,25 @@ export default function SchoolAdminData() {
   //الباك والفرونت بستعملو الفورم داتا 
   //عشان هيك انا هون بغلف البيانات باشي اسمه فورم داتا 
   //فهو عبارة عن اوبجيكت فاضي
-     const formData = new FormData();
-    //  formData.append("_id",values._id);
-    //  formData.append("email",values.email);///
+     const formData = new FormData(); 
      formData.append("userName",values.userName);
      formData.append("mobile",`${values.phonePrefix}${values.phone}`);
      formData.append("profilePicture",values.profilePicture);
      
-      //  formData.forEach((value, key) => {
-      //   console.log(`${key}:`, value);
-      // });
+       formData.forEach((value, key) => {
+        console.log(`${key}:`, value);
+      });
       try{ 
+        setLoader(true);
         const {data}= await axios.put(`${import.meta.env.VITE_API_URL}/schoolAdmin/updateProfile`,formData,
          {headers:{Authorization:`Tuba__${userToken}` }}
         );
-        console.log(data);
-        setSchoolAdminInfo(data.schoolAdmin);
-      // console.log(userToken);
-    SuccessToast("تم تعديل البيانات بنجاح");
+        setLoader(false);
+        // console.log(data?.schoolAdmin);
+        setSchoolAdminInfo(data?.schoolAdmin); 
+        SuccessToast("تم تعديل البيانات بنجاح");
       }catch(error){
-
+        setLoader(false);
       }
       
  }
@@ -164,7 +168,7 @@ export default function SchoolAdminData() {
         },
         {
           id: "gender",
-          type: "select",
+          type: "text",
           name: "gender",
           title: "الجنس",
           value: formik.values.gender,
@@ -172,7 +176,7 @@ export default function SchoolAdminData() {
         },
         {
           id: "country",
-          type: "select",
+          type: "text",
           name: "country",
           title: "المدينة",
           value: formik.values.country, 
@@ -193,7 +197,7 @@ export default function SchoolAdminData() {
           name: "phonePrefix",
           title: "مقدمة الهاتف",
           value: formik.values.phonePrefix,
-          options: ["+970", "+972"],
+          options: ["+970", "+972"],  
         },
         {
           id: "phone",
@@ -201,6 +205,8 @@ export default function SchoolAdminData() {
           name: "phone",
           title: "رقم الجوال",
           value: formik.values.phone,
+          ///يمكن نضطر نحذفها 
+          // disabled:loader&&true
         }
         ,
         // {
@@ -236,73 +242,28 @@ export default function SchoolAdminData() {
        onBlur={formik.handleBlur}//لتتبع الحقول التي تمت زيارتها ..الزيارة=لمس الانبوت والضغط على اي مكان بالصفحة خارج الانبوت
        touched={formik.touched}//لتخزين الاماكن اللي قمنا بزيارتها ورح يتم اعتبارها ترو فقط لما اطلع من الانبوت 
        key={index}
-       disabled={input.disabled} />
+       disabled={input.disabled}
+       options={input.options} />
        )
-       
+     
   return (
-    <> 
-      <div > 
-      <form onSubmit={formik.handleSubmit} encType="multipart/form-data" >
-          <div className="container">
-            <div className="row"> 
-               <div className="col-md-4">
-                                <Box  mb={3}>
-                                    <Avatar
-                                        src={previewImage}
-                                        alt="School Admin Picture"
-                                        sx={{
-                                            width: 200,
-                                            height: 200,
-                                            objectFit: 'cover',
-                                            objectPosition: 'center',
-                                            marginBottom: '10px',
-                                            border: '2px solid #ddd', // تحسين الحواف
-                                            borderRadius: '50%', // مظهر دائري
-                                        }} 
-                                    />
-                                 
-                                </Box> 
-                                  {/* تعديل الصورة */}
-                                  <div className="d-flex justify-content-start me-3">
-                                    <label htmlFor="profilePicture" className="btn btn-primary btn-sm  w-50 ">
-                                        <EditIcon/> تعديل الصورة  
-                                    </label>
-                                  
-                                    <input type="file" className=" d-none " name="profilePicture" id="profilePicture"   onChange={handleFieldChange} onBlur={formik.handleBlur}  />
-                                    {formik.touched["profilePicture"]&&formik.errors["profilePicture"]&& ErrorToast(formik.errors["profilePicture"]) } 
-                                    
-                                    {/* <input
-                                         
-                                        style={{ display: 'none' }}
-                                        accept="image/*"
-                                     
-                                    /> */}
-                                </div>
- 
-                                  {/* حذف الصورة */}
-                                  <div className="d-flex justify-content-start me-3 mt-2  ">
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger btn-sm w-50"
-                                        onClick={handleRemovePicture}
-                                        disabled={!formik.values.profilePicture} // Disable if profilePicture is null
-                                    >
-                                        <DeleteIcon/> حذف الصورة
-                                    </button>
-                                </div>
-                                  
-                </div>
-              <div className="col-md-8">
-              {renderInputs}  
-              </div>
-            </div>
-            <div className='d-flex justify-content-center mt-3'>
-                   <button className='rounded-5 border-1 w-50 btn  btn-success ' type='submit' disabled={!formik.isValid }>حفظ التعديلات</button> 
-                </div>
-          </div>
-    
-    </form> 
-      </div>
+    <>   
+    <SharedProfile
+    formikHandelSubmit={formik.handleSubmit}
+    renderInputs={renderInputs}
+    avatarAlt="School Admin Picture"
+    previewImage={previewImage}
+    handleFieldChange={handleFieldChange}
+    handleBlur={formik.handleBlur}
+    pictureErrors={formik.errors["profilePicture"]}
+    pictureTouched={formik.touched["profilePicture"]}
+    handleRemovePicture={handleRemovePicture}
+    handelDeleteDisabled={formik.values.profilePicture}
+    loader={loader}
+    formikIsValid={formik.isValid}
+    deleteIcon="true"
+    isDefault={isDefault}
+    /> 
     </>
   )
 }
