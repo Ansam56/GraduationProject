@@ -9,12 +9,15 @@ import {
 import Input from "../authentication/Input";
 import style from "./Form.module.css";
 import formStyle from "../authentication/Auth.module.css";
+import { useNavigate } from "react-router-dom";
+import { ErrorToast, SuccessToast } from "../pages/toast/toast";
 
 export default function SchoolAndManagerForm() {
   const [step, setStep] = useState(1);
   const [schoolData, setSchoolData] = useState(null);
   const [schoolPhoto, setschoolPhoto] = useState("شعار المدرسة");
   const [schoolInfo, setschoolInfoFileName] = useState("الوثيقة الرسمية");
+  const navigate = useNavigate();
 
   const schoolFormik = useFormik({
     initialValues: {
@@ -94,10 +97,21 @@ export default function SchoolAndManagerForm() {
         toast.success(
           " تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني!"
         );
+        navigate("../");
       } catch (error) {
         console.error("Error submitting form:", error.response?.data || error);
         const errorMessage = error.response?.data?.message;
-        if (errorMessage === "email exit") toast.error("المستخدم موجود");
+        if (errorMessage === "email exit") {
+          toast.error("عذرا المستخدم موجود مسبقا قم بتسجيل الدخول ");
+          navigate("/Login");
+        } else if (errorMessage === "Passwords not match")
+          toast.error(" عذرا كلمة المرورو غير صحيحة  ");
+        else if (errorMessage === "school exit")
+          toast.error(" عذرا المدرسة موجودة مسبقا ");
+        else if (errorMessage === "user not found")
+          toast.error(" عذرا المستخدم غير موجود ");
+        else if (errorMessage === "you can't create more than one school")
+          toast.error(" عذرا لا يمكنك انشاء أكثر من مدرسة واحدة");
         else {
           toast.error("حدث خطأ أثناء رفع البيانات");
         }
