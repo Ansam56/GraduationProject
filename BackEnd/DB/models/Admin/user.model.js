@@ -25,17 +25,28 @@ const userSchema =new Schema({
         type:String
     },role:{
         type:String,
-        enum:['user','admin','schoolSdmin','teacher','student'],
+        enum:['user','admin','schoolAdmin','teacher','student'],
         default:'user'
     },
     status:{
         type:String,
         default:'suspend',
         enum:['active','suspend','rejected']
+    }, profilePicture:{
+        type:Object,
+        default:{secure_url:"https://res.cloudinary.com/dff9dgomp/image/upload/v1737492452/default_zcjitd.jpg",
+            public_id:"TUBA/default_zcjitd.jpg"
+        }
     },sendCode:{
         type:String,
         default:null
-    }
+    },birthDate:{
+        type:Date
+    },
+   /* teacherInfo:{
+        type:Object,
+        //required:true
+    }*/
 },{
     timestamps:true
 })

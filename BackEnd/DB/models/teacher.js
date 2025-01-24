@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import {Types, model, Schema } from "mongoose";
 import mongoose from 'mongoose';
 
 const teacherSchema =new Schema({
@@ -25,13 +25,11 @@ const teacherSchema =new Schema({
       type:Number,
       required:true
     },
-    /*confirmEmail:{
-        type:Boolean,
-        default:false
-    }*/
-   profilePicture:{
-        type:String
-    },mobile:{
+    profilePicture:{
+        type:Object,
+        default:{secure_url:"https://res.cloudinary.com/dff9dgomp/image/upload/v1737492452/default_zcjitd.jpg",
+            public_id:"TUBA/default_zcjitd.jpg"
+        }   },mobile:{
         type:String,
         required:true
     },country:{
@@ -46,7 +44,20 @@ const teacherSchema =new Schema({
         type:String,
         default:'suspend',
         enum:['active','suspend','rejected']
-    }
+    },/*birthDate:{
+   type:Date,
+   required:true,
+   trim:true
+
+    }*/teacherInfo:{
+    type:Object,
+    required:true
+    
+    },schoolId:{
+            type:Types.ObjectId,
+            ref:'School',
+            required:true
+        }
 },{
     timestamps:true
 })

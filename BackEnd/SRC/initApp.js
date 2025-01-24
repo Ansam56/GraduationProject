@@ -6,7 +6,13 @@ import postRouter from './modules/post/post.router.js'
 import cors from'cors';
 import adminRouter from './modules/auth/auth.router.js'
 import schoolAdminRouter from './modules/schoolAdmin/schooladmin.router.js'
+import teacherRouter from './modules/teacher/teacher.router.js'
+import studentRouter from './modules/student/student.router.js'
+import circleRouter from './modules/circle/circle.router.js'
+import  axios from'axios';
+
 //DBLINK='mongodb://127.0.0.1:27017/tuba'
+//DBLINK='mongodb+srv://sahar123:sahar123@cluster0.bu41s.mongodb.net/tuba'
 
 //DBLINK='mongodb+srv://sahar123:sahar123@cluster0.bu41s.mongodb.net/tuba'
 
@@ -18,6 +24,9 @@ const initApp=(app,express)=>{
     app.use(express.json());
     app.use('/auth',adminRouter);
     app.use('/schoolAdmin',schoolAdminRouter)
+    app.use('/teacher',teacherRouter)
+    app.use('/student',studentRouter)
+   // app.use('/circle',circleRouter)
   //  app.use('/message',messageRouter)
    // app.use('/post',postRouter)
     app.use('*',(req,res,next)=>{
@@ -36,3 +45,5 @@ const initApp=(app,express)=>{
 }
 
 export default initApp;
+
+

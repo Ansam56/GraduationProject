@@ -15,7 +15,7 @@ const fileUpload=()=>{
          */
     });
      // file filter >> لحتى اخليه يقبل بس صور مش اي نوع ملفات ثانية
-   function fileFilter(req,file,cb){
+  /* function fileFilter(req,file,cb){
     if (file.fieldname === 'schoolPhoto') {
       // السماح بملفات الصور فقط
       if (file.mimetype.startsWith('image/')) {
@@ -27,7 +27,7 @@ const fileUpload=()=>{
       }}else{
         cb(null,true)
       }
-    } 
+    } */
        // if(req.files.fieldname === 'schoolPhoto'){  // امتداد الصور المسموح رفعه
       /*  if(['image/jpeg' ,'image/png' ,'image/gif','image/jpg'].includes(file.mimetype)){
       //or   if(file.mimetype=='image/jpeg' ||file.mimetype=='image/jpg'|| file.mimetype=='image/png' || file.mimetype=='image/gif'){
@@ -41,7 +41,7 @@ const fileUpload=()=>{
 
 
 // الترتيب مهم بالاول بفلتر بعدها ببعثه عالستوريح
-const upload = multer({storage,fileFilter})
+const upload = multer({storage})
    // fileFilter: fileFilter,
    // limits: { fileSize: 2 * 1024 * 1024 } // حجم الملف الأقصى 2 ميجابايت
       // const upload=multer({soso:fileFilter,storage}); soso name of function insted fileFilter

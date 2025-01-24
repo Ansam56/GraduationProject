@@ -2,6 +2,7 @@ import express from'express'
 import 'dotenv/config'
 import initApp from './SRC/initApp.js'
 const app = express()
+app.use(express.static("public"));
 initApp(app,express)
 
 

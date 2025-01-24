@@ -30,8 +30,10 @@ const schoolAdminSchema =new Schema({
         default:false
     }*/
    profilePicture:{
-        type:String
-    },mobile:{
+        type:Object,
+        default:{secure_url:"https://res.cloudinary.com/dff9dgomp/image/upload/v1737492452/default_zcjitd.jpg",
+            public_id:"TUBA/default_zcjitd.jpg"
+        }  },mobile:{
         type:String,
         required:true
     },country:{

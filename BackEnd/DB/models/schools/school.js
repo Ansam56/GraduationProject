@@ -29,6 +29,22 @@ const schoolSchema =new Schema({
         type:String,
         default:'suspend',
         enum:['active','suspend','rejected']
+    },availableforTeacher:{
+        type:Boolean,
+        default:false
+    },availableforStudent:{
+        type:Boolean,
+        default:false
+    },totalCircles:{
+        type:Number,
+        default:0
+    },totalTeachers:{
+        type:Number,
+        default:0
+    }
+    ,totalStudents:{
+        type:Number,
+        default:0
     }
         
 },{
