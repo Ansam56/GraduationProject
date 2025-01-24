@@ -9,18 +9,16 @@ import {
 import Input from "../authentication/Input";
 import style from "./Form.module.css";
 import formStyle from "../authentication/Auth.module.css";
- 
+
 import { useNavigate } from "react-router-dom";
- 
+
 import { useParams } from "react-router-dom";
- 
 
 export default function CircleAndTeacherForm() {
- 
   const navigate = useNavigate();
- 
-   const {schoolId}=useParams();  //from Raghad
- 
+
+  const { schoolId } = useParams(); //from Raghad
+
   const [step, setStep] = useState(1);
   const [circleData, setCircleData] = useState(null);
   const [selectedDays, setSelectedDays] = useState({
@@ -85,7 +83,7 @@ export default function CircleAndTeacherForm() {
       const finalPhone = `${teacherValues.phonePrefix}${teacherValues.phone}`;
       const genderInEnglish =
         teacherValues.gender === "ذكر" ? "Male" : "Female";
-      const schoolId = "67738acb7a5c44806ffd1995";
+      // const schoolId = "67738acb7a5c44806ffd1995";
 
       try {
         const teacherFormData = new FormData();
@@ -133,7 +131,25 @@ export default function CircleAndTeacherForm() {
         navigate("../");
       } catch (error) {
         console.error("Error submitting form:", error.response?.data || error);
-        toast.error("حدث خطأ أثناء رفع البيانات");
+        const errorMessage = error.response?.data?.message;
+        if (errorMessage === "email exit" || errorMessage === "user exit") {
+          toast.error("عذرا المستخدم موجود مسبقا قم بتسجيل الدخول ");
+          navigate("/Login");
+        } else if (errorMessage === "Passwords not match")
+          toast.error(" عذرا كلمة المرورو غير صحيحة  ");
+        else if (errorMessage === "user not found")
+          toast.error(" عذرا المستخدم غير موجود ");
+        else if (errorMessage === "school not exit")
+          toast.error(" عذرا المدرسة غير موجودة مسبقا ");
+        else if (errorMessage === "school not active yet .")
+          toast.error(" عذراالمدرسة غير متاحة حاليا");
+        else if (errorMessage === "circle exit")
+          toast.error(" عذرا الحلقة موجودة مسبقا");
+        else if (errorMessage === "you can't create more than one circle")
+          toast.error(" عذرا لا يمكنك انشاء أكثر من حلقة واحدة");
+        else {
+          toast.error("حدث خطأ أثناء رفع البيانات");
+        }
       }
     },
   });
