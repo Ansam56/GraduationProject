@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import style from './Header.module.css'
 // import Shape from '../../img/banner-shape.svg'
 import { Link } from 'react-router-dom'
+import { UserContext } from '../../../context/UserContext';
+
 export default function Header() {
+ let {userToken}=useContext(UserContext);
+ 
   return (
     <header className={`${style.header} position-relative mb-5 custom-text`}>
     {/* <img src={Shape} alt="header_background_shape" className="position-absolute bottom-0 w-100 " /> */}
@@ -21,9 +25,10 @@ export default function Header() {
           </div>
           
           <div className={`${style.joinBtn} text-center mt-3 `}> 
-          <Link className={`${style.btn} btn `} to="/SchoolForm">
+            {!userToken &&  <Link className={`${style.btn} btn `} to="/SchoolForm">
             أنشئ مدرستك القرآنية الآن
-          </Link>
+          </Link>}
+         
           </div>
 
        </div>

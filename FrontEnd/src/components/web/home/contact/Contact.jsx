@@ -19,7 +19,7 @@ export default function Contact() {
       icon:<WhatsAppIcon sx={{ color: '#F1ECE1', fontSize: 24  }} />
     },
     {
-      title:"raghadmoqady@gmail.com",
+      title:"tubaplatform@gmail.com",
       href:"mailto:example@example.com",
       icon: <EmailIcon sx={{ color: '#F1ECE1', fontSize: 24  }} />
     }

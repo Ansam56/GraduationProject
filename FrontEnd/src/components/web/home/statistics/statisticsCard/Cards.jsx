@@ -1,32 +1,35 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import MosqueIcon from '@mui/icons-material/Mosque';
 import GroupsIcon from "@mui/icons-material/Groups";
 import PersonIcon from '@mui/icons-material/Person';
 import SchoolIcon from "@mui/icons-material/School";
 import style from "./Cards.module.css";
-export default function Cards() {
+ 
+export default function Cards({data}) {
+  // console.log(data);
     const cards=[
         {
           icon:<MosqueIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/>,
-          cardTitle:"20",
+          cardTitle:data&&data[1]["schools no "],
           cardText:"عدد المدارس"
         },
         {
           icon:<GroupsIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/>,
-          cardTitle:"200",
+          cardTitle:data&&data[4]["students no "],
           cardText:"عدد الطلاب"  
         },
         {
           icon: <PersonIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/> ,
-          cardTitle:"100",
+          cardTitle:data&&data[2]["teachers no "],
           cardText:"عدد المعلمين"  
         },
         {
           icon:<SchoolIcon sx={{ fontSize: 40 }} className={`${style.muiIcon}`}/> ,
-          cardTitle:"60",
+          cardTitle:data&&data[3]["circles no "] ,
           cardText:"عدد الحلقات"  
         },
       ]
+     
   return (
     <div className="container"> 
     <div className={` ${style.content} custom-text`}>

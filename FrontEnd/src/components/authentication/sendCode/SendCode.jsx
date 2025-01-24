@@ -13,13 +13,11 @@ export default function SendCode() {
     email: "",
   };
   const onSubmit = async (values) => {
-    const { data } = await axios.patch(
-      `${import.meta.env.VITE_API_URL}/auth/sendcode`,
-      values
-    );
+    const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/auth/sendCode`, values);
+    
     if (data.message == "success") {
       toast.success("يرجى التحقق من بريدك الإلكتروني", {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,

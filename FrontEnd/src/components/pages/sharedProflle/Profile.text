@@ -1,0 +1,175 @@
+import { Avatar, Box, Divider, IconButton, Paper, Typography } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import p from "../../web/img/headerBg1.jpg"
+import style from "./Profile.module.css"
+import { Link } from "react-router-dom";
+import Dashboard_SubTitle from "../../pages/dashboardSubTitle/Dashboard_SubTitle";
+import { useContext, useEffect } from "react";
+import { SchoolAdminContext } from "../../context/SchoolAdminContext";
+
+
+export default function Profile() {
+    let {getSchoolAdminData,schoolAdminInfo}=useContext(SchoolAdminContext);
+ 
+  // const userName = "Shayma Ahmed"; // اسم المستخدم الكامل
+
+  // // استخدم أول حرفين من الاسم ليظهر كأحرف رمزية
+  // const initials = userName
+  //     .split(" ")
+  //     .map((name) => name[0])  // استخراج أول حرف من كل جزء من الاسم
+  //     .join("");               // جمع الأحرف لعرضها في الـAvatar
+   
+    return (
+      <>
+      <Dashboard_SubTitle title="المعلومات الشخصية"/> 
+
+        <div className={`${style.profileContent}`}>
+        
+         <form className="px-4 py-2" style={{ maxWidth: '600px', margin: '10px auto', backgroundColor: '#f8f9fa', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+         <div className={`${style.profileImg} mt-2 d-flex flex-column align-items-center`}>
+          <Avatar 
+                src={p} 
+                alt="Profile Picture"
+                sx={{
+                    width: 170,
+                    height: 170,
+                    objectFit: 'cover',  // يجعل الصورة تغطي الإطار بشكل متناسب
+                    objectPosition: 'center', // يضبط موضع الصورة بحيث تكون في المنتصف
+                }} 
+            />
+            <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#333',mt:2}}>
+                  {schoolAdminInfo?.userName}
+            </Typography>
+
+          </div>
+         
+            <fieldset disabled>
+                <div className="mt-3">
+                     {/* الاسم */}
+                <div className="mb-3 row align-items-center">
+                    <label htmlFor="name" className="col-md-4 col-form-label text-end">الاسم</label>
+                    <div className="col-md-8">
+                        <input type="text" id="name" className="form-control" placeholder="Shayma Ahmed" />
+                    </div>
+                </div>
+
+                {/* رقم الجوال */}
+                <div className="mb-3 row align-items-center">
+                    <label htmlFor="phone" className="col-md-4 col-form-label text-end">رقم الجوال</label>
+                    <div className="col-md-8">
+                        <input type="text" id="phone" className="form-control" placeholder="0598973345" />
+                    </div>
+                </div>
+
+                {/* المدينة */}
+                <div className="mb-3 row align-items-center">
+                    <label htmlFor="city" className="col-md-4 col-form-label text-end">المدينة</label>
+                    <div className="col-md-8">
+                        <input type="text" id="city" className="form-control" placeholder="Salfeet" />
+                    </div>
+                </div>
+
+                {/* البريد الإلكتروني */}
+                <div className="mb-3 row align-items-center">
+                    <label htmlFor="email" className="col-md-4 col-form-label text-end">البريد الإلكتروني</label>
+                    <div className="col-md-8">
+                        <input type="text" id="email" className="form-control" placeholder="shayma@gmail.com" />
+                    </div>
+                </div>
+
+                {/* كلمة السر */}
+                <div className="mb-3 row align-items-center">
+                    <label htmlFor="password" className="col-md-4 col-form-label text-end">كلمة السر</label>
+                    <div className="col-md-8">
+                        <input type="text" id="password" className="form-control" placeholder="••••••••" />
+                    </div>
+                </div>
+                </div>
+             
+            </fieldset>
+        </form>
+        
+            <IconButton color="primary" sx={{ position: 'absolute', top: 6 , right: 7 }}>
+              <Link to="/SchoolAdmin/EditProfile"><EditIcon/></Link>
+            </IconButton>
+        </div>
+      </>
+    );
+} 
+
+// import { Avatar, Box, Divider, IconButton, Paper, Typography } from "@mui/material";
+// import EditIcon from "@mui/icons-material/Edit";
+// import p from "../../web/img/headerBg1.jpg";
+// import style from "./Profile.module.css";
+// import { Link } from "react-router-dom";
+
+// export default function Profile() {
+//   return (
+//     <Box className={style.profileContent} sx={{ padding: '20px', backgroundColor: '#fff', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', maxWidth: '800px', margin: '20px auto' }}>
+      
+//       {/* صورة البروفايل والاسم */}
+//       <Box className={`${style.profileImg}`} display="flex" flexDirection="column" alignItems="center" mb={3}>
+//         <Avatar 
+//           src={p} 
+//           alt="Profile Picture"
+//           sx={{
+//             width: 150,
+//             height: 150,
+//             objectFit: 'cover',
+//             objectPosition: 'center',
+//             marginBottom: '10px'
+//           }} 
+//         />
+//         <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#333', mt: 2, mb: 2 }}>
+//           رغد عماد موقدي
+//         </Typography>
+//         <Divider sx={{ width: '100%', marginBottom: '20px' }} />
+//       </Box>
+      
+//       {/* المعلومات الشخصية */}
+//       <Box component="form" sx={{ width: '100%' }}>
+//         <Typography variant="h6" textAlign="center" sx={{ color: '#333', marginBottom: '20px' }}>المعلومات الشخصية</Typography>
+        
+//         <Box display="flex" flexWrap="wrap" justifyContent="space-between" gap={2} mb={2}>
+          
+//           {/* الاسم */}
+//           <Box width="48%">
+//             <label htmlFor="name" className="form-label" style={{ fontWeight: 'bold', color: '#555' }}>الاسم</label>
+//             <input type="text" id="name" className="form-control" placeholder="Shayma Ahmed" disabled style={{ borderRadius: '8px' }} />
+//           </Box>
+
+//           {/* رقم الجوال */}
+//           <Box width="48%">
+//             <label htmlFor="phone" className="form-label" style={{ fontWeight: 'bold', color: '#555' }}>رقم الجوال</label>
+//             <input type="text" id="phone" className="form-control" placeholder="0598973345" disabled style={{ borderRadius: '8px' }} />
+//           </Box>
+
+//           {/* المدينة */}
+//           <Box width="48%">
+//             <label htmlFor="city" className="form-label" style={{ fontWeight: 'bold', color: '#555' }}>المدينة</label>
+//             <input type="text" id="city" className="form-control" placeholder="Salfeet" disabled style={{ borderRadius: '8px' }} />
+//           </Box>
+
+//           {/* البريد الإلكتروني */}
+//           <Box width="48%">
+//             <label htmlFor="email" className="form-label" style={{ fontWeight: 'bold', color: '#555' }}>البريد الإلكتروني</label>
+//             <input type="text" id="email" className="form-control" placeholder="shayma@gmail.com" disabled style={{ borderRadius: '8px' }} />
+//           </Box>
+
+//           {/* كلمة السر */}
+//           <Box width="48%">
+//             <label htmlFor="password" className="form-label" style={{ fontWeight: 'bold', color: '#555' }}>كلمة السر</label>
+//             <input type="text" id="password" className="form-control" placeholder="••••••••" disabled style={{ borderRadius: '8px' }} />
+//           </Box>
+//         </Box>
+//       </Box>
+
+//       {/* زر تعديل */}
+//       <Box textAlign="center" mt={3}>
+//         <IconButton color="primary" component={Link} to="/SchoolAdmin/EditProfile" sx={{ backgroundColor: '#f5f5f5', '&:hover': { backgroundColor: '#ddd' }, padding: '10px' }}>
+//           <EditIcon fontSize="large" />
+//         </IconButton>
+//       </Box>
+//     </Box>
+//   );
+// }

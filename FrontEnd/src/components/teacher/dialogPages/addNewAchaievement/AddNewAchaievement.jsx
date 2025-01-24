@@ -381,7 +381,7 @@ export default function AddNewAchievement() {
                 dir="ltr"
                 name="rating"
                 value={formik.values.rating}
-                precision={0.5}
+                precision={0.2}
                 onChange={(event, newValue) => {
                   formik.setFieldValue('rating', newValue);
                 }}

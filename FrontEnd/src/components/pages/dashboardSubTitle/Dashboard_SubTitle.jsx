@@ -6,7 +6,7 @@ export default function Dashboard_SubTitle({title}) {
   return (
   <>
     <h2 className={`${style.title}`}>{title}</h2>
-    <Divider className={`${style.divider}`} />
+    <Divider className={`${style.divider} mb-5`} />
   </>
   )
 }

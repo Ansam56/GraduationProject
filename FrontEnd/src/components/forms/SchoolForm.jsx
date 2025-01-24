@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
+import axios from "axios";
 import { toast } from "react-toastify";
 import {
   schoolFormSchema,
@@ -8,20 +9,22 @@ import {
 import Input from "../authentication/Input";
 import style from "./Form.module.css";
 import formStyle from "../authentication/Auth.module.css";
+import { useNavigate } from "react-router-dom";
+import { ErrorToast, SuccessToast } from "../pages/toast/toast";
 
 export default function SchoolAndManagerForm() {
   const [step, setStep] = useState(1);
   const [schoolData, setSchoolData] = useState(null);
-  const [logoFileName, setLogoFileName] = useState("شعار المدرسة");
-  const [officialDocumentFileName, setOfficialDocumentFileName] =
-    useState("الوثيقة الرسمية");
+  const [schoolPhoto, setschoolPhoto] = useState("شعار المدرسة");
+  const [schoolInfo, setschoolInfoFileName] = useState("الوثيقة الرسمية");
+  const navigate = useNavigate();
 
   const schoolFormik = useFormik({
     initialValues: {
       schoolName: "",
       address: "",
-      logo: null,
-      officialDocument: null,
+      schoolPhoto: null,
+      schoolInfo: null,
     },
     validationSchema: schoolFormSchema,
     onSubmit: (values) => {
@@ -34,26 +37,96 @@ export default function SchoolAndManagerForm() {
     initialValues: {
       firstName: "",
       lastName: "",
-      id: "",
+      idNumber: "",
       email: "",
-      birthDate: "",
       phonePrefix: "",
       phone: "",
       gender: "",
       password: "",
-      confirmPassword: "",
-      city: "",
+      cpassword: "",
+      country: "",
     },
     validationSchema: managerFormSchema,
-    onSubmit: (managerValues) => {
+
+    onSubmit: async (managerValues) => {
       const finalPhone = `${managerValues.phonePrefix}${managerValues.phone}`;
+      const genderInEnglish =
+        managerValues.gender === "ذكر" ? "Male" : "Female";
       const finalData = {
-        ...schoolData,
-        manager: { ...managerValues, phone: finalPhone },
+        ...schoolData, //school info from Step 1
+        manager: {
+          userName: `${managerValues.firstName} ${managerValues.lastName}`, //combine names
+          password: managerValues.password,
+          cpassword: managerValues.cpassword,
+          email: managerValues.email,
+          idNumber: managerValues.idNumber,
+          mobile: finalPhone,
+          gender: genderInEnglish,
+          country: managerValues.country,
+        },
       };
+
       console.log("Final Data Submitted:", finalData);
-      toast.success("تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني");
+
+      try {
+        //send a POST request to the backend (manager registration)
+        const managerResponse = await axios.post(
+          ` ${import.meta.env.VITE_API_URL}/schoolAdmin/register`,
+          finalData.manager //send manager data
+        );
+        console.log("Manager response:", managerResponse.data);
+
+        //extract manager ID to use for the school
+        const managerId = managerResponse.data.id;
+
+        //send another POST request to create the school
+        const schoolFormData = new FormData();
+        schoolFormData.append("schoolName", schoolData.schoolName);
+        schoolFormData.append("address", schoolData.address);
+        schoolFormData.append("schoolPhoto", schoolData.schoolPhoto);
+        schoolFormData.append("schoolInfo", schoolData.schoolInfo);
+
+        const schoolResponse = await axios.post(
+          `${
+            import.meta.env.VITE_API_URL
+          }/schoolAdmin/createSchool/${managerId}`,
+          schoolFormData
+        );
+
+        console.log("School Created:", schoolResponse.data);
+        toast.success(
+          " تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني!"
+        );
+        navigate("../");
+      } catch (error) {
+        console.error("Error submitting form:", error.response?.data || error);
+        const errorMessage = error.response?.data?.message;
+        if (errorMessage === "email exit") {
+          toast.error("عذرا المستخدم موجود مسبقا قم بتسجيل الدخول ");
+          navigate("/Login");
+        } else if (errorMessage === "Passwords not match")
+          toast.error(" عذرا كلمة المرورو غير صحيحة  ");
+        else if (errorMessage === "school exit")
+          toast.error(" عذرا المدرسة موجودة مسبقا ");
+        else if (errorMessage === "user not found")
+          toast.error(" عذرا المستخدم غير موجود ");
+        else if (errorMessage === "you can't create more than one school")
+          toast.error(" عذرا لا يمكنك انشاء أكثر من مدرسة واحدة");
+        else {
+          toast.error("حدث خطأ أثناء رفع البيانات");
+        }
+      }
     },
+
+    // onSubmit: (managerValues) => {
+    //   const finalPhone = `${managerValues.phonePrefix}${managerValues.phone}`;
+    //   const finalData = {
+    //     ...schoolData,
+    //     manager: { ...managerValues, phone: finalPhone },
+    //   };
+    //   console.log("Final Data Submitted:", finalData);
+    //   toast.success("تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني");
+    // },
   });
 
   const schoolInputs = [
@@ -72,39 +145,39 @@ export default function SchoolAndManagerForm() {
       value: schoolFormik.values.address,
     },
     {
-      id: "logo",
+      id: "schoolPhoto",
       type: "file",
-      name: "logo",
+      name: "schoolPhoto",
       title: "شعار المدرسة",
-      value: schoolFormik.values.logo,
+      value: schoolFormik.values.schoolPhoto,
     },
     {
-      id: "officialDocument",
+      id: "schoolInfo",
       type: "file",
-      name: "officialDocument",
+      name: "schoolInfo",
       title: "الوثيقة الرسمية",
-      value: managerFormik.values.resume,
+      value: schoolFormik.values.schoolInfo,
     },
   ];
   const handleLogoChange = (event) => {
     const file = event.currentTarget.files[0];
-    setLogoFileName(file ? file.name : "شعار المدرسة");
-    schoolFormik.setFieldValue("logo", file);
+    setschoolPhoto(file ? file.name : "شعار المدرسة");
+    schoolFormik.setFieldValue("schoolPhoto", file);
   };
 
-  const handleOfficialDocumentChange = (event) => {
+  const handleschoolInfoChange = (event) => {
     const file = event.currentTarget.files[0];
-    setOfficialDocumentFileName(file ? file.name : "الوثيقة الرسمية");
-    managerFormik.setFieldValue("officialDocumentFileName", file);
+    setschoolInfoFileName(file ? file.name : "الوثيقة الرسمية");
+    schoolFormik.setFieldValue("schoolInfo", file);
   };
 
   const renderSchoolInputs = schoolInputs.map((input, index) => (
     <div key={index} className={`${formStyle.inputWrapper}`}>
       {input.type === "file" ? (
-        input.name === "logo" ? (
+        input.name === "schoolPhoto" ? (
           <>
             <label htmlFor={input.id} className={formStyle.fileInputLabel}>
-              {logoFileName}
+              {schoolPhoto}
             </label>
             <input
               id={input.id}
@@ -118,14 +191,14 @@ export default function SchoolAndManagerForm() {
         ) : (
           <>
             <label htmlFor={input.id} className={formStyle.fileInputLabel}>
-              {officialDocumentFileName}
+              {schoolInfo}
             </label>
             <input
               id={input.id}
               type="file"
               name={input.name}
               className={formStyle.fileInput}
-              onChange={handleOfficialDocumentChange}
+              onChange={handleschoolInfoChange}
               onBlur={schoolFormik.handleBlur}
             />
           </>
@@ -162,11 +235,11 @@ export default function SchoolAndManagerForm() {
       value: managerFormik.values.lastName,
     },
     {
-      id: "id",
+      id: "idNumber",
       type: "text",
-      name: "id",
+      name: "idNumber",
       title: "رقم الهوية",
-      value: managerFormik.values.id,
+      value: managerFormik.values.idNumber,
     },
     {
       id: "email",
@@ -176,11 +249,11 @@ export default function SchoolAndManagerForm() {
       value: managerFormik.values.email,
     },
     {
-      id: "city",
+      id: "country",
       type: "select",
-      name: "city",
+      name: "country",
       title: "المدينة",
-      value: managerFormik.values.city,
+      value: managerFormik.values.country,
       options: [
         "القدس",
         "رام الله",
@@ -200,13 +273,7 @@ export default function SchoolAndManagerForm() {
         "دير البلح",
       ],
     },
-    {
-      id: "birthDate",
-      type: "date",
-      name: "birthDate",
-      title: "تاريخ الميلاد",
-      value: managerFormik.values.birthDate,
-    },
+
     {
       id: "phonePrefix",
       type: "select",
@@ -238,30 +305,13 @@ export default function SchoolAndManagerForm() {
       value: managerFormik.values.password,
     },
     {
-      id: "confirmPassword",
+      id: "cpassword",
       type: "password",
-      name: "confirmPassword",
+      name: "cpassword",
       title: "تأكيد كلمة المرور",
-      value: managerFormik.values.confirmPassword,
+      value: managerFormik.values.cpassword,
     },
   ];
-
-  // const renderManagerInputs = managerInputs.map((input, index) => (
-  //   <div key={index} className={`${formStyle.inputWrapper}`}>
-  //     <Input
-  //       id={input.id}
-  //       type={input.type}
-  //       name={input.name}
-  //       title={input.title}
-  //       value={input.value}
-  //       errors={managerFormik.errors}
-  //       onChange={managerFormik.handleChange}
-  //       onBlur={managerFormik.handleBlur}
-  //       touched={managerFormik.touched}
-  //       options={input.options}
-  //     />
-  //   </div>
-  // ));
   const renderManagerInputs = managerInputs.map((input, index) => {
     if (input.name === "phonePrefix" || input.name === "phone") {
       return null;

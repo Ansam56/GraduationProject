@@ -20,8 +20,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import styles from "./Navbar.module.css";
 import Logo from '../../pages/logo/Logo';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home'; 
+import { useContext } from 'react';
+import { UserContext } from '../../context/UserContext';
+import Loader from '../../pages/loader/Loader';
+import { Skeleton, useMediaQuery } from '@mui/material';
 
 
 const drawerWidth = 240;
@@ -91,18 +95,29 @@ ScrollTop.propTypes = {
   window: PropTypes.func,
 };
 
-function DrawerAppBar(props ,{user,setUser} ) {
+function DrawerAppBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  let {userToken,Logout,userData}=useContext(UserContext); 
+  const isMobile = useMediaQuery('(max-width:995px)');
 
-  let navigate = useNavigate();
-
-  const Logout = ()=>{
-    localStorage.removeItem("userToken");
-    setUser(null);
-    navigate('/');
-  }
-
+  let controlPanelTarget='/';
+  if (userData&&userData.role=="admin"){
+    controlPanelTarget='/Admin';  
+    }else if(userData&&userData.role=="schoolAdmin"){
+      controlPanelTarget='/SchoolAdmin';   
+    }else if(userData&&userData.role=="teacher"){
+      controlPanelTarget='/Teacher';  
+    }else if(userData&&userData.role=="student" ||userData&&userData.role==="user"){
+      controlPanelTarget='/Student';   
+    } 
+    
+  //متل فكرة ال adapter
+   const logout=()=>{
+     Logout();
+     // navigate('/login', { replace: true }); // Replace history to prevent back navigation
+    }
+    
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
@@ -121,17 +136,24 @@ function DrawerAppBar(props ,{user,setUser} ) {
           <ListItem  key={index} sx={{ display: 'flex', justifyContent: 'center' }}  >
             <Link to={item.target} className={`${styles.navLinkSidebar} `}  > 
                 <ListItemText primary={item.name} className='custom-text' />  
-            </Link>   
+            </Link>
+               
           </ListItem>
         ))}
+          {userToken&&<ListItem  sx={{ display: 'flex', justifyContent: 'center' }}  >
+            <Link to={controlPanelTarget} className={`${styles.navLinkSidebar} `}  > 
+                <ListItemText primary="لوحة التحكم" className='custom-text' />  
+            </Link>
+               
+          </ListItem>}
           <ListItem sx={{ display: 'flex', justifyContent: 'center' }} className='custom-text' >
-           {!user?
+           {!userToken?
                   <Link className={`${styles.btnSidebar} btn `} to="/login">
                   تسجيل الدخول
                  </Link>
                 
-                :
-                  <Link className={`${styles.btnSidebar} btn `} onClick={Logout}>
+               :  
+                  <Link className={`${styles.btnSidebar} btn `} onClick={logout}>
                   تسجيل الخروج
                   </Link>
                 }  
@@ -141,7 +163,7 @@ function DrawerAppBar(props ,{user,setUser} ) {
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
-
+   
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -173,19 +195,26 @@ function DrawerAppBar(props ,{user,setUser} ) {
                   <Link to={item.target} key={index}  className={`${styles.navLink} me-4`} >
                      {item.name}
                   </Link>  
-            ))}  
+            ))} 
+            {userToken&&  <Link to={controlPanelTarget} className={`${styles.navLink} me-4`} >
+                     لوحة التحكم
+           </Link>} 
           </Box>
           <Box  sx={{ display: { xs: 'none', sm: 'block' } }} className='custom-text'>
-          {!user?
+          {!userToken?
                   <Link className={`${styles.btn} btn `} to="/login">
                   تسجيل الدخول
                  </Link>
                 
-                :
-                  <Link className={`${styles.btn} btn `} onClick={Logout}>
+               : 
+               <>
+                <Link className={`${styles.btn} btn `} onClick={logout}>
+                  {/* {userData?userData.userName:<Skeleton variant="text" sx={{ fontSize: '1rem',width:"5rem" }} />} */}
                   تسجيل الخروج
                   </Link>
-                }  
+               </>
+                 
+                }
             </Box>
          
         </Toolbar>

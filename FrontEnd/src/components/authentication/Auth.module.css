@@ -90,22 +90,22 @@
 }
 
 /*Input.jsx*/
-.field_holder {
+/* .field_holder {
   position: relative;
   margin-top: 27px;
-}
+} */
 
 /*if you want to move lables without placeholder*/
-.field_holder label {
+/* .field_holder label {
   position: absolute;
   color: #254336;
   margin-top: -43px;
   margin-right: 8px;
   z-index: -1;
   transition: 0.3s ease-in-out;
-}
+} */
 
-.field_holder input {
+/* .field_holder input {
   padding: 10px;
   margin: 7px 0;
   border: 0;
@@ -117,9 +117,9 @@
   font-size: 16px;
   color: #254336;
   transition: 0.4s ease-in-out;
-}
+} */
 
-.field_holder input:focus,
+/* .field_holder input:focus,
 .field_holder input:user-valid,
 .field_holder input:user-invalid {
   box-shadow: 0px 0px 20px #dad3be;
@@ -129,8 +129,8 @@
   border-radius: 15px;
   background: inherit;
   color: var(--highlight-color);
-}
-.field_holder input:focus ~ label,
+} */
+/* .field_holder input:focus ~ label,
 .field_holder input:user-valid ~ label,
 .field_holder input:user-invalid ~ label {
   transform: translateY(-21px);
@@ -142,8 +142,50 @@
   border-radius: 15px;
   padding: 1px 8px;
   font-weight: bold;
+} */
+.field_holder {
+  position: relative;
+  margin-top: 27px;
 }
 
+.field_holder label {
+  position: absolute;
+  top: -16px; /* تثبيت الـ label فوق الحقل */
+  right: 8px; /* المسافة من جهة اليمين */
+  color: var(--highlight-color);
+  font-size: 14px;
+  background-color: var(--main-color);
+  padding: 2px 9px;
+  /* width: 40%; */
+  border-radius: 15px;
+  font-weight: bold;
+  transition: 0.3s ease-in-out; /* يمكن الاحتفاظ به لتأثير اللون */
+  z-index: 1;
+}
+
+.field_holder input {
+  padding: 10px;
+  margin: 7px 0;
+  
+  border: 1px solid;
+  border-bottom: 1px solid;
+  border-radius: 15px;
+  border-color: var(--border-color) !important;
+  background: inherit;
+  font-size: 16px;
+  transition: 0.4s ease-in-out;
+}
+
+.field_holder input:focus {
+  box-shadow: 0px 0px 5px #dad3be;
+  outline: none; 
+  background: inherit; 
+}
+
+/* إزالة تأثير التحريك عند التفاعل */
+ 
+
+/*  */
 .field_holder .text {
   padding: 5px;
   color: red;
