@@ -9,8 +9,8 @@ import Input from "../authentication/Input";
 import style from "./Form.module.css";
 import formStyle from "../authentication/Auth.module.css";
 export default function StudentForm() {
-  const {schoolId}=useParams();  //from Raghad
-  
+  const { schoolId } = useParams(); //from Raghad
+
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -54,7 +54,25 @@ export default function StudentForm() {
         console.log("teacher response:", studentResponse.data);
       } catch (error) {
         console.error("Error submitting form:", error.response?.data || error);
-        toast.error("حدث خطأ أثناء رفع البيانات");
+        const errorMessage = error.response?.data?.message;
+        if (errorMessage === "email exit" || errorMessage === "user exit") {
+          toast.error("عذرا المستخدم موجود مسبقا قم بتسجيل الدخول ");
+          navigate("/Login");
+        } else if (errorMessage === "Passwords not match")
+          toast.error(" عذرا كلمة المرورو غير صحيحة  ");
+        else if (errorMessage === "user not found")
+          toast.error(" عذرا المستخدم غير موجود ");
+        else if (errorMessage === "school not exit")
+          toast.error(" عذرا المدرسة غير موجودة مسبقا ");
+        else if (errorMessage === "school not active yet .")
+          toast.error(" عذراالمدرسة غير متاحة حاليا");
+        else if (errorMessage === "circle not found")
+          toast.error(" عذرا الحلقة غير موجودة ");
+        else if (errorMessage === "circle not active now ,try another time.")
+          toast.error(" عذراالحلقة غير متاحة حاليا حاول لاحقا");
+        else if (errorMessage === "you can not join many circles")
+          toast.error(" عذرا لا يمكنك الانضمام لأكثر من حلقة واحدة");
+        else toast.error("حدث خطأ أثناء رفع البيانات");
       }
       // console.log("Form Submitted:", values);
       // toast.success("تم رفع الطلب , سيتم التواصل معك عبر البريد الالكتروني");
@@ -216,7 +234,7 @@ export default function StudentForm() {
             touched={formik.touched}
             options={input.options}
           />
-          {phoneInputs} 
+          {phoneInputs}
         </React.Fragment>
       );
     }
