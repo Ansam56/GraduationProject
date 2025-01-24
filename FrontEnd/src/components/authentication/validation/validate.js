@@ -22,23 +22,23 @@ export const loginSchema = yup.object({
     .min(6)
     .max(50),
   password: yup
-  .string()
-  .required("يجب إدخال كلمة المرور")
-  .min(8, "كلمة السر قصيرة جداً - يجب أن تتكون من 8 أحرف على الأقل")
-  .max(30, "كلمة السر طويلة جداً - الحد الأقصى 30 حرفاً")
-  .matches(
-    /[A-Z]/,
-    "كلمة السر يجب أن تحتوي على حرف كبير واحد على الأقل (Uppercase)"
-  )
-  .matches(
-    /[a-z]/,
-    "كلمة السر يجب أن تحتوي على حرف صغير واحد على الأقل (Lowercase)"
-  )
-  .matches(/\d/, "كلمة السر يجب أن تحتوي على رقم واحد على الأقل")
-  .matches(
-    /[@$!%*?&]/,
-    "كلمة السر يجب أن تحتوي على حرف خاص واحد على الأقل (مثل: @, $, !, %, *, ?, &)"
-  ),
+    .string()
+    .required("يجب إدخال كلمة المرور")
+    .min(8, "كلمة السر قصيرة جداً - يجب أن تتكون من 8 أحرف على الأقل")
+    .max(30, "كلمة السر طويلة جداً - الحد الأقصى 30 حرفاً")
+    .matches(
+      /[A-Z]/,
+      "كلمة السر يجب أن تحتوي على حرف كبير واحد على الأقل (Uppercase)"
+    )
+    .matches(
+      /[a-z]/,
+      "كلمة السر يجب أن تحتوي على حرف صغير واحد على الأقل (Lowercase)"
+    )
+    .matches(/\d/, "كلمة السر يجب أن تحتوي على رقم واحد على الأقل")
+    .matches(
+      /[@$!%*?&]/,
+      "كلمة السر يجب أن تحتوي على حرف خاص واحد على الأقل (مثل: @, $, !, %, *, ?, &)"
+    ),
 });
 export const sendCodeSchema = yup.object({
   email: yup
@@ -53,28 +53,28 @@ export const forgetPasswordSchema = yup.object({
     .required("يجب ادخال البريد الاكتروني*")
     .email("يجب كتابة البريد الالكتروني بالصيغة الصحيحة"),
   password: yup
-  .string()
-  .required("يجب ادخال كلمة المرور*")
-  .min(8, "كلمة السر قصيرة جداً - يجب أن تتكون من 8 أحرف على الأقل")
-  .max(30, "كلمة السر طويلة جداً - الحد الأقصى 30 حرفاً")
-  .matches(
-    /[A-Z]/,
-    "كلمة السر يجب أن تحتوي على حرف كبير واحد على الأقل (Uppercase)"
-  )
-  .matches(
-    /[a-z]/,
-    "كلمة السر يجب أن تحتوي على حرف صغير واحد على الأقل (Lowercase)"
-  )
-  .matches(/\d/, "كلمة السر يجب أن تحتوي على رقم واحد على الأقل")
-  .matches(
-    /[@$!%*?&]/,
-    "كلمة السر يجب أن تحتوي على حرف خاص واحد على الأقل (مثل: @, $, !, %, *, ?, &)"
-  ),
- cpassword: yup
- .string()
- .oneOf([yup.ref("password"), null], "يجب أن تتطابق كلمتا السر")
- .required("يجب ادخال تأكيد كلمة المرور"),
-    
+    .string()
+    .required("يجب ادخال كلمة المرور*")
+    .min(8, "كلمة السر قصيرة جداً - يجب أن تتكون من 8 أحرف على الأقل")
+    .max(30, "كلمة السر طويلة جداً - الحد الأقصى 30 حرفاً")
+    .matches(
+      /[A-Z]/,
+      "كلمة السر يجب أن تحتوي على حرف كبير واحد على الأقل (Uppercase)"
+    )
+    .matches(
+      /[a-z]/,
+      "كلمة السر يجب أن تحتوي على حرف صغير واحد على الأقل (Lowercase)"
+    )
+    .matches(/\d/, "كلمة السر يجب أن تحتوي على رقم واحد على الأقل")
+    .matches(
+      /[@$!%*?&]/,
+      "كلمة السر يجب أن تحتوي على حرف خاص واحد على الأقل (مثل: @, $, !, %, *, ?, &)"
+    ),
+  cpassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "يجب أن تتطابق كلمتا السر")
+    .required("يجب ادخال تأكيد كلمة المرور"),
+
   code: yup
     .string()
     .required(" يجب ادخال الرمز*")
@@ -82,15 +82,14 @@ export const forgetPasswordSchema = yup.object({
 });
 
 export const AddNewAchaievementSchema = yup.object({
-  creationDate:yup.date().required("يرجى ادخال تاريخ الانشاء"),
+  creationDate: yup.date().required("يرجى ادخال تاريخ الانشاء"),
   achievementType: yup.string().required("يرجى تحديد نوع الانجاز"),
-  startSurah:yup.string().required("يرجى اختيار السورة"),
+  startSurah: yup.string().required("يرجى اختيار السورة"),
   endSurah: yup.string().required("يرجى اختيار السورة"),
   // pageCount:yup.string().required("يرجى ادخال عدد الصفحات المنجزة"),
   // rating: '',
   startVerse: yup.number().required("يرجى اختيار رقم آية البدء"),
-  endVerse:yup.number().required("يرجى اختيار رقم آية الانتهاء"),
-   
+  endVerse: yup.number().required("يرجى اختيار رقم آية الانتهاء"),
 });
 // const CITIES = [
 //   "القدس",
@@ -118,25 +117,19 @@ const SUPPORTED_DOC_FORMATS = [
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ];
 //schoolAdmin profile(المعلومات الشخصية)
-export const schoolAdminDataSchema=yup.object({
-  phonePrefix: yup
-    .string()
-    .oneOf(["+970", "+972"], " اختر +972 أو +970"),
-  phone: yup
-    .string()
-    .matches(PHONE_NUMBER_REGEX, "رقم الجوال غير صالح"), 
-    // profilePicture: yup
-    // .mixed()
-    // .nullable()
-    // .test("fileSize", "حجم الملف كبير جدًا", (value) => {
-    //   return !value || value.size <= 5*1024*1024; // الحد الأقصى للحجم هو 1MB
-    // })
-    // .test("fileType", "نوع الملف غير مدعوم", (value) => {
-    //   return !value || ["image/jpeg", "image/png", "image/jpg"].includes(value.type); // الأنواع المدعومة
-    // }),
-  
-    
-})
+export const schoolAdminDataSchema = yup.object({
+  phonePrefix: yup.string().oneOf(["+970", "+972"], " اختر +972 أو +970"),
+  phone: yup.string().matches(PHONE_NUMBER_REGEX, "رقم الجوال غير صالح"),
+  // profilePicture: yup
+  // .mixed()
+  // .nullable()
+  // .test("fileSize", "حجم الملف كبير جدًا", (value) => {
+  //   return !value || value.size <= 5*1024*1024; // الحد الأقصى للحجم هو 1MB
+  // })
+  // .test("fileType", "نوع الملف غير مدعوم", (value) => {
+  //   return !value || ["image/jpeg", "image/png", "image/jpg"].includes(value.type); // الأنواع المدعومة
+  // }),
+});
 export const managerFormSchema = yup.object({
   firstName: yup
     .string()
@@ -192,7 +185,7 @@ export const managerFormSchema = yup.object({
 //schoolAdmin profile(معلومات المدرسة)
 export const schoolDataSchema = yup.object({
   schoolName: yup
-    .string() 
+    .string()
     .min(3, "اسم المدرسة يجب أن يكون على الأقل 3 أحرف")
     .max(100, "اسم المدرسة لا يمكن أن يزيد عن 100 حرف"),
 
@@ -200,9 +193,6 @@ export const schoolDataSchema = yup.object({
     .string()
     .min(5, "العنوان يجب أن يكون على الأقل 5 أحرف")
     .max(200, "العنوان لا يمكن أن يزيد عن 200 حرف"),
-
-  
- 
 });
 export const schoolFormSchema = yup.object().shape({
   schoolName: yup
@@ -219,7 +209,7 @@ export const schoolFormSchema = yup.object().shape({
 
   schoolPhoto: yup
     .mixed()
-    .nullable()
+    .required("يجب ارفاق صورة للمدرسة ")
     .test("fileSize", "حجم الملف كبير جدًا", (value) => {
       return !value || value.size <= 1024 * 1024;
     })
@@ -239,7 +229,6 @@ export const schoolFormSchema = yup.object().shape({
       return !value || SUPPORTED_DOC_FORMATS.includes(value.type);
     }),
 });
-
 
 export const studentFormSchema = yup.object({
   firstName: yup
@@ -294,7 +283,6 @@ export const studentFormSchema = yup.object({
     .required("يجب أدخال تأكيد كلمة المرور"),
   country: yup.string().required("يجب ادخال المدينة"),
 });
-
 
 export const teacherFormSchema = yup.object({
   firstName: yup
@@ -363,9 +351,8 @@ export const circleFormSchema = yup.object().shape({
     .required("يجب ادخال اسم الحلقة")
     .min(3, "اسم الحلقة يجب أن يكون على الأقل 3 أحرف")
     .max(100, "اسم الحلقة لا يمكن أن يزيد عن 100 حرف"),
-  
-    circleType: yup.string().required("يجب اختيار نوع الحلقة"),
 
+  circleType: yup.string().required("يجب اختيار نوع الحلقة"),
 
   days: yup
     .array()
@@ -397,7 +384,7 @@ export const circleFormSchema = yup.object().shape({
 
   logo: yup
     .mixed()
-    .nullable()
+    .required("يجب ارفاق صورة للحلقة")
     .test("fileSize", "حجم الملف كبير جدًا", (value) => {
       return !value || value.size <= 1024 * 1024;
     })
