@@ -407,11 +407,11 @@ export const circleFormSchema = yup.object().shape({
     }),
 });
 export const PostFormSchema = yup.object().shape({
-  postTitle: yup
+  title: yup
     .string()
     .required("يرجى تعبئة عنوان الخبر")
     .min(5, "يجب أن يكون العنوان 5 أحرف على الأقل"),
-  postContent: yup.string().required("يرجى تعبئة تفاصيل الخبر"),
+  subject: yup.string().required("يرجى تعبئة تفاصيل الخبر"),
 });
 
 export const ExamFormSchema = yup.object({
