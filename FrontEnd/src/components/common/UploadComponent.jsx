@@ -4,16 +4,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 const UploadComponent = ({
-  handlePostPicture,
+  handlePostPicture, 
+  handlePicturePreview, 
   imagePreview,
-  handlePicturePreview,
 }) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      handlePostPicture(file); // Sets the actual file in formik
-      const filePreview = URL.createObjectURL(file);
-      handlePicturePreview(filePreview); // Sets the preview URL
+      handlePostPicture(file); 
+      const preview = URL.createObjectURL(file);
+      handlePicturePreview(preview); 
     }
   };
 
@@ -22,10 +22,11 @@ const UploadComponent = ({
     const file = event.dataTransfer.files[0];
     if (file) {
       handlePostPicture(file);
-      const filePreview = URL.createObjectURL(file);
-      handlePicturePreview(filePreview);
+      const preview = URL.createObjectURL(file);
+      handlePicturePreview(preview);
     }
   };
+
 
   const handleDragOver = (event) => {
     event.preventDefault();
