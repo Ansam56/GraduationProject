@@ -39,8 +39,7 @@ import TeacherContextProvider from "./components/context/TeacherContext";
 import StudentContextProvider from "./components/context/StudentContext";
 import StudentProfile from "./components/student/profile/StudentProfile";
 import SchoolCircles from "./components/student/schoolCircles/SchoolCircles";
-import Certificates from "./components/teacher/Certificates/Certificates";
-import CertificateForm from "./components/forms/CertificateForm";
+
 
 export const router = createBrowserRouter([
   {
@@ -252,14 +251,6 @@ export const router = createBrowserRouter([
       {
         path: "ExamForm",
         element: <ExamForm />,
-      },
-      {
-        path: "Certificates",
-        element: <Certificates />,
-      },
-      {
-        path: "CertificateForm",
-        element: <CertificateForm />,
       },
     ],
   },
