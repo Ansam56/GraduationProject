@@ -75,9 +75,12 @@ const ProfileCard = () => {
   const formattedData = {
     name: studentData?.circle?.circleName,
     profileImage: studentData?.circle?.logo?.secure_url || defaultAvatar,
-    days: studentData?.circle?.days
-      ?.map((day) => daysMapping[day.toLowerCase()] || day)
-      .join("، "),
+    days:
+      studentData?.circle.days?.length > 0
+        ? JSON.parse(studentData.circle.days[0])
+            .map((day) => daysMapping[day.toLowerCase()] || day)
+            .join("، ")
+        : "",
     startTime: formatTimeToArabic(studentData?.circle?.startTime),
     endTime: formatTimeToArabic(studentData?.circle?.endTime),
     whatsappLink: studentData?.teacher?.mobile,
