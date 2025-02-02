@@ -414,10 +414,18 @@ export const PostFormSchema = yup.object().shape({
   subject: yup.string().required("يرجى تعبئة تفاصيل الخبر"),
 });
 
-export const ExamFormSchema = yup.object({
-  surahOrPart: yup.string().required("مطلوب اختيار السورة او الجزء"),
-  examDate: yup.date().required("مطلوب تاريخ الامتحان"),
-  examTime: yup.string().required("مطلوب وقت الامتحان"),
-  zoomLink: yup.string().url("رابط غير صالح").required("مطلوب رابط الزوم"),
-  examMark: yup.number().required("مطلوب تحديد علامة الاختبار"),
-});
+export const ExamFormSchema = yup
+  .object({
+    studentId: yup.string().required("مطلوب اختيار الطالب"),
+    surah: yup.string().nullable(),
+    juz: yup.string().nullable(),
+    level: yup.string().nullable(),
+    examDate: yup.date().required("مطلوب تاريخ الامتحان"),
+    examTime: yup.string().required("مطلوب وقت الامتحان"),
+    zoomLink: yup.string(),
+  })
+  .test(
+    "at-least-one",
+    "يجب اختيار سورة أو جزء أو مستوى",
+    (values) => values.surah || values.juz || values.level
+  );
