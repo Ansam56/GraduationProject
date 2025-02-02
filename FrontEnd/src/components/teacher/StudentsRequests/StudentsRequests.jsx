@@ -11,6 +11,8 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../context/UserContext";
+import Loader from "../../pages/loader/Loader";
+
 
 const studentColumns = [
   { title: "اسم الطالب", key: "name" },
