@@ -1,28 +1,116 @@
-import React from "react";
-import { useFormik } from "formik";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { ExamFormSchema } from "../authentication/validation/validate";
 
+import React, { useState, useEffect, useContext } from "react";
+import { useFormik } from "formik";
+import { Form, Button, Container, Row, Col, Spinner } from "react-bootstrap";
+import { Box } from "@mui/material";
+import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router-dom";
 import "../../assets/css/CertificateForm.css";
+import { ExamFormSchema } from "../authentication/validation/validate";
+import { UserContext } from "../../components/context/UserContext";
 
 const ExamForm = () => {
   const navigate = useNavigate();
+  const [students, setStudents] = useState([]);
+  const [surahs, setSurahs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const { userToken } = useContext(UserContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [studentsRes, surahsRes] = await Promise.all([
+          fetch("https://tuba-temp-1.onrender.com/teacher/studentsManagement", {
+            headers: { Authorization: `Tuba__${userToken}` },
+          }),
+          fetch("https://tuba-temp-1.onrender.com/auth/allSurah"),
+        ]);
+
+        if (!studentsRes.ok) throw new Error("فشل في جلب الطلاب");
+        if (!surahsRes.ok) throw new Error("فشل في جلب السور");
+
+        const studentsData = await studentsRes.json();
+        const surahsData = await surahsRes.json();
+        console.log(surahsData);
+
+        setStudents(studentsData.student || []);
+        setSurahs(surahsData.map((s) => s.surahName) || []);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [userToken]);
 
   const formik = useFormik({
     initialValues: {
-      surahOrPart: "",
+      studentId: "",
+      surah: "",
+      juza: "",
+      level: "",
       examDate: "",
       examTime: "",
       zoomLink: "",
-      examMark: "",
     },
     validationSchema: ExamFormSchema,
-    onSubmit: (values) => {
-      console.log("Exam Form Submitted:", values);
-      toast.success("تم نشر الاختبار");
-      navigate("../exams");
+    // onSubmit: (values) => {
+    //   console.log("Exam Form Submitted:", values);
+    //   toast.success("تم نشر الاختبار");
+    //   navigate("../exams");
+    // },
+
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        const endpoint = `${import.meta.env.VITE_API_URL}/teacher/createExam/${
+          values.studentId
+        }`;
+
+        let type = "";
+        if (values.surah) type = "سورة";
+        else if (values.juza) type = "جزء";
+        else if (values.level) type = "مستوى";
+
+        if (!type) {
+          toast.error("يجب اختيار نوع الاختبار (سورة، جزء، أو مستوى)");
+          setSubmitting(false);
+          return;
+        }
+
+        const payload = {
+          type: type,
+          subject: values.surah || values.juza || values.level, 
+          examDate: values.examDate,
+          examTime: values.examTime,
+          examLink: values.zoomLink,
+        };
+
+        console.log("Submitting Exam Data:", payload); // Debugging
+
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Tuba__${userToken}`,
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "فشل في نشر الاختبار");
+        }
+
+        toast.success("تم نشر الاختبار بنجاح");
+        navigate("../exams");
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        setSubmitting(false);
+      }
     },
   });
 
@@ -32,27 +120,99 @@ const ExamForm = () => {
       <Row>
         <Col>
           <Form onSubmit={formik.handleSubmit} className="exam-create-form">
-            <Form.Group controlId="surahOrPart" className="mb-3">
-              <Form.Label>اختر السورة أو الجزء</Form.Label>
+            {/* Student Selection */}
+            <Form.Group controlId="studentId" className="mb-3">
+              <Form.Label>اختر الطالب</Form.Label>
+
               <Form.Select
-                name="surahOrPart"
-                value={formik.values.surahOrPart}
+                name="studentId"
+                value={formik.values.studentId}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 isInvalid={
-                  !!formik.errors.surahOrPart && formik.touched.surahOrPart
+                  !!formik.errors.studentId && formik.touched.studentId
                 }
               >
-                <option value="">اختر...</option>
-                <option value="الجزء الأول">الجزء الأول</option>
-                <option value="الجزء الثاني">الجزء الثاني</option>
-                <option value="سورة البقرة">سورة البقرة</option>
+                <option value="">اختر الطالب...</option>
+                {students.map((student) => (
+                  <option key={student.studentId} value={student.studentId}>
+                    {student.userName}
+                  </option>
+                ))}
               </Form.Select>
+
               <Form.Control.Feedback type="invalid">
-                {formik.errors.surahOrPart}
+                {formik.errors.studentId}
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* Surah Selection */}
+            <Form.Group controlId="surah" className="mb-3">
+              <Form.Label>اختر السورة</Form.Label>
+              <Form.Select
+                name="surah"
+                value={formik.values.surah}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={!!formik.errors.surah && formik.touched.surah}
+              >
+                <option value="">اختر...</option>
+                {surahs.map((surah, index) => (
+                  <option key={index} value={surah}>
+                    {surah}
+                  </option>
+                ))}
+              </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.surah}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            {/* Juza Selection */}
+            <Form.Group controlId="juza" className="mb-3">
+              <Form.Label>اختر الجزء</Form.Label>
+              <Form.Select
+                name="juza"
+                value={formik.values.juza}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={!!formik.errors.juza && formik.touched.juza}
+              >
+                <option value="">اختر...</option>
+                {[...Array(30).keys()].map((juza) => (
+                  <option key={juza + 1} value={`الجزء ${juza + 1}`}>
+                    الجزء {juza + 1}
+                  </option>
+                ))}
+              </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.juza}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            {/* Level Selection */}
+            <Form.Group controlId="level" className="mb-3">
+              <Form.Label>اختر المستوى</Form.Label>
+              <Form.Select
+                name="level"
+                value={formik.values.level}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={!!formik.errors.level && formik.touched.level}
+              >
+                <option value="">اختر...</option>
+                {[5, 10, 15, 20, 25, 30].map((level) => (
+                  <option key={level} value={`مستوى ${level}`}>
+                    مستوى {level}
+                  </option>
+                ))}
+              </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.level}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            {/* Exam Date */}
             <Form.Group controlId="examDate" className="mb-3">
               <Form.Label>اختر التاريخ</Form.Label>
               <Form.Control
@@ -68,6 +228,7 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* Exam Time */}
             <Form.Group controlId="examTime" className="mb-3">
               <Form.Label>اختر الوقت</Form.Label>
               <Form.Control
@@ -83,6 +244,7 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* Zoom Link */}
             <Form.Group controlId="zoomLink" className="mb-3">
               <Form.Label>ضع رابط الزووم</Form.Label>
               <Form.Control
@@ -99,31 +261,17 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="examMark" className="mb-3">
-              <Form.Label>علامة الاختبار</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="أدخل العلامة"
-                name="examMark"
-                value={formik.values.examMark}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                isInvalid={!!formik.errors.examMark && formik.touched.examMark}
-              />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.examMark}
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <div className="exam-button-container text-center">
+            <Box
+              sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}
+            >
               <Button
-                variant="success"
+                variant="primary"
                 type="submit"
                 disabled={!formik.isValid || formik.isSubmitting}
               >
                 نشر
               </Button>
-            </div>
+            </Box>
           </Form>
         </Col>
       </Row>
