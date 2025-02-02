@@ -133,6 +133,9 @@ const Administrator = () => {
   useEffect(() => {
     fetchData();
   }, [userToken]);
+    if (loading) {
+    return <Loader />;
+  }
 
   const administratorColumns = [
     { title: "اسم المعلم", key: "userName" },
