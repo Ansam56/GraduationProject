@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Table,
   TableBody,
@@ -13,100 +13,87 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
-  Button,
   Pagination,
   Box,
 } from "@mui/material";
 import NoteIcon from "@mui/icons-material/Note";
+import CloseIcon from "@mui/icons-material/Close";
 import Dashboard_SubTitle from "../../pages/dashboardSubTitle/Dashboard_SubTitle";
+import { UserContext } from "../../context/UserContext";
+import Loader from "../../pages/loader/Loader";
 
 const Exams = () => {
+  const [exams, setExams] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [currentNotes, setCurrentNotes] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const { userToken } = useContext(UserContext);
+
+  const getDayName = (dateString) => {
+    const days = [
+      "الأحد",
+      "الإثنين",
+      "الثلاثاء",
+      "الأربعاء",
+      "الخميس",
+      "الجمعة",
+      "السبت",
+    ];
+    const date = new Date(dateString);
+    return days[date.getDay()];
+  };
+
   const rowsPerPage = 5;
 
-  // Mocked Data
-  const exams = [
-    {
-      id: 1,
-      name: "جزء عم",
-      date: "2024-12-25",
-      day: "الاثنين",
-      time: "10:00 صباحًا",
-      status: "completed",
-      grade: 90,
-      notes: "عدم الالتزام بأحكام القلقة والتسرع في التلاوة",
-      link: "https://example.com/math-exam",
-    },
-    {
-      id: 2,
-      name: "سورة النور",
-      date: "2024-12-28",
-      day: "الخميس",
-      time: "1:00 مساءً",
-      status: "upcoming",
-      link: "https://example.com/english-exam",
-    },
-    {
-      id: 3,
-      name: "سورة البقرة",
-      date: "2024-12-22",
-      day: "الأحد",
-      time: "11:00 صباحًا",
-      status: "completed",
-      grade: 85,
-      notes:
-        "عدم الالتزام بأحكام الادغام في بضع مواضع والرجاء التركيز على أحكام الاقلاب",
-      link: "https://example.com/science-exam",
-    },
-    {
-      id: 4,
-      name: "سورة الواقعة",
-      date: "2024-12-22",
-      day: "الأحد",
-      time: "11:00 صباحًا",
-      status: "completed",
-      grade: 100,
-      notes:
-        "عدم الالتزام بأحكام الادغام في بضع مواضع والرجاء التركيز على أحكام الاقلاب",
-      link: "https://example.com/science-exam",
-    },
-    {
-      id: 5,
-      name: "سورة النبأ",
-      date: "2024-12-22",
-      day: "الأحد",
-      time: "11:00 صباحًا",
-      status: "completed",
-      grade: 95,
-      notes:
-        "عدم الالتزام بأحكام الادغام في بضع مواضع والرجاء التركيز على أحكام الاقلاب",
-      link: "https://example.com/science-exam",
-    },
-    {
-      id: 6,
-      name: "سورة النساء",
-      date: "2024-12-30",
-      day: "الجمعة",
-      time: "10:00 صباحًا",
-      status: "upcoming",
-      link: "https://example.com/quran-exam",
-    },
-  ];
+  useEffect(() => {
+    const fetchExams = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/student/getExams`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Tuba__${userToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-  const sortedExams = exams.sort((a, b) => {
-    if (a.status === "upcoming" && b.status !== "upcoming") return -1;
-    if (b.status === "upcoming" && a.status !== "upcoming") return 1;
-    if (a.status === "upcoming" && b.status === "upcoming") {
-      return new Date(b.date) - new Date(a.date);
-    }
-    if (a.status === "completed" && b.status === "completed") {
-      return new Date(a.date) - new Date(b.date);
-    }
-    return 0;
-  });
+        if (!response.ok) throw new Error("Failed to fetch exams");
+
+        const data = await response.json();
+        console.log("Fetched exams:", data);
+
+        if (data.exams && Array.isArray(data.exams)) {
+          setExams(data.exams);
+        } else {
+          throw new Error("Invalid response format: Expected an 'exams' array");
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchExams();
+  }, [userToken]);
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (loading) return <Typography>Loading exams...</Typography>;
+  if (error) return <Typography color="error">{error}</Typography>;
+
+  const sortedExams = Array.isArray(exams)
+    ? exams.sort((a, b) => {
+        if (a.done === false && b.done !== false) return -1;
+        if (b.done === false && a.done !== false) return 1;
+        return new Date(a.examDate) - new Date(b.examDate);
+      })
+    : [];
 
   const totalPages = Math.ceil(sortedExams.length / rowsPerPage);
   const paginatedRows = sortedExams.slice(
@@ -114,9 +101,7 @@ const Exams = () => {
     currentPage * rowsPerPage
   );
 
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
+  const handlePageChange = (event, value) => setCurrentPage(value);
 
   const handleOpenDialog = (notes) => {
     setCurrentNotes(notes);
@@ -147,33 +132,35 @@ const Exams = () => {
           <TableBody>
             {paginatedRows.map((exam) => (
               <TableRow key={exam.id} hover>
-                <TableCell align="center">{exam.name}</TableCell>
-                <TableCell align="center">{exam.date}</TableCell>
-                <TableCell align="center">{exam.day}</TableCell>
-                <TableCell align="center">{exam.time}</TableCell>
+                <TableCell align="center">{exam.subject}</TableCell>
+                <TableCell align="center">{exam.examDate}</TableCell>
                 <TableCell align="center">
-                  {exam.status === "completed" ? (
-                    <Typography color="primary">{exam.grade}</Typography>
+                  {getDayName(exam.examDate)}
+                </TableCell>
+                <TableCell align="center">{exam.examTime}</TableCell>
+                <TableCell align="center">
+                  {exam.done === true ? (
+                    <Typography color="primary">{exam.mark}</Typography>
                   ) : (
-                    <Typography color="text.secondary">-</Typography>
+                    "-"
                   )}
                 </TableCell>
                 <TableCell align="center">
-                  {exam.status === "completed" ? (
+                  {exam.done === true ? (
                     <IconButton
                       color="secondary"
-                      onClick={() => handleOpenDialog(exam.notes)}
+                      onClick={() => handleOpenDialog(exam.note)}
                     >
                       <NoteIcon />
                     </IconButton>
                   ) : (
-                    <Typography color="text.secondary">-</Typography>
+                    "-"
                   )}
                 </TableCell>
                 <TableCell align="center">
-                  {exam.status === "upcoming" ? (
+                  {exam.done === false ? (
                     <Link
-                      href={exam.link}
+                      href={exam.examLink}
                       target="_blank"
                       rel="noopener"
                       color="primary"
@@ -181,7 +168,7 @@ const Exams = () => {
                       دخول
                     </Link>
                   ) : (
-                    <Typography color="text.secondary">-</Typography>
+                    "-"
                   )}
                 </TableCell>
               </TableRow>
@@ -196,24 +183,53 @@ const Exams = () => {
           page={currentPage}
           onChange={handlePageChange}
           color="primary"
-          sx={{
-            "& .MuiPaginationItem-previousNext": {
-              transform: "rotateY(180deg)",
-            },
-          }}
         />
       </Box>
 
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>الملاحظات</DialogTitle>
-        <DialogContent>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        sx={{
+          "& .MuiDialog-paper": {
+            width: "400px",
+            maxWidth: "90%",
+            borderRadius: "10px",
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            backgroundColor: "#688860",
+            color: "white",
+            textAlign: "right",
+            fontSize: "1.2rem",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+
+            padding: "12px 16px",
+          }}
+        >
+          الملاحظات
+          <IconButton
+            onClick={handleCloseDialog}
+            sx={{
+              color: "white",
+              "&:hover": { color: "#f0f0f0" },
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent
+          sx={{
+            textAlign: "right",
+            fontSize: "1rem",
+            padding: "16px",
+          }}
+        >
           <Typography>{currentNotes}</Typography>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            إغلاق
-          </Button>
-        </DialogActions>
       </Dialog>
     </>
   );
