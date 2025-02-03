@@ -1,13 +1,13 @@
-
 import React, { useState, useEffect, useContext } from "react";
 import { useFormik } from "formik";
 import { Form, Button, Container, Row, Col, Spinner } from "react-bootstrap";
 import { Box } from "@mui/material";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../../assets/css/CertificateForm.css";
 import { ExamFormSchema } from "../authentication/validation/validate";
 import { UserContext } from "../../components/context/UserContext";
+import Loader from "../pages/loader/Loader";
 
 const ExamForm = () => {
   const navigate = useNavigate();
@@ -15,16 +15,28 @@ const ExamForm = () => {
   const [surahs, setSurahs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const location = useLocation();
+  const { exam, isEdit } = location.state || {};
   const { userToken } = useContext(UserContext);
+
+  const initialValues = {
+    studentId: exam?.studentId || "",
+    surah: exam?.subject && exam.type === "سورة" ? exam.subject : "",
+    juza: exam?.subject && exam.type === "جزء" ? exam.subject : "",
+    level: exam?.subject && exam.type === "مستوى" ? exam.subject : "",
+    examDate: exam?.examDate || "",
+    examTime: exam?.examTime || "",
+    zoomLink: exam?.examLink || "",
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [studentsRes, surahsRes] = await Promise.all([
-          fetch("https://tuba-temp-1.onrender.com/teacher/studentsManagement", {
+          fetch(`${import.meta.env.VITE_API_URL}/teacher/studentsManagement`, {
             headers: { Authorization: `Tuba__${userToken}` },
           }),
-          fetch("https://tuba-temp-1.onrender.com/auth/allSurah"),
+          fetch(`${import.meta.env.VITE_API_URL}/auth/allSurah`),
         ]);
 
         if (!studentsRes.ok) throw new Error("فشل في جلب الطلاب");
@@ -47,51 +59,37 @@ const ExamForm = () => {
   }, [userToken]);
 
   const formik = useFormik({
-    initialValues: {
-      studentId: "",
-      surah: "",
-      juza: "",
-      level: "",
-      examDate: "",
-      examTime: "",
-      zoomLink: "",
-    },
+    initialValues,
     validationSchema: ExamFormSchema,
-    // onSubmit: (values) => {
-    //   console.log("Exam Form Submitted:", values);
-    //   toast.success("تم نشر الاختبار");
-    //   navigate("../exams");
-    // },
+    enableReinitialize: true,
 
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const endpoint = `${import.meta.env.VITE_API_URL}/teacher/createExam/${
-          values.studentId
-        }`;
+        const endpoint = isEdit
+          ? `${import.meta.env.VITE_API_URL}/teacher/editExam/${
+              exam.studentId
+            }/${exam._id}`
+          : `${import.meta.env.VITE_API_URL}/teacher/createExam/${
+              values.studentId
+            }`;
+
+        const method = isEdit ? "PUT" : "POST";
 
         let type = "";
         if (values.surah) type = "سورة";
         else if (values.juza) type = "جزء";
         else if (values.level) type = "مستوى";
 
-        if (!type) {
-          toast.error("يجب اختيار نوع الاختبار (سورة، جزء، أو مستوى)");
-          setSubmitting(false);
-          return;
-        }
-
         const payload = {
-          type: type,
-          subject: values.surah || values.juza || values.level, 
+          type,
+          subject: values.surah || values.juza || values.level,
           examDate: values.examDate,
           examTime: values.examTime,
           examLink: values.zoomLink,
         };
 
-        console.log("Submitting Exam Data:", payload); // Debugging
-
         const response = await fetch(endpoint, {
-          method: "POST",
+          method,
           headers: {
             "Content-Type": "application/json",
             Authorization: `Tuba__${userToken}`,
@@ -101,10 +99,12 @@ const ExamForm = () => {
 
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.error || "فشل في نشر الاختبار");
+          throw new Error(
+            errorData.error || `فشل في ${isEdit ? "تحديث" : "نشر"} الاختبار`
+          );
         }
 
-        toast.success("تم نشر الاختبار بنجاح");
+        toast.success(`تم ${isEdit ? "التحديث" : "النشر"} بنجاح`);
         navigate("../exams");
       } catch (error) {
         toast.error(error.message);
@@ -114,13 +114,16 @@ const ExamForm = () => {
     },
   });
 
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <Container className="exam-form">
       <h2 className="text-center">اختبار تسميع</h2>
       <Row>
         <Col>
           <Form onSubmit={formik.handleSubmit} className="exam-create-form">
-            {/* Student Selection */}
             <Form.Group controlId="studentId" className="mb-3">
               <Form.Label>اختر الطالب</Form.Label>
 
@@ -146,7 +149,6 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Surah Selection */}
             <Form.Group controlId="surah" className="mb-3">
               <Form.Label>اختر السورة</Form.Label>
               <Form.Select
@@ -168,7 +170,6 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Juza Selection */}
             <Form.Group controlId="juza" className="mb-3">
               <Form.Label>اختر الجزء</Form.Label>
               <Form.Select
@@ -190,7 +191,6 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Level Selection */}
             <Form.Group controlId="level" className="mb-3">
               <Form.Label>اختر المستوى</Form.Label>
               <Form.Select
@@ -212,7 +212,6 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Exam Date */}
             <Form.Group controlId="examDate" className="mb-3">
               <Form.Label>اختر التاريخ</Form.Label>
               <Form.Control
@@ -228,7 +227,6 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Exam Time */}
             <Form.Group controlId="examTime" className="mb-3">
               <Form.Label>اختر الوقت</Form.Label>
               <Form.Control
@@ -244,7 +242,6 @@ const ExamForm = () => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Zoom Link */}
             <Form.Group controlId="zoomLink" className="mb-3">
               <Form.Label>ضع رابط الزووم</Form.Label>
               <Form.Control
