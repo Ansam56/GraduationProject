@@ -21,9 +21,8 @@ const ExamForm = () => {
 
   const initialValues = {
     studentId: exam?.studentId || "",
-    surah: exam?.subject && exam.type === "سورة" ? exam.subject : "",
-    juza: exam?.subject && exam.type === "جزء" ? exam.subject : "",
-    level: exam?.subject && exam.type === "مستوى" ? exam.subject : "",
+    type: exam?.type || "",
+    subject: exam?.subject || "",
     examDate: exam?.examDate || "",
     examTime: exam?.examTime || "",
     zoomLink: exam?.examLink || "",
@@ -44,7 +43,6 @@ const ExamForm = () => {
 
         const studentsData = await studentsRes.json();
         const surahsData = await surahsRes.json();
-        console.log(surahsData);
 
         setStudents(studentsData.student || []);
         setSurahs(surahsData.map((s) => s.surahName) || []);
@@ -75,14 +73,9 @@ const ExamForm = () => {
 
         const method = isEdit ? "PUT" : "POST";
 
-        let type = "";
-        if (values.surah) type = "سورة";
-        else if (values.juza) type = "جزء";
-        else if (values.level) type = "مستوى";
-
         const payload = {
-          type,
-          subject: values.surah || values.juza || values.level,
+          type: values.type,
+          subject: values.subject,
           examDate: values.examDate,
           examTime: values.examTime,
           examLink: values.zoomLink,
@@ -126,7 +119,6 @@ const ExamForm = () => {
           <Form onSubmit={formik.handleSubmit} className="exam-create-form">
             <Form.Group controlId="studentId" className="mb-3">
               <Form.Label>اختر الطالب</Form.Label>
-
               <Form.Select
                 name="studentId"
                 value={formik.values.studentId}
@@ -143,72 +135,62 @@ const ExamForm = () => {
                   </option>
                 ))}
               </Form.Select>
-
               <Form.Control.Feedback type="invalid">
                 {formik.errors.studentId}
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="surah" className="mb-3">
-              <Form.Label>اختر السورة</Form.Label>
+            <Form.Group controlId="type" className="mb-3">
+              <Form.Label>نوع الاختبار</Form.Label>
               <Form.Select
-                name="surah"
-                value={formik.values.surah}
+                name="type"
+                value={formik.values.type}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                isInvalid={!!formik.errors.surah && formik.touched.surah}
+                isInvalid={!!formik.errors.type && formik.touched.type}
               >
-                <option value="">اختر...</option>
-                {surahs.map((surah, index) => (
-                  <option key={index} value={surah}>
-                    {surah}
-                  </option>
-                ))}
+                <option value="">اختر النوع...</option>
+                <option value="سورة">سورة</option>
+                <option value="جزء">جزء</option>
+                <option value="مستوى">مستوى</option>
               </Form.Select>
               <Form.Control.Feedback type="invalid">
-                {formik.errors.surah}
+                {formik.errors.type}
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="juza" className="mb-3">
-              <Form.Label>اختر الجزء</Form.Label>
+            <Form.Group controlId="subject" className="mb-3">
+              <Form.Label>اختر {formik.values.type || "الموضوع"}</Form.Label>
               <Form.Select
-                name="juza"
-                value={formik.values.juza}
+                name="subject"
+                value={formik.values.subject}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                isInvalid={!!formik.errors.juza && formik.touched.juza}
+                isInvalid={!!formik.errors.subject && formik.touched.subject}
+                disabled={!formik.values.type}
               >
-                <option value="">اختر...</option>
-                {[...Array(30).keys()].map((juza) => (
-                  <option key={juza + 1} value={`الجزء ${juza + 1}`}>
-                    الجزء {juza + 1}
-                  </option>
-                ))}
+                <option value="">اختر {formik.values.type}...</option>
+                {formik.values.type === "سورة" &&
+                  surahs.map((surah, index) => (
+                    <option key={index} value={surah}>
+                      {surah}
+                    </option>
+                  ))}
+                {formik.values.type === "جزء" &&
+                  [...Array(30).keys()].map((juza) => (
+                    <option key={juza + 1} value={`الجزء ${juza + 1}`}>
+                      الجزء {juza + 1}
+                    </option>
+                  ))}
+                {formik.values.type === "مستوى" &&
+                  [5, 10, 15, 20, 25, 30].map((level) => (
+                    <option key={level} value={`مستوى ${level}`}>
+                      مستوى {level}
+                    </option>
+                  ))}
               </Form.Select>
               <Form.Control.Feedback type="invalid">
-                {formik.errors.juza}
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Group controlId="level" className="mb-3">
-              <Form.Label>اختر المستوى</Form.Label>
-              <Form.Select
-                name="level"
-                value={formik.values.level}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                isInvalid={!!formik.errors.level && formik.touched.level}
-              >
-                <option value="">اختر...</option>
-                {[5, 10, 15, 20, 25, 30].map((level) => (
-                  <option key={level} value={`مستوى ${level}`}>
-                    مستوى {level}
-                  </option>
-                ))}
-              </Form.Select>
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.level}
+                {formik.errors.subject}
               </Form.Control.Feedback>
             </Form.Group>
 
