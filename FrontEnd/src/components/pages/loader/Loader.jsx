@@ -5,7 +5,7 @@ export default function Loader() {
   return (
     <div> 
       <Backdrop
-        sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
+        // sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
         open= {true}
         className={`${style.page}`}
       > 

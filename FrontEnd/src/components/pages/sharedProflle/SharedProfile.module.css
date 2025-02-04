@@ -1,8 +1,20 @@
-.editIcon{
-    margin-top: 10.5rem;
-    background-color: #688860;
-    
+.editIconDiv{
+    margin-top: 10.5rem; 
+     border-radius: 50% !important;
+     height: 3rem;
+     width: 3rem;
+   
    }
-   .deleteIcon{
-    margin-top: 8rem;
+     
+   .deleteIconDiv{
+    margin-top: 7.3rem;
+    border-radius: 50% !important;
+    height: 3rem;
+    width: 3rem;
    }
+
+   .Icon{
+   color: var(--main-color);
+   }
+  
+   

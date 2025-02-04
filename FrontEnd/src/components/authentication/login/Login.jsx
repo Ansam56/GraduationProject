@@ -25,7 +25,7 @@ export default function Login() {
       setLoading(true);
       const {data}= await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`,values); 
       setLoading(false);  
-      if(data.message=="success"){//الباك اند رح يرجع token 
+      if(data?.message=="success"){//الباك اند رح يرجع token 
         // Cookies.set("userToken", data.token, {
         //   expires:  1 / 96,  // 8 ساعات (1/3 يوم)
         //   secure: true,    // تُرسل الكوكيز عبر HTTPS فقط
@@ -119,9 +119,7 @@ export default function Login() {
    touched={formik.touched}//لتخزين الاماكن اللي قمنا بزيارتها ورح يتم اعتبارها ترو فقط لما اطلع من الانبوت 
    key={index} />
    )
-if(loading){
-  return  <Loader/>
-}
+ 
   return ( 
     <SharedForm
     title={'تسجيل الدخول'}
@@ -131,6 +129,7 @@ if(loading){
     secondaryAction_targetComponent={"/sendCode"}
     mainAction={'تسجيل دخول'}
     formik_isValid={formik.isValid} 
-  /> 
+    loading={loading}
+   /> 
   )
 }

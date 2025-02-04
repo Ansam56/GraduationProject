@@ -7,16 +7,16 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CloseIcon from '@mui/icons-material/Close';
 import style from './CommonDialog.module.css'
+import { CircularProgress } from '@mui/material';
 
 export default function CommonDialog({ open, onClose ,width,title,content,actions,actionFunction }) {
-   
-  const handleConfirmAction = () => {
-    if (actionFunction) {
-      actionFunction(); // Invoke the passed action function
-    }
-    if (onClose) {
-      onClose(); // Invoke the onClose function to close the dialog
-    }
+  const [loading ,setLoading]=useState(false);
+
+  const handleConfirmAction = async() => {
+      setLoading(true);
+      await actionFunction(); // Invoke the passed action function 
+      setLoading(false);  
+      onClose(); // Invoke the onClose function to close the dialog 
   };
 
   return (
@@ -57,7 +57,8 @@ export default function CommonDialog({ open, onClose ,width,title,content,action
       autoFocus  
       className={`${style.content} custom-text`}
     >
-      {actions}
+      {loading? <CircularProgress  color="inherit" size={20} />:actions}
+       
     </Button>
   </>
         )}

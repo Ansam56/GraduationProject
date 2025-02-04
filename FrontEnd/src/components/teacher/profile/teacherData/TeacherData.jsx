@@ -16,8 +16,8 @@ export default function TeacherData() {
     let [loader,setLoader]=useState(false);
     // حالة لحفظ الصورة المعروضة
     const [previewImage, setPreviewImage] = useState(teacherInfo?.profilePicture.secure_url);
-    let [isDefault,setIsDefault]=useState(true);//عشان ايقونة الحذف انها تكون disabled
-
+    let [isDefault,setIsDefault]=useState(teacherInfo?.profilePicture.secure_url=="https://res.cloudinary.com/dff9dgomp/image/upload/v1737492452/default_zcjitd.jpg"?true:false);//عشان ايقونة الحذف انها تكون disabled
+    
     const splitPhoneNumber=(mobile)=>{
         const match=mobile?.match(/^(\+\d+)(\d{9,})$/);   //Regex 
         const phonePrefix = match?match[1]:""; // الجزء الأول (المقدمة)
@@ -52,10 +52,10 @@ export default function TeacherData() {
   //         reader.readAsDataURL(file);
   //     }
   // };
-     
+     //loading:من مسؤوولية ال Dialog
     const handleRemovePicture =async () => {
       let {userUpdate} =await deleteUserPhoto();
-        if(userUpdate){
+      if(userUpdate){
        //للباك 
       setTeacherInfo(userUpdate);
       //لليوزر
@@ -121,6 +121,7 @@ export default function TeacherData() {
       setTeacherInfo(data?.teacher);  
       SuccessToast("تم تعديل البيانات بنجاح");
     }catch(error){
+       ErrorToast("حدث خطأ أثناء تحديث البيانات");
       setLoader(false);
     }
       

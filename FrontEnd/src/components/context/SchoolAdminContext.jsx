@@ -12,6 +12,9 @@ export default function SchoolAdminContextProvider({children}) {
     const [schoolAdminInfo,setSchoolAdminInfo]=useState(null);
     const [schoolInfo,setSchoolInfo]=useState(null);
     const [loading,setLoading]=useState(true);
+    const [reportRows,setReportRows]=useState(null);
+    const [reportStatistics,setReportStatistics]=useState(null);
+
     console.log("hi");
     const getSchoolAdminData=async()=>{ 
        if(userToken){
@@ -49,7 +52,67 @@ export default function SchoolAdminContextProvider({children}) {
        }
        setLoading(false);
     } 
-    
+   
+  //getCircleReport
+ //get circleReportByDate
+ const getSchoolReportByDate=async(minDate,maxDate)=>{
+  try{
+    const {data}=await axios.post(`${import.meta.env.VITE_API_URL}/schoolAdmin/getRrports`,
+      {
+          startDate: minDate,
+          endDate: maxDate,
+      },
+      { headers: {Authorization:`Tuba__${userToken}`} } )  ;  
+      setReportRows(data?.reportsForAllCircles); 
+      setReportStatistics(data?.summary); 
+  }catch(error){ 
+    if (error.response) { 
+        if(error.response.data.message==="user not found"){
+        ErrorToast("عذرًا، المستخدم غير موجود.");
+        Logout(); 
+         }   
+         if(error.response.data.message==="school not found"){
+          ErrorToast("عذرًا،المدرسة غير موجودة.");
+          Logout(); 
+           }   
+     } else if (error.request) {
+            // الخطأ بسبب مشكلة في الشبكة (مثل انقطاع الإنترنت)
+            ErrorToast("تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك."); 
+     } else {
+            // خطأ آخر
+            ErrorToast(`حدث خطأ: ${error.message}`); 
+    } 
+  }
+}
+    //getAllSchoolAdminReports
+    const getAllSchoolAdminReports=async()=>{
+      try{
+        const {data}=await axios.get(`${import.meta.env.VITE_API_URL}/schoolAdmin/getRrports`,
+          { headers: {Authorization:`Tuba__${userToken}`} } )  ;
+          console.log(data?.reportsForAllCircles); 
+          console.log(data?.summary);
+          setReportRows(data?.reportsForAllCircles); 
+          setReportStatistics(data?.summary); 
+      }catch(error){ 
+        if (error.response) { 
+          if(error.response.data.message==="user not found"){
+          ErrorToast("عذرًا، المستخدم غير موجود.");
+          Logout(); 
+           }   
+           if(error.response.data.message==="school not found"){
+            ErrorToast("عذرًا،المدرسة غير موجودة.");
+            Logout(); 
+             }   
+       } else if (error.request) {
+              // الخطأ بسبب مشكلة في الشبكة (مثل انقطاع الإنترنت)
+              ErrorToast("تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك."); 
+       } else {
+              // خطأ آخر
+              ErrorToast(`حدث خطأ: ${error.message}`); 
+      } 
+      }
+    }
+  
     useEffect(()=>{
       getSchoolAdminData();
     },[])
@@ -57,7 +120,7 @@ export default function SchoolAdminContextProvider({children}) {
   if(loading){
     return <Loader/>
   }
-  return (<SchoolAdminContext.Provider value={{schoolAdminInfo,schoolInfo,getSchoolAdminData,setSchoolAdminInfo,setSchoolInfo}} >
+  return (<SchoolAdminContext.Provider value={{schoolAdminInfo,schoolInfo,getSchoolAdminData,setSchoolAdminInfo,setSchoolInfo,getSchoolReportByDate,getAllSchoolAdminReports,reportRows,reportStatistics}} >
     {children}
   </SchoolAdminContext.Provider>
   )

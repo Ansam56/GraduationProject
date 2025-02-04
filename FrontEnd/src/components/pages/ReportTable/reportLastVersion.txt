@@ -8,16 +8,13 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Box, CircularProgress, IconButton, Rating, TextField } from "@mui/material";
+import { Box, IconButton, Rating, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CommonDialog from "../commonDialog/CommonDialog";
 import StatisticsCard from "./statisticsCard/StatisticsCard";
-import { Button } from "react-bootstrap";
- import ReplayIcon from '@mui/icons-material/Replay';
-import EditAchaievement from "../../teacher/dialogPages/editAchaievement/EditAchaievement";
- //بضل نربط الحذف والتعديل مع الباك
+//بضل نربط الحذف والتعديل مع الباك
 //وذلك باستخدام context
 //وبضل شغلة اضافة سكرول لما نصغر الشاشة ضروري
 
@@ -41,29 +38,31 @@ const theme = createTheme({
   },
 });
 
-export default function ReportTable({ columns, rows, reportStatistics ,role, DateFitlerFunction,ResetRowsFunction,deleteReport}) {
+export default function ReportTable({ columns, rows ,role }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  console.log(reportStatistics);
   //for Details Dialog
   const [openDialog, setOpenDialog] = React.useState(false); // حالة للتحكم في فتح وإغلاق الـ Dialog
   const [details, setDetails] = React.useState("");
- 
+  //range of date filter
+  const [filteredRows, setFilteredRows] = React.useState(rows);
+  const [minDate, setMinDate] = React.useState("");
+  const [maxDate, setMaxDate] = React.useState("");
 //for date errors
 const [dateError, setDateError] = React.useState("");
-   //range of date filter
-    const [minDate, setMinDate] = React.useState("");
-   const [maxDate, setMaxDate] = React.useState("");
-   const [filterLoading,setFilterLoading]=React.useState(false);
-   const [resetLoading,setResetLoading]=React.useState(false);
-   const [isFiltered,setIsFiltered]=React.useState(false);
  
+ // Statistics states
+
+ const [statistics, setStatistics] = React.useState({
+  savedPages: 0,
+  revisionPages: 0,
+  tathbeetPages: 0,
+});
  //هاي بدنا نبعتها للكومبوننت كارد الاحصائيات
- //رح نصير نوخدها من الباك بعد ما نفلتر بناء على التاريخ 
  const statisticsContent = [
-  { label: "عدد صفحات الحفظ", number: reportStatistics?.totalHifz },
-  { label: "عدد صفحات المراجعة", number: reportStatistics?.totalReview },
-  { label: "عدد صفحات التثبيت", number: reportStatistics?.totalTathbit },
+  { label: "عدد صفحات الحفظ", number: statistics.savedPages },
+  { label: "عدد صفحات المراجعة", number: statistics.revisionPages },
+  { label: "عدد صفحات التثبيت", number: statistics.tathbeetPages },
 ];
   
   const handleChangePage = (event, newPage) => {
@@ -85,66 +84,66 @@ const [dateError, setDateError] = React.useState("");
     setOpenDialog(false); // إغلاق الـ Dialog
     setDetails("");
   };
-  
+  //range of date filter
+  const handleDateFilter = () => {
+    //  user has not selected any date filters
+    if (!minDate && !maxDate) {
+      setFilteredRows(rows);
+      return;
+    }
 
-  //for Filter Date 
-    const onFilter = async() => {
-      setFilterLoading(true);
-         await DateFitlerFunction(minDate,maxDate);
-         setFilterLoading(false);
-         setIsFiltered(true);
-    };
+    const filtered = rows.filter((row) => {
+      const rowDate = new Date(row.AchaievementDate); // Ensure your row contains a `date` field
+      const min = minDate ? new Date(minDate) : null;
+      const max = maxDate ? new Date(maxDate) : null;
 
-// for Delete Dialog
-  const [openConfirmDeleteDialog, setOpenConfirmDeleteDialog] =React.useState(false); // حالة للتحكم في فتح وإغلاق الـ Dialog
-  const [reportId,setReportId]=React.useState(null);
-  const [studentName,setStudentName]=React.useState(null);
-  const openDeleteDialog = () => {
-    setOpenConfirmDeleteDialog(true); // فتح الـ Dialog
-  };
+      return (!min || rowDate >= min) && (!max || rowDate <= max);
+    });
 
-  const closeDeleteDialog = () => {
-    setOpenConfirmDeleteDialog(false); // إغلاق الـ Dialog
+    setFilteredRows(filtered);
   };
-  //فقط للمعلم
-  //حذف تقرير
-//1st
-  const handelDeleteReport=(reportId)=>{
-    setReportId(reportId);
-    openDeleteDialog();
-  }
- //2nd after dialog => actionFunction
-  const DeleteReport=async()=>{
-    //only from teacher
-      await deleteReport(reportId);
-  }
-  /////
-  //تعديل تقرير
-  const [openEditDialog, setOpenEditDialog] =React.useState(false); // حالة للتحكم في فتح وإغلاق الـ Dialog
-  const openEditReoprtDialog = () => {
-    setOpenEditDialog(true); // فتح الـ Dialog
-  };
+ 
+  React.useEffect(() => {
+    handleDateFilter();
+  }, [minDate, maxDate, rows]);
 
-  const closeEditReportDialog = () => {
-    setOpenEditDialog(false); // إغلاق الـ Dialog
-  };
-  const handelEditReport=(reportId,studentName)=>{
-    setReportId(reportId);
-    setStudentName(studentName);
-    openEditReoprtDialog();
-  }
-  //ResetRows
-  const ResetRows = async() => {
-    setResetLoading(true);
-    await ResetRowsFunction();
-    setResetLoading(false);
-    setIsFiltered(false);//disabled
-    setMaxDate("");
-    setMinDate("");
-  };
+  // Calculate statistics based on filtered rows
+  React.useEffect(() => {
+    let saved = 0,
+      revision = 0,
+      tathbeet = 0;
+
+    //لقدام بلزمها تغيير مثلا بشوف الرول اللي اجت من التوكن اذا مدير بعرضله اشي واذا معلم او طالب بعرضلهم اشيي  
+  //مبدئيا رح أحط الرول انا لان لسا ما عملنا user context
+//role="مدير "
+//role="معلم "
+// role="طالب"
+if (role === "مدير") {
+  rows.forEach((row) => {
+    saved += row.savedPagesNum ;
+    revision += row.revisionPagesNum ;
+    tathbeet += row.tathbeetPagesNum ;
+  });
+}else if(role=="معلم" || role=="طالب"){
+  filteredRows.forEach((row) => {
+    if (row.AchaievementType === "حفظ") saved += row.pagesNumber;
+    else if (row.AchaievementType === "مراجعة") revision += row.pagesNumber;
+    else if (row.AchaievementType === "تثبيت") tathbeet += row.pagesNumber;
+  });
+}
+   
+
+    setStatistics({
+      savedPages: saved,
+      revisionPages: revision,
+      tathbeetPages: tathbeet,
+    });
+  }, [filteredRows, role, rows]);
+
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ padding: 2 }}> 
+      <Box sx={{ padding: 2 }}>
+        <Paper sx={{ width: "100%" }} className="pt-1 pb-1 px-2">
           {/* Date filters */}
           <Box sx={{ display: "flex", gap: 2, marginBottom: 2 }} className="mt-3">
             <TextField
@@ -153,13 +152,14 @@ const [dateError, setDateError] = React.useState("");
               InputLabelProps={{ shrink: true }}
               value={minDate}
               onChange={(e) => {
-                const selectedDate = e.target.value; 
+                const selectedDate = e.target.value;
                 setMinDate(selectedDate);
-             //اذا تم تحديد تاريخ النهاية بالاول ثم تحديد قيمة تاريخ البداية بحيث تكون اكبر من تاريخ النهاية ==اعادة ضبط
+//اذا تم تحديد تاريخ النهاية بالاول ثم تحديد قيمة تاريخ البداية بحيث تكون اكبر من تاريخ النهاية ==اعادة ضبط
                 if (maxDate && new Date(selectedDate) > new Date(maxDate)) {
                   setMaxDate("");
                 }
-              }} 
+              }}
+               
             />
             <TextField
               label="إلى التاريخ:"
@@ -180,34 +180,16 @@ const [dateError, setDateError] = React.useState("");
               error={!!dateError} // يظهر الخطأ إذا كانت الرسالة موجودة
               helperText={dateError} // عرض رسالة الخطأ
             />
-             <Button  
-          onClick={()=>onFilter()}
-          disabled={!minDate || !maxDate || dateError} // تعطيل الزر إذا لم يتم إدخال التواريخ
-         >
-          {filterLoading? <CircularProgress  color="inherit" size={20} />: <SearchIcon />}
-        
-        </Button>
-        <Button  
-          onClick={()=>ResetRows()}
-          disabled={!isFiltered}
-         >
-          {resetLoading? <CircularProgress  color="inherit" size={20} />: <ReplayIcon/>} 
-          
-         </Button>
           </Box>
-          
           {/* -------------------------------------------------- */}
-{/* بعد عملية البحث وارسال طلب للباكإند */}
-{/* !rows:teacher لما يحذف كل التقارير
-   row.length==0: schoolAdmin لما ما يكون عنده ولا تقرير
-*/}
-          {!rows || rows?.length==0?
+
+          {filteredRows.length==0?
            <div className="alert alert-info text-center mt-2" role="alert">
-           لا يوجد تقارير
+           لا توجد بيانات مطابقة لعملية البحث
          </div>
           :
           <>
-          {/* عرض الاحصاءات بناء على المعلومات الموجودة بالجدول */}
+          {/* عرض الاحصاءات بناء على المعلومات الموجودة بالجدول  */}
          <StatisticsCard statisticsContent={statisticsContent}/>
 
             {/* TablePagination at the top */}
@@ -221,7 +203,7 @@ const [dateError, setDateError] = React.useState("");
             <TablePagination
               rowsPerPageOptions={[10, 25, 100]}
               component="div"
-              count={rows?.length}
+              count={rows.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
@@ -274,7 +256,8 @@ const [dateError, setDateError] = React.useState("");
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                {filteredRows
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <TableRow
                       hover
@@ -310,7 +293,11 @@ const [dateError, setDateError] = React.useState("");
                                     color: "blue", // Change color to blue
                                     marginRight: "8px", // Add some spacing between icons
                                   }}
-                                  onClick={() =>handelEditReport(row.code ,row.studentName)}
+                                  onClick={() =>
+                                    console.log(
+                                      `Edit clicked for row ${row.code}`
+                                    )
+                                  }
                                 >
                                   <EditIcon />
                                 </Box>
@@ -322,7 +309,11 @@ const [dateError, setDateError] = React.useState("");
                                     cursor: "pointer",
                                     color: "red", // Change color to red
                                   }}
-                                  onClick={() =>handelDeleteReport(row.code)}
+                                  onClick={() =>
+                                    console.log(
+                                      `Delete clicked for row ${row.code}`
+                                    )
+                                  }
                                 >
                                   <DeleteIcon />
                                 </Box>
@@ -333,12 +324,8 @@ const [dateError, setDateError] = React.useState("");
                               >
                                 <SearchIcon />
                               </IconButton>
-                            ) :column.id === "notes" && row.notes == "" ? (
-                               <p className=" m-0">_</p>
-                            ) :column.id =="creationDate"||column.id =="date"? (
+                            ) : column.id =="AchaievementDate"? (
                               new Date(value).toLocaleDateString("en-GB")
-                            ): column.id=="circleGender" ?(
-                              value === "Male" ? "ذكور" :value === "Female"?"اناث":"ذكور واناث"
                             ):value}
 
                           </TableCell> 
@@ -353,9 +340,8 @@ const [dateError, setDateError] = React.useState("");
           </>
           }
         
-         
+        </Paper>
       </Box>
-      {/* ملاحظات */}
       {openDialog && (
         <CommonDialog
           open={openDialog}
@@ -365,19 +351,6 @@ const [dateError, setDateError] = React.useState("");
           content={details}
         />
       )}
-    {/* حذف تقرير */}
-     {/* Delete Dialog */}
-      {openConfirmDeleteDialog && <CommonDialog open={openConfirmDeleteDialog} onClose={closeDeleteDialog} width="xs" title="تأكيد الحذف" content=" هل تريد حذف هذا التقرير ؟"
-      actions="حذف" actionFunction={DeleteReport}/>}
-
-
-      {/* تعديل تقرير */}
-     {openEditDialog && <CommonDialog open={openEditDialog} onClose={closeEditReportDialog} width="md" title=" تعديل الانجاز اليومي " content={<EditAchaievement reportId={reportId} studentName={studentName} onClose={closeEditReportDialog}/>}  />}
-      
     </ThemeProvider>
-    
   );
-};
- 
-
-
+}

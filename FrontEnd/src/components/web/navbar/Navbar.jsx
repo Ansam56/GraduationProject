@@ -99,7 +99,7 @@ function DrawerAppBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   let {userToken,Logout,userData}=useContext(UserContext); 
-  const isMobile = useMediaQuery('(max-width:995px)');
+  const isMobile = useMediaQuery('(max-width:600px)');
 
   let controlPanelTarget='/';
   if (userData&&userData.role=="admin"){
@@ -171,15 +171,18 @@ function DrawerAppBar(props) {
       <AppBar component="nav" className={`${styles.navbar}`}>
       <div className="container">
         <Toolbar>
+          {isMobile&&
+          (
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { xs: 'block', sm: 'none' } }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton>)}
+          
           <Typography
             variant="h6"
             component="div"
@@ -232,8 +235,7 @@ function DrawerAppBar(props) {
 
       {/* للشاشات الصغيرة  */}
       <nav>
-        <Drawer
-          container={container}
+        <Drawer 
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}

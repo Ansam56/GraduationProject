@@ -14,9 +14,7 @@ export default function CircleCard({
   teacherName,
   name,
   type,
-  gender,
-  availability,
-  instructions,
+  gender, 
   days,
   startTime,
   endTime,
@@ -92,12 +90,8 @@ export default function CircleCard({
             </div> */}
             <div className="d-flex justify-content-between ">
               <p>الوقت: </p>
-              {/* <Card.Text>{`${startTime} _ ${endTime}`}</Card.Text> */}
-              <Card.Text>
-    <span >{startTime}</span>
-    <span> إلى </span>
-    <span >{endTime}</span>
-  </Card.Text>
+              <Card.Text>{`${startTime} _ ${endTime}`}</Card.Text>
+              
             </div>
             <div className="d-flex justify-content-between">
               <p>الأيام: </p>
@@ -113,9 +107,7 @@ export default function CircleCard({
           </Card.Body>
         </div>
       </Card>
-
-      {/* <div>{availability}</div>
-    <div>{instructions}</div> */}
+ 
     </>
   );
 }

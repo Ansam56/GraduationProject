@@ -2,6 +2,7 @@ import React from "react";
 import style from "../Auth.module.css";
 import Logo from "../../pages/logo/Logo";
 import { Link } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 
  
 export default function SharedForm({
@@ -12,6 +13,7 @@ export default function SharedForm({
   secondaryAction_targetComponent,
   mainAction,
   formik_isValid,
+  loading
 }) {
   return (
     <div className={`${style.authLayout} `}>
@@ -38,10 +40,10 @@ export default function SharedForm({
             <div className="  mt-3">
               <button
                 type="submit"
-                disabled={!formik_isValid}
+                disabled={!formik_isValid || loading}
                 className={`${style.button}  `}
               >
-                {mainAction}
+                 {loading? <CircularProgress  color="inherit" size={20} />: mainAction} 
               </button>
             </div>
           </div>

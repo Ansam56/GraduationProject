@@ -108,6 +108,7 @@ const getCircles=async()=>{
   return(schoolCircles);  
  }
 const {data,isLoading} =useQuery("schoolCircles",getCircles); 
+console.log(data);
  if(isLoading){
   return <Loader/>
 }
@@ -130,11 +131,14 @@ const {data,isLoading} =useQuery("schoolCircles",getCircles);
   // تصفية الحلقات بناءً على جميع الفلاتر
   const filteredCircles = data?.filter((circle) => {
     const matchesSearch = circle.circleName.toLowerCase().includes(searchTerm.toLowerCase());
-    // const matchesGender = genderFilter ? circle.gender === genderFilter : true;
+    const matchesGender = genderFilter
+  ? (genderFilter === "ذكور" && circle.gender === "Male") ||
+    (genderFilter === "إناث" && circle.gender === "Female") ||
+    (genderFilter === "ذكور و إناث" && circle.gender !== "Male" && circle.gender !== "Female")
+  : true;
     const matchesType = typeFilter ? circle.type === typeFilter : true;
 
-    // return matchesSearch && matchesGender && matchesType;
-    return matchesSearch && matchesType;
+     return matchesSearch && matchesType && matchesGender;
   });
   let circleDaysInArabic = (days) => {
     const daysInArabic = {
@@ -150,6 +154,24 @@ const {data,isLoading} =useQuery("schoolCircles",getCircles);
     // تحويل الأيام إلى اللغة العربية والانضمام باستخدام ", "
     return days?.map((day) => daysInArabic[day]).join("، ");
   }; 
+  const formatTimeToArabic = (time) => {
+    if (!time) return "";
+    // حذف ال Am و Pm من التايم سترينغ
+    const cleanedTime = time.replace(/ ?[APap][Mm]?/g, "").trim();
+    // تقسيم الوقت لدقائق وساعات
+    const [hour, minute] = cleanedTime.split(":");
+    //تحويل الساعة من سترينغ لرقم 10 يعني بالنظام العشري
+    let hourInt = parseInt(hour, 10);
+    let period = "صباحًا"; //default to morning
+    if (hourInt >= 12) {
+      period = "مساءً"; //afternoon/evening
+      if (hourInt > 12) hourInt -= 12;
+    } else if (hourInt === 0) {
+      //00:00 to 12:00
+      hourInt = 12; //midnight case
+    }
+    return `${hourInt}:${minute} ${period}`;
+  };
 
   return (
     <>
@@ -168,6 +190,7 @@ const {data,isLoading} =useQuery("schoolCircles",getCircles);
         <option value="">الجنس (الكل)</option>
         <option value="اناث">إناث</option>
         <option value="ذكور">ذكور</option>
+        <option value="ذكور و إناث">ذكور و إناث</option>
       </select>
 
       {/* فلتر نوع الحلقة */}
@@ -191,14 +214,11 @@ const {data,isLoading} =useQuery("schoolCircles",getCircles);
                   name={circle?.circleName}/////
                   type={circle?.type}////
                   gender={circle?.circleGender=="Male"?"ذكور":circle?.circleGender=="Female"?"إناث":"ذكور و إناث"}
-                  // availability={circle.availability}
-                  // instructions={circle.instructions} 
-                  startTime={circle?.startTime}////
-                  endTime={circle?.endTime}////
+                  startTime={formatTimeToArabic(circle?.startTime)}////
+                  endTime={formatTimeToArabic(circle?.endTime)}////
                   days={circleDaysInArabic(circle?.days)||"_"}
                   // schoolId={circle?.schoolId}////
-                  circleImg={circle?.logo?.secure_url}
-                  // circleImg=""
+                  circleImg={circle?.logo?.secure_url} 
                   //good to join circle ,came from student initial dashboard
                   from={from}
                   studentId={studentId}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import Input from "../Input";
 import { forgetPasswordSchema } from "../validation/validate";
@@ -6,6 +6,7 @@ import axios from "axios";
 import {useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import SharedForm from "../sharedForm/SharedForm";
+import { ErrorToast, SuccessToast } from "../../pages/toast/toast";
 
 export default function ForgetPassword() {
   const initialValues = {
@@ -15,26 +16,35 @@ export default function ForgetPassword() {
     code: "",
   };
   const navigate = useNavigate();
+    const [loading,setLoading]=useState(false);
+
   const onSubmit = async (values) => {
-    const { data } = await axios.put(
-      `${import.meta.env.VITE_API_URL}/auth/forgetPassword`,
-      values
-    );
-    console.log(data.message);
-    if (data.message == "success") {
-      toast.success("لقد تم تغيير كلمة المرور الخاصة بك بنجاح", {
-        position: "top-right",
-        autoClose: false,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      navigate("/login");
+    try{
+      setLoading(true);
+      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/auth/forgetPassword`,values);
+      setLoading(false);  
+      if(data?.message=="success"){//الباك اند رح يرجع token 
+        SuccessToast("!لقد تم تغيير كلمة المرور الخاصة بك بنجاح" ); 
+        navigate("/login"); 
+      }
+    }catch(error){   
+      if (error.response) {
+        if(error.response.data.message==="email not found"){
+          ErrorToast("عذرًا، البريد الإلكتروني الذي أدخلته غير مسجل لدينا");  
+      } if(error.response.data.message==="invalid code"){
+        ErrorToast("الكود الذي أدخلته غير صحيح");
+      } 
+      } else if (error.request) {
+        // الخطأ بسبب مشكلة في الشبكة (مثل انقطاع الإنترنت)
+        ErrorToast("تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك."); 
+      } else {
+        // خطأ آخر
+        ErrorToast(`حدث خطأ: ${error.message}`); 
+      } 
+      setLoading(false);  
     }
   };
+ 
   const formik = useFormik({
     initialValues,
     onSubmit,
@@ -94,6 +104,7 @@ export default function ForgetPassword() {
        mainAction={'اعادة التعيين'}
        formik_isValid={formik.isValid}
        secondaryAction_targetComponent={"/login"}
+       loading={loading}
      /> 
   );
 }

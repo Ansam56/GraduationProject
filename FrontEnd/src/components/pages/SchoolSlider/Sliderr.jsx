@@ -34,7 +34,7 @@ export default function Sliderr({data}) {
    <SchoolCard 
      title= {card.schoolName}
      text={card.address}
-     imageUrl={card.schoolPhoto.secure_url}
+     imageUrl={card.schoolPhoto?.secure_url}
      studentNum={card.totalStudents}
      teacherNum={card.totalTeachers}
      circlesNum={card.totalCircles}

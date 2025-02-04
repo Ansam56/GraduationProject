@@ -43,9 +43,9 @@ export default function SharedProfile({formikHandelSubmit,renderInputs,avatarAlt
                                 </Box> 
                                  
                        {/* تعديل الصورة */}
-                       <div className={`position-absolute top-0   ${style.editIcon}`}>
-                                    <label htmlFor="profilePicture" className={`btn  btn-sm ${loader&& "disabled"}`} >
-                                        <EditIcon/>  
+                       <div className={`position-absolute top-0 `}>
+                                    <label htmlFor="profilePicture" className={`btn border-0 btn-success ${loader&& "disabled"}   ${style.editIconDiv}`} >
+                                        <EditIcon className={`${style.Icon} mt-2 mr-2`}/>  
                                     </label> 
                                     <input type="file" className=" d-none " name="profilePicture" id="profilePicture"   onChange={handleFieldChange} onBlur={handleBlur}  />
                                     {pictureTouched &&pictureErrors&& ErrorToast(pictureErrors) } 
@@ -58,15 +58,15 @@ export default function SharedProfile({formikHandelSubmit,renderInputs,avatarAlt
                                     /> */}
                                 </div> 
                                   {/* حذف الصورة */}
-                                  {deleteIcon=="true"&&<div className={`position-absolute top-0  ${style.deleteIcon} `}>
+                                  {deleteIcon=="true"&&<div className={`position-absolute top-0  `}>
                                     <button
                                         type="button"
-                                        className={`btn btn-danger  btn-sm ${loader&& "disabled"}`}
+                                        className={`btn btn-danger  btn-sm ${loader&& "disabled"} ${style.deleteIconDiv}`}
                                         // onClick={handleRemovePicture}
                                         onClick={openDeleteDialog}
                                         disabled={isDefault} // Disable if profilePicture is null
                                     >
-                                        <DeleteIcon/>  
+                                        <DeleteIcon className={`${style.Icon}`}/>  
                                     </button>
                                 </div>}
                                              

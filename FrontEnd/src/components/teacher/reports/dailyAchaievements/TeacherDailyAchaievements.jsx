@@ -3,6 +3,7 @@ import Dashboard_SubTitle from '../../../pages/dashboardSubTitle/Dashboard_SubTi
 import TeacherDailyAchaievementsTable from './dailyAchaievementsTable/TeacherDailyAchaievementsTable';
  //الصفحة الاساسية المربوطة مع الapp.jsx
 export default function TeacherDailyAchaievements() {
+  
   return (
   <>
     <Dashboard_SubTitle title="تقرير الانجاز اليومي للحلقة  "/>  

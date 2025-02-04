@@ -4,7 +4,7 @@ import defaultProfilePicture from "../../../web/img/defaultProfilePicture.png"
 import { useFormik } from 'formik';
 import { schoolAdminDataSchema } from '../../../authentication/validation/validate';
 import SharedInput_Profiles from '../../../pages/sharedInput_profiles/SharedInput_Profiles'; 
-import { SuccessToast } from '../../../pages/toast/toast';
+import { ErrorToast, SuccessToast } from '../../../pages/toast/toast';
 import { UserContext } from '../../../context/UserContext';
 import axios from 'axios';
 import SharedProfile from '../../../pages/sharedProflle/SharedProfile';
@@ -32,8 +32,8 @@ export default function SchoolAdminData() {
     let {schoolAdminInfo,setSchoolAdminInfo} =useContext(SchoolAdminContext); 
     let {userToken,deleteUserPhoto}=useContext(UserContext);  
     let [loader,setLoader]=useState(false);
-    let [isDefault,setIsDefault]=useState(true);//عشان ايقونة الحذف انها تكون disabled
-        // حالة لحفظ الصورة المعروضة
+    let [isDefault,setIsDefault]=useState(schoolAdminInfo?.profilePicture.secure_url=="https://res.cloudinary.com/dff9dgomp/image/upload/v1737492452/default_zcjitd.jpg"?true:false);//عشان ايقونة الحذف انها تكون disabled
+   // حالة لحفظ الصورة المعروضة
     const [previewImage, setPreviewImage] = useState(schoolAdminInfo?.profilePicture.secure_url);
     
     const splitPhoneNumber=(mobile)=>{
@@ -125,6 +125,17 @@ export default function SchoolAdminData() {
         setSchoolAdminInfo(data?.schoolAdmin); 
         SuccessToast("تم تعديل البيانات بنجاح");
       }catch(error){
+        if (error.response) { 
+                if(error.response.data.message==="user not found"){
+                ErrorToast("عذرًا، المستخدم غير موجود."); 
+                 }   
+             } else if (error.request) {
+                    // الخطأ بسبب مشكلة في الشبكة (مثل انقطاع الإنترنت)
+                    ErrorToast("تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك."); 
+             } else {
+                    // خطأ آخر
+                    ErrorToast(`حدث خطأ: ${error.message}`); 
+            } 
         setLoader(false);
       }
       

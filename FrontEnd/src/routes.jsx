@@ -39,7 +39,7 @@ import TeacherContextProvider from "./components/context/TeacherContext";
 import StudentContextProvider from "./components/context/StudentContext";
 import StudentProfile from "./components/student/profile/StudentProfile";
 import SchoolCircles from "./components/student/schoolCircles/SchoolCircles";
-
+ 
 
 export const router = createBrowserRouter([
   {
@@ -86,8 +86,7 @@ export const router = createBrowserRouter([
             <Login />
           </AuthProtectedRoute>
         ),
-      },
-
+      }, 
       {
         path: "sendCode",
         element: (
@@ -102,7 +101,7 @@ export const router = createBrowserRouter([
           <AuthProtectedRoute>
             <ForgetPassword />
           </AuthProtectedRoute>
-        ),
+         ),
       },
       {
         path: "features",
@@ -117,97 +116,82 @@ export const router = createBrowserRouter([
         element: <StatisticsSP />,
       },
     ],
-  },
-  {
-    path: "/Admin",
-    element: (
-      <UserProtectedRoute role="admin">
-        <UsersLayout />
-      </UserProtectedRoute>
-    ),
-    //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
-    children: [
-      {
-        index: true,
-        element: <Admin />,
-      },
-      {
-        path: "*",
-        element: <p className="m-0">Not Found Page</p>,
-      },
-      {
-        path: "SchoolRequests",
-        element: <Admin />,
-      },
-    ],
-  },
-  {
-    path: "/SchoolAdmin",
-    element: (
-      <UserProtectedRoute role="schoolAdmin">
-        <SchoolAdminContextProvider>
-          {" "}
-          {/* ما رح يوصل هون الا والرول اله سكول ادمن */}
-          <UsersLayout />
-        </SchoolAdminContextProvider>
-      </UserProtectedRoute>
-    ),
-    //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
-    children: [
-      // {
-      //   // path :'/',
-      //   index: true,
-      //   element: <Home />,
-      // },
-      {
-        path: "*",
-        element: <p className="m-0">Not Found Page</p>,
-      },
-      {
-        path: "ProfileSettings",
-        element: <Profile />,
-      },
-      // {
-      //   path: "EditProfile",
-      //   element: <EditProfile />,
-      // },
-      {
-        path: "TeachersRequests",
-        element: <TeachersRequests />,
-      },
-      {
-        path: "PostForm",
-        element: <PostForm />,
-      },
-      {
-        path: "Posts",
-        children: [
-          {
-            path: "edit/:newsId", // Full path: /SchoolAdmin/posts/edit/:newsId
-            element: <PostForm />,
-          },
-          {
-            index: true,
-            element: <Posts />,
-          },
-        ],
-      },
-      {
-        path: "edit/:newsId", // Correct relative path
-        element: <PostForm />,
-      },
-      {
-        path: "CirclesAchievementsReport",
-        element: <CirclesAchaievements />,
-      },
-    ],
-  },
+  }, 
+    {
+      path: "/Admin",
+      element:
+      <UserProtectedRoute role="admin" >
+        <UsersLayout /> 
+      </UserProtectedRoute>,
+      //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
+      children: [
+        {
+          index: true,
+          element: <Admin />,
+        },
+        {
+          path: "*",
+          element: <p className="m-0">Not Found Page</p>,
+        },
+        {
+          path: "SchoolRequests",
+          element: <Admin />,
+        },
+      ],
+    },
+    {
+      path: "/SchoolAdmin",
+      element:
+        <UserProtectedRoute role="schoolAdmin">
+          <SchoolAdminContextProvider>  {/* ما رح يوصل هون الا والرول اله سكول ادمن */}
+            <UsersLayout />
+          </SchoolAdminContextProvider>
+        </UserProtectedRoute>,  
+      //الشيلدرن بوخدها من الكومبوننت الخاصة بكل يوزر
+      children: [ 
+        {
+          path: "*",
+          element: <p className="m-0">Not Found Page</p>,
+        },
+        {
+          path: "ProfileSettings",
+          element: <Profile />,
+        },
+        {
+          path: "TeachersRequests",
+          element: <TeachersRequests />,
+        },
+        {
+          path: "PostForm",
+          element: <PostForm />,
+        },
+        {
+          path: "Posts",
+          children: [
+            {
+              path: "edit/:newsId", // Full path: /SchoolAdmin/posts/edit/:newsId
+              element: <PostForm />,
+            },
+            {
+              index: true,
+              element: <Posts />,
+            },
+          ],
+        },
+        {
+          path: "edit/:newsId", // Correct relative path
+          element: <PostForm />,
+        },
+        {
+          path: "CirclesAchievementsReport",
+          element: <CirclesAchaievements />,
+        },
+      ],
+    },  
   {
     path: "/Teacher",
     element: (
-      <UserProtectedRoute role="teacher">
-        {" "}
-        {/* تعتمد على الuserContext */}
+      <UserProtectedRoute role="teacher">  {/* تعتمد على الuserContext */}
         <TeacherContextProvider>
           <UsersLayout />
         </TeacherContextProvider>
@@ -257,12 +241,9 @@ export const router = createBrowserRouter([
   {
     path: "/Student",
     element: (
-      <UserProtectedRoute role="student or user" role1="student" role2="user">
-        {" "}
-        {/* بالحالتين لازم الطالب يقدر يوصل للداشبورد اللي اله  */}
+      <UserProtectedRoute role="student or user" role1="student" role2="user">{/* بالحالتين لازم الطالب يقدر يوصل للداشبورد اللي اله  */}
         <StudentContextProvider>
-          <UsersLayout />{" "}
-          {/*  (هل هو طالب زائر او طالب رسمي)سيتم هنا تحديد شكل الداشبورد للطالب */}
+          <UsersLayout /> {/*  (هل هو طالب زائر او طالب رسمي)سيتم هنا تحديد شكل الداشبورد للطالب */}
         </StudentContextProvider>
       </UserProtectedRoute>
     ),

@@ -13,6 +13,16 @@ import * as yup from "yup";
 //     .min(3, "password must be at least 3 digits")
 //     .max(30, "max is 30"),
 // });
+/*
+ creationDate: '',
+    achievementType: '',
+    startSurah: '',
+    endSurah: '',
+    rating: 0, // Default value for Rating
+    startVers: '',
+    endVers: '',
+    note: '',
+*/
 //Done
 export const loginSchema = yup.object({
   email: yup
@@ -86,10 +96,8 @@ export const AddNewAchaievementSchema = yup.object({
   achievementType: yup.string().required("يرجى تحديد نوع الانجاز"),
   startSurah: yup.string().required("يرجى اختيار السورة"),
   endSurah: yup.string().required("يرجى اختيار السورة"),
-  // pageCount:yup.string().required("يرجى ادخال عدد الصفحات المنجزة"),
-  // rating: '',
-  startVerse: yup.number().required("يرجى اختيار رقم آية البدء"),
-  endVerse: yup.number().required("يرجى اختيار رقم آية الانتهاء"),
+  startVers: yup.number().required("يرجى اختيار رقم آية البدء"),
+  endVers: yup.number().required("يرجى اختيار رقم آية الانتهاء"),
 });
 // const CITIES = [
 //   "القدس",
@@ -117,6 +125,7 @@ const SUPPORTED_DOC_FORMATS = [
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ];
 //schoolAdmin profile(المعلومات الشخصية)
+//تعدييييل ناقص صورة
 export const schoolAdminDataSchema = yup.object({
   phonePrefix: yup.string().oneOf(["+970", "+972"], " اختر +972 أو +970"),
   phone: yup.string().matches(PHONE_NUMBER_REGEX, "رقم الجوال غير صالح"),
@@ -183,6 +192,7 @@ export const managerFormSchema = yup.object({
   country: yup.string().required("يجب ادخال المدينة"),
 });
 //schoolAdmin profile(معلومات المدرسة)
+//تعديييييل ناقص صورة 
 export const schoolDataSchema = yup.object({
   schoolName: yup
     .string()

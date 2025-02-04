@@ -1,0 +1,29 @@
+import React, { useContext } from 'react'
+import Dashboard_SubTitle from '../../pages/dashboardSubTitle/Dashboard_SubTitle'
+import DataTable from '../../pag../../pages/dataTable/DataTable'
+import { TeacherContext } from '../../context/TeacherContext';
+import { useQuery } from 'react-query';
+import Loader from '../../pages/loader/Loader';
+import { SuccessToast } from '../../pages/toast/toast';
+
+export default function StudentManagement() {
+    let {getStudentManagment} =useContext(TeacherContext); 
+    
+        const getAllStudents=async()=>{
+          const Students= await getStudentManagment();
+          return(Students);
+         }
+        const {data,isLoading} =useQuery("allStudents",getAllStudents);
+        console.log(data?.student);
+         
+         if(isLoading){
+          return <Loader/>
+        }
+ 
+   return (
+    <>
+     <Dashboard_SubTitle title=" ادارة شؤون الطلاب"/> 
+     <DataTable data={data?.student}/> 
+    </>
+  )
+}

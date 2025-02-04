@@ -21,6 +21,7 @@ export default function SchoolData() {
  let {schoolInfo,setSchoolInfo}=useContext(SchoolAdminContext);
  let {userToken}=useContext(UserContext);
  let [loader,setLoader]=useState(false);
+  
         // حالة لحفظ الصورة المعروضة
     const [previewImage, setPreviewImage] = useState(schoolInfo?.schoolPhoto.secure_url );
      const handleFieldChange=(event)=>{
@@ -45,8 +46,8 @@ export default function SchoolData() {
       availableforStudent:schoolInfo?.availableforStudent,
       availableforTeacher:schoolInfo?.availableforTeacher,
 
-      createdAt:new Date(schoolInfo?.createdAt).toLocaleDateString(),
-      updatedAt:new Date(schoolInfo?.updatedAt).toLocaleDateString() ,
+      // createdAt:new Date(schoolInfo?.createdAt).toLocaleDateString(),
+      // updatedAt:new Date(schoolInfo?.updatedAt).toLocaleDateString() ,
       
     }
      const onSubmit=async values=>{//values ممكن تغييرها لاي اسم بدي اياه 
@@ -72,7 +73,19 @@ export default function SchoolData() {
            setSchoolInfo(data?.school);
              SuccessToast("تم تعديل البيانات بنجاح");
         }catch(error){
-
+               if (error.response) { 
+                if(error.response.data.message==="user not found"){
+                ErrorToast("عذرًا، المستخدم غير موجود.");}
+                 if(error.response.data.message==="school not found"){
+                  ErrorToast("عذرًا،المدرسة غير موجودة.");}
+             } else if (error.request) {
+                    // الخطأ بسبب مشكلة في الشبكة (مثل انقطاع الإنترنت)
+                    ErrorToast("تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك."); 
+             } else {
+                    // خطأ آخر
+                    ErrorToast(`حدث خطأ: ${error.message}`); 
+            } 
+         setLoader(false);
         }
        
       
@@ -85,22 +98,22 @@ export default function SchoolData() {
        });
    
      const Inputs = [
-      {
-        id: "createdAt",
-        type: "text",
-        name: "createdAt",
-        title: "تاريخ الانشاء",
-        value: formik.values.createdAt,
-        disabled: true,
-      } ,
-       {
-        id: "updatedAt",
-        type: "text",
-        name: "updatedAt",
-        title: "آخر تعديل تم في تاريخ",
-        value: formik.values.createdAt,
-        disabled: true,
-      } ,
+      // {
+      //   id: "createdAt",
+      //   type: "text",
+      //   name: "createdAt",
+      //   title: "تاريخ الانشاء",
+      //   value: formik.values.createdAt,
+      //   disabled: true,
+      // } ,
+      //  {
+      //   id: "updatedAt",
+      //   type: "text",
+      //   name: "updatedAt",
+      //   title: "آخر تعديل تم في تاريخ",
+      //   value: formik.values.createdAt,
+      //   disabled: true,
+      // } ,
         {
           id: "schoolName",
           type: "text",

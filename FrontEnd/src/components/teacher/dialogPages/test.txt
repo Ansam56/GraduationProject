@@ -198,78 +198,49 @@
 //   );
 // }
 //////////////////////////////////////
-import React, { useContext,useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { useFormik } from 'formik';
-import { CircularProgress, Rating } from '@mui/material';
+import { Rating } from '@mui/material';
 import { toast } from 'react-toastify';
 import { AddNewAchaievementSchema } from '../../../authentication/validation/validate.js';
 import { TeacherContext } from '../../../context/TeacherContext.jsx';
-import { UserContext } from '../../../context/UserContext.jsx';
-import axios from 'axios';
-import { ErrorToast, SuccessToast } from '../../../pages/toast/toast.js';
-
 //from DataTable :student Id & name
-export default function AddNewAchievement({studentId,studentName,onClose}) {
+export default function AddNewAchievement({studentId,studentName}) {
   console.log(studentId);
   console.log(studentName);
- const {circleInfo,getAllSurah,allSurah,getSurahInfo} = useContext(TeacherContext);
- const {userToken}=useContext(UserContext);
- const [startVerses,setStartVerses]=useState([]);
- const [endVerses,setEndVerses]=useState([]);
- const [loading,setLoading]=useState(false);
-
- const handleSurahChange=async(surahNum,type)=>{
-    const surah= await getSurahInfo(surahNum);
-    if(type=="startSurah"){
-      setStartVerses(surah?.verses);
-    }else if(type=="endSurah"){
-      setEndVerses(surah?.verses);
-    }
-   } 
-    
-const initialValues={
+   const {circleInfo} = useContext(TeacherContext);
+   console.log(circleInfo.circleName);
+  const initialValues={
+    sessionName: circleInfo?.circleName,
+    sessionType: circleInfo?.type,
     creationDate: '',
     achievementType: '',
     startSurah: '',
     endSurah: '',
+    pageCount: '',
     rating: 0, // Default value for Rating
-    startVers: '',
-    endVers: '',
-    note: '',
+    startVerse: '',
+    endVerse: '',
+    notes: '',
   }
-  
   const onSubmit=async values=>{
     try {
-      setLoading(true);
-      const {data}= await axios.post(`${import.meta.env.VITE_API_URL}/teacher/studentReport/${studentId}`,
-        values,
-        { headers: {Authorization:`Tuba__${userToken}`} } );
-        
-     setLoading(false);
-      if(data?.message=='success'){ 
-        SuccessToast("تمت اضافة التقرير بنجاح ");
-        onClose();
+      const {data}= await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`,values);
+      if(data.message=='success'){ 
+        toast.success('Done', {  
+         position: "bottom-center",
+         autoClose: 5000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "light",
+         });
        }
     } catch (error) {
-       if (error.response) {
-        if(error.response.data.message==="student not found"){
-          ErrorToast("عذرًا، الطالب غير موجود ضمن هذه الحلقة .");
-       } if(error.response.data.message==="check achievementType ,plz"){
-          ErrorToast("تحقق من ادخال نوع الانجاز ");
-       } if(error.response.data.message==="Invalid verse numbers"){
-          ErrorToast("تحقق من ادخال قيم للآيات");
-       } if(error.response.data.message==="end verse must be greater than start verse ."){
-        ErrorToast("انتبه ! يجب أن تكون نهاية الاية أكبر من بداية الآية ");
-       } if(error.response.data.message==="end surah must be greater than start surah ."){
-        ErrorToast("عند اختيار السور , انتبه أن يكون الاتجاه من سورة الفاتحة إلى سورة الناس وليس العكس");
-     } if(error.response.data.message==="Surah data not found"){
-      ErrorToast("تحقق من ادخال قيم للسور");
-   }
-      }else if (error.request){
-                // الخطأ بسبب مشكلة في الشبكة (مثل انقطاع الإنترنت)
-        ErrorToast("تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك."); 
-      }
-        setLoading(false);  
+      console.error('Error:', error);
+      alert('حدث خطأ أثناء الإرسال.');
     }
   }
   // Initialize Formik
@@ -278,10 +249,13 @@ const initialValues={
     onSubmit ,
     // validationSchema:AddNewAchaievementSchema
   });
-  
-   useEffect(()=>{
-     getAllSurah();
-   },[])
+
+  const renderSelectOptions = (options) =>
+    options.map((option, index) => (
+      <option key={index} value={option.value}>
+        {option.label}
+      </option>
+    ));
 
   return (
     <div className="container">
@@ -295,7 +269,7 @@ const initialValues={
               type="text"
               className="form-control"
               id="sessionName"
-              value={circleInfo?.circleName}
+              value={formik.values.sessionName}
               disabled
             />
           </div>
@@ -305,7 +279,7 @@ const initialValues={
               type="text"
               className="form-control"
               id="sessionType"
-              value={circleInfo?.type}
+              value={formik.values.sessionType}
               disabled
             />
           </div>
@@ -336,7 +310,7 @@ const initialValues={
             onChange={formik.handleChange}
           >
             <option value="">اختر نوع الإنجاز</option>
-            {circleInfo?.type === 'حفظ ومراجعة' ? (
+            {formik.values.sessionType === 'حفظ ومراجعة' ? (
               <>
                 <option value="حفظ">حفظ</option>
                 <option value="مراجعة">مراجعة</option>
@@ -352,87 +326,59 @@ const initialValues={
           <div className="row g-3">
             {/* First Column */}
             <div className="col-md-6">
-              <label htmlFor="startSurah" className="form-label mt-3">من السورة</label>
-              <select id="startSurah" className="form-select" value={formik.values.startSurah}
-              onChange={(e) => {
-               formik.handleChange(e); // تحديث القيمة في Formik 
-               const selectedIndex = e.target.selectedIndex ;  
-               if (selectedIndex >0) { 
-                handleSurahChange(selectedIndex,"startSurah"); // تمرير رقم السورة بعد التحديث
-                }else{
-                  setStartVerses([]);
-                }
-              }}>
-  <option value="">اختر سورة</option>
-  {allSurah?.map((surah, index) => ( 
-    <option key={index} value={surah}>{surah}</option>
-  ))}
+              <label htmlFor="startSurah" className="form-label">من السورة</label>
+              <select
+                id="startSurah"
+                className="form-select"
+                value={formik.values.startSurah}
+                onChange={formik.handleChange}
+              >
+                <option value="">اختر سورة</option>
+                {renderSelectOptions([
+                  { label: 'البقرة', value: 'البقرة' },
+                  { label: 'آل عمران', value: 'آل عمران' },
+                ])}
               </select>
               {formik.errors.startSurah && (
                 <small className="text-danger">{formik.errors.startSurah}</small>
               )}
 
               <label htmlFor="endSurah" className="form-label mt-3">إلى السورة</label>
-              <select id="endSurah" className="form-select" value={formik.values.endSurah}
-                onChange={(e) => {
-                  formik.handleChange(e); // تحديث القيمة في Formik 
-                  const selectedIndex = e.target.selectedIndex ;  
-                  if (selectedIndex >0) { 
-                   handleSurahChange(selectedIndex,"endSurah"); // تمرير رقم السورة بعد التحديث
-                   }else{
-                    setEndVerses([]);
-                   }
-                 }}
-               >
-  <option value="">اختر سورة</option>
-  {allSurah?.map((surah, index) => ( 
-    <option key={index} value={surah}>{surah}</option>
-  ))}
+              <select
+                id="endSurah"
+                className="form-select"
+                value={formik.values.endSurah}
+                onChange={formik.handleChange}
+              >
+                <option value="">اختر سورة</option>
+                {renderSelectOptions([
+                  { label: 'البقرة', value: 'البقرة' },
+                  { label: 'آل عمران', value: 'آل عمران' },
+                ])}
               </select>
               {formik.errors.endSurah && (
                 <small className="text-danger">{formik.errors.endSurah}</small>
               )}
 
-
-            </div>
-
-            {/* Second Column */}
-            <div className="col-md-6">
-              <label htmlFor="startVers" className="form-label mt-3">من الآية</label>
-              <select
-                id="startVers"
-                className="form-select"
-                value={formik.values.startVers}
+              <label htmlFor="pageCount" className="form-label mt-3">عدد الصفحات</label>
+              <input
+                type="number"
+                className="form-control"
+                id="pageCount"
+                value={formik.values.pageCount}
                 onChange={formik.handleChange}
-              >
-                <option value="">اختر آية</option>
-                {startVerses?.map((verse, index) => ( 
-          <option key={index} value={verse}>{verse}</option>
-           ))}
-              </select>
- 
-              <label htmlFor="endVers" className="form-label mt-3">إلى الآية</label>
-              <select
-                id="endVers"
-                className="form-select"
-                value={formik.values.endVers}
-                onChange={formik.handleChange}
-              >
-                <option value="">اختر آية</option>
-                {endVerses?.map((verse, index) => ( 
-          <option key={index} value={verse}>{verse}</option>
-           ))}
-              </select>
+              />
+              {formik.errors.pageCount && (
+                <small className="text-danger">{formik.errors.pageCount}</small>
+              )}
 
-             
-            </div>
-          </div>
-          <label htmlFor="note" className="form-label mt-3">ملاحظات</label>
+            
+               <label htmlFor="notes" className="form-label mt-3">ملاحظات</label>
               <textarea
-                id="note"
+                id="notes"
                 className="form-control"
                 rows="4"
-                value={formik.values.note}
+                value={formik.values.notes}
                 onChange={formik.handleChange}
               />
                 <label htmlFor="rating" className="form-label mt-3">التقييم</label>
@@ -440,13 +386,49 @@ const initialValues={
                 dir="ltr"
                 name="rating"
                 value={formik.values.rating}
-                precision={1}
+                precision={0.2}
                 onChange={(event, newValue) => {
                   formik.setFieldValue('rating', newValue);
                 }}
               />
-          <button  disabled={loading?true:false} type="submit" className="rounded-5 btn btn-success mt-4 w-100">
-              {loading? <CircularProgress  color="inherit" size={20} />:"اضافة"}
+            </div>
+
+            {/* Second Column */}
+            <div className="col-md-6">
+              <label htmlFor="startVerse" className="form-label">من الآية</label>
+              <select
+                id="startVerse"
+                className="form-select"
+                value={formik.values.startVerse}
+                onChange={formik.handleChange}
+              >
+                <option value="">اختر آية</option>
+                {renderSelectOptions([
+                  { label: '1', value: '1' },
+                  { label: '2', value: '2' },
+                ])}
+              </select>
+
+              <label htmlFor="endVerse" className="form-label mt-3">إلى الآية</label>
+              <select
+                id="endVerse"
+                className="form-select"
+                value={formik.values.endVerse}
+                onChange={formik.handleChange}
+              >
+                <option value="">اختر آية</option>
+                {renderSelectOptions([
+                  { label: '3', value: '3' },
+                  { label: '4', value: '4' },
+                ])}
+              </select>
+
+             
+            </div>
+          </div>
+
+          <button type="submit" className="btn btn-success mt-4 w-100">
+            إضافة
           </button>
         </form>
       </div>
@@ -480,8 +462,7 @@ const initialValues={
 //   const onSubmit = async (values) => {
 //     try {
 //       const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/achievements`, values);
-//       if (data.message === 'success') {import { useEffect } from 'react';
-
+//       if (data.message === 'success') {
 //         toast.success('تم الحفظ بنجاح!', {
 //           position: 'bottom-center',
 //           autoClose: 5000,

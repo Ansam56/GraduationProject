@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import ReportTable from './../../../../pages/ReportTable/ReportTable';
+import { SchoolAdminContext } from "../../../../context/SchoolAdminContext";
  
 //هون رح نجيب الداتا من الباك
 //+رح نستخدم الجدول المشترك لكل التقارير لعرض هذه البيانات
@@ -7,27 +8,27 @@ export default function CirclesAchaievementsTable() {
   // Table columns definition
   const columns = [ 
     {
-        id: "tathbeetPagesNum",
+        id: "totalTathbeatPages",
         label: "عدد صفحات التثبيت",
         minWidth: 170,
     }, 
     {
-        id: "revisionPagesNum",
+        id: "totalReviewPages",
         label: "عدد صفحات المراجعة",
         minWidth: 170,
     },
     {
-      id: "savedPagesNum",
+      id: "totalHifzPages",
       label: "عدد صفحات الحفظ",
       minWidth: 170,
     },
     {
-      id: "AchaievementDate",
+      id: "date",
       label: "التاريخ",
       minWidth: 170,
     },
     {
-      id: "gender",
+      id: "circleGender",
       label: "الفئة",
       minWidth: 170,
     },
@@ -48,66 +49,24 @@ export default function CirclesAchaievementsTable() {
     }
    
   ];
-  //code أتوقع نفسها id الطالب
-  const rows = [
-    {
-      code: 1,
-      tathbeetPagesNum:0,
-      revisionPagesNum:10,
-      savedPagesNum:20, 
-      AchaievementDate: "10/10/2024",
-      gender: "ذكور",
-      circleType: "حفظ ومراجعة",
-      circleName: "مشكاة",
-      teacherName: "أحمد السيد", 
-    },
-    {
-        code: 2,
-        tathbeetPagesNum:0,
-        revisionPagesNum:10,
-        savedPagesNum:20, 
-        AchaievementDate: "10/10/2024",
-        gender: "ذكور",
-        circleType: "حفظ ومراجعة",
-        circleName: "مشكاة",
-        teacherName: "أحمد السيد", 
-      },
-      {
-        code: 3,
-        tathbeetPagesNum:0,
-        revisionPagesNum:10,
-        savedPagesNum:20, 
-        AchaievementDate: "10/10/2024",
-        gender: "ذكور",
-        circleType: "حفظ ومراجعة",
-        circleName: "مشكاة",
-        teacherName: "أحمد السيد", 
-      },
-      {
-        code: 4,
-        tathbeetPagesNum:0,
-        revisionPagesNum:10,
-        savedPagesNum:20, 
-        AchaievementDate: "10/11/2024",
-        gender: "ذكور",
-        circleType: "حفظ ومراجعة",
-        circleName: "مشكاة",
-        teacherName: "أحمد السيد", 
-      },
-      
-    
-  ];
+  
+  let {getSchoolReportByDate,getAllSchoolAdminReports,reportRows,reportStatistics} =useContext(SchoolAdminContext);
+
+  const DateFitlerFunction=async(minDate,maxDate)=>{
+    await getSchoolReportByDate(minDate,maxDate); 
+   }
+   const ResetRowsFunction=async()=>{
+    await getAllSchoolAdminReports();
+   }
+  useEffect(()=>{
+    getAllSchoolAdminReports();
+  },[])
   return (
-    <>
-      {rows.length === 0 ? (
-        <div className="alert alert-info text-center mt-2" role="alert">
-          لا يوجد بيانات لعرضها!
-        </div>
-      ) : (
+    <> 
         <> 
-          <ReportTable columns={columns} rows={rows} role="مدير" />
+          <ReportTable columns={columns} rows={reportRows} reportStatistics={reportStatistics} role="مدير" DateFitlerFunction={DateFitlerFunction} ResetRowsFunction={ResetRowsFunction}  />
         </>
-      )}
+      
     </>
   );
 }

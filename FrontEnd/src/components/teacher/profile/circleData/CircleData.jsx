@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Avatar, Box, FormControlLabel, Switch, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import SharedInput_Profiles from "../../../pages/sharedInput_profiles/SharedInput_Profiles";
@@ -6,13 +6,44 @@ import { ErrorToast, SuccessToast } from "../../../pages/toast/toast";
 import { UserContext } from "../../../context/UserContext";
 import axios from "axios";
 import { TeacherContext } from "../../../context/TeacherContext";
+import SharedProfile from "../../../pages/sharedProflle/SharedProfile";
 
 export default function CircleData() {
   const { circleInfo, setCircleInfo } = useContext(TeacherContext);
   const { userToken } = useContext(UserContext);
-
+  console.log(circleInfo);
   const [previewImage, setPreviewImage] = useState(circleInfo?.logo.secure_url);
-
+  const [selectedDays, setSelectedDays] = useState(circleInfo?.days || []);
+  let [loader,setLoader]=useState(false);
+  
+  
+  const formatTimeToArabic = (time) => {
+    if (!time) return "";
+    // حذف ال Am و Pm من التايم سترينغ
+    const cleanedTime = time.replace(/ ?[APap][Mm]?/g, "").trim();
+    // تقسيم الوقت لدقائق وساعات
+    const [hour, minute] = cleanedTime.split(":");
+    //تحويل الساعة من سترينغ لرقم 10 يعني بالنظام العشري
+    let hourInt = parseInt(hour, 10);
+    let period = "صباحًا"; //default to morning
+    if (hourInt >= 12) {
+      period = "مساءً"; //afternoon/evening
+      if (hourInt > 12) hourInt -= 12;
+    } else if (hourInt === 0) {
+      //00:00 to 12:00
+      hourInt = 12; //midnight case
+    }
+    return `${hourInt}:${minute} ${period}`;
+  };
+  const daysInArabic = {
+    sunday: "الأحد",
+    monday: "الإثنين",
+    tuesday: "الثلاثاء",
+    wednesday: "الأربعاء",
+    thursday: "الخميس",
+    friday: "الجمعة",
+    saturday: "السبت",
+  };
   const handleFieldChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -21,48 +52,54 @@ export default function CircleData() {
       formik.setFieldValue("logo", file);
     }
   };
-
+   
   const initialValues = {
     teacherId: circleInfo?.teacherId,
     circleName: circleInfo?.circleName,
-    circleGender: circleInfo?.circleGender,
+    circleGender: circleInfo?.circleGender=== "Male" ? "ذكور" :circleInfo?.circleGender === "Female"?"اناث":"ذكور واناث",
     type: circleInfo?.type,
-    startTime: circleInfo?.startTime || "",
-    endTime: circleInfo?.endTime || "",
-    availableForStudent: circleInfo?.avilableForStudent || false,
+    startTime: circleInfo?.startTime ,
+    endTime: circleInfo?.endTime ,
+    availableForStudent: circleInfo?.avilableForStudent ,
+    selectedDays: circleInfo?.days,
     days: {
-      sunday: circleInfo?.days.includes("sunday") || false,
-      monday: circleInfo?.days.includes("monday") || false,
-      tuesday: circleInfo?.days.includes("tuesday") || false,
-      wednesday: circleInfo?.days.includes("wednesday") || false,
-      thursday: circleInfo?.days.includes("thursday") || false,
-      friday: circleInfo?.days.includes("friday") || false,
-      saturday: circleInfo?.days.includes("saturday") || false,
+      "sunday": circleInfo?.days.includes("sunday") || false,
+      "monday": circleInfo?.days.includes("monday") || false,
+     "tuesday": circleInfo?.days.includes("tuesday") || false,
+      "wednesday": circleInfo?.days.includes("wednesday") || false,
+      "thursday": circleInfo?.days.includes("thursday") || false,
+      "friday": circleInfo?.days.includes("friday") || false,
+      "saturday": circleInfo?.days.includes("saturday") || false,
     },
     logo: circleInfo?.logo.secure_url || "",
   };
-
-  const onSubmit = async (values) => {
+ 
+  const onSubmit = async (values) => { 
+    values.selectedDays = Object.keys(formik.values.days).filter(day => formik.values.days[day]);
     const formData = new FormData();
     formData.append("startTime", values.startTime);
     formData.append("endTime", values.endTime);
-    formData.append("days", JSON.stringify(Object.keys(values.days).filter((day) => values.days[day])));
-    formData.append("availableForStudent", values.availableForStudent);
-    formData.append("logo", values.logo);
-    formData.forEach((value, key) => {
-      console.log(`${key}:`, value);
+    values.selectedDays.forEach(day => {
+      formData.append("days", day);
     });
+    formData.append("avilableForStudent", values.availableForStudent);
+    formData.append("logo", values.logo);
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}:`, value);
+    // });
     try {
+      setLoader(true);
       const { data } = await axios.put(
         `${import.meta.env.VITE_API_URL}/teacher/${values.teacherId}/circle/updateCircle`,
         formData,
         { headers: { Authorization: `Tuba__${userToken}` } }
       );
+      setLoader(false); 
       setCircleInfo(data?.circle);
       SuccessToast("تم تعديل البيانات بنجاح");
     } catch (error) {
       ErrorToast("حدث خطأ أثناء تحديث البيانات");
-      console.error(error);
+      setLoader(false); 
     }
   };
 
@@ -70,7 +107,7 @@ export default function CircleData() {
     initialValues,
     onSubmit,
   });
-
+  console.log(formik.values.startTime);
   const Inputs = [
     {
       id: "circleName",
@@ -95,19 +132,35 @@ export default function CircleData() {
       title: "نوع الحلقة",
       value: formik.values.type,
       disabled: true,
+    }, 
+    {
+      id: "showTime",
+      type: "text",
+      name: "showTime",
+      title: "وقت بدء الحلقة",
+      value:formatTimeToArabic(circleInfo?.startTime),
+      disabled: true,
     },
     {
       id: "startTime",
       type: "time",
       name: "startTime",
-      title: "وقت بدء الحلقة",
+      title: "تعديل وقت بدء الحلقة",
       value: formik.values.startTime,
+    },
+    {
+      id: "showTime",
+      type: "text",
+      name: "showTime",
+      title: "وقت انتهاء الحلقة",
+      value: formatTimeToArabic(circleInfo?.endTime),
+      disabled: true,
     },
     {
       id: "endTime",
       type: "time",
       name: "endTime",
-      title: "وقت انتهاء الحلقة",
+      title: "تعديل وقت انتهاء الحلقة",
       value: formik.values.endTime,
     },
     {
@@ -115,12 +168,11 @@ export default function CircleData() {
       formControlLable: true,
       title: "أيام الحلقة",
       formControlLables: Object.keys(formik.values.days).map((day) => ({
-        name: `days.${day}`,
-        value: formik.values.days[day],
-        lable: day,
+      name: `days.${day}`,
+      value: formik.values.days[day],
+      lable: daysInArabic[day],
       })),
-    }
-    ,
+    },
     {
       id: "circleStatus",
       formControlLable: true,
@@ -154,35 +206,25 @@ export default function CircleData() {
     />
   ));
 
+  useEffect(() => {
+    setSelectedDays(circleInfo?.days || []);
+  }, [circleInfo]);
+
   return (
-    <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-4">
-            <Box>
-              <Avatar
-                src={previewImage}
-                alt="Circle Logo"
-                sx={{
-                  width: 200,
-                  height: 200,
-                  objectFit: "cover",
-                  objectPosition: "center",
-                  marginBottom: "10px",
-                  border: ".1px solid gray",
-                  borderRadius: "50%",
-                }}
-              />
-            </Box>
-          </div>
-          <div className="col-md-8">{renderInputs}</div>
-        </div>
-        <div className="d-flex justify-content-center mt-3">
-          <button className="rounded-5 border-1 w-50 btn btn-success" type="submit">
-            حفظ التعديلات
-          </button>
-        </div>
-      </div>
-    </form>
+    <>
+     <SharedProfile
+        formikHandelSubmit={formik.handleSubmit}
+        renderInputs={renderInputs}
+        avatarAlt="Circle Picture"
+        previewImage={previewImage}
+        handleFieldChange={handleFieldChange}
+        handleBlur={formik.handleBlur}
+        pictureErrors={formik.errors["logo"]}
+        pictureTouched={formik.touched["logo"]}  
+        loader={loader}
+        formikIsValid={formik.isValid} 
+        deleteIcon="false"
+      /> 
+    </>
   );
 }

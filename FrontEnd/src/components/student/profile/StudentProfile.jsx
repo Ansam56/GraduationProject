@@ -14,7 +14,7 @@ export default function StudentProfile() {
     console.log(studentInfo);
     let {userToken,deleteUserPhoto}=useContext(UserContext);
     let [loader,setLoader]=useState(false);
-    let [isDefault,setIsDefault]=useState(true);//عشان ايقونة الحذف انها تكون disabled
+    let [isDefault,setIsDefault]=useState(studentInfo?.profilePicture.secure_url=="https://res.cloudinary.com/dff9dgomp/image/upload/v1737492452/default_zcjitd.jpg"?true:false);//عشان ايقونة الحذف انها تكون disabled
     
         // حالة لحفظ الصورة المعروضة
     const [previewImage, setPreviewImage] = useState(studentInfo?.profilePicture.secure_url);

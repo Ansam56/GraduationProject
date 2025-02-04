@@ -47,13 +47,9 @@ export default function UsersLayout() {
       {
         name: "تقرير انجاز الحلقات",
         icon: <DescriptionIcon />,
-        target: "/SchoolAdmin/CirclesAchievementsReport",
+        target: "/SchoolAdmin/CirclesAchievementsReport", 
       },
-      //  {
-      //   name:"احصائيات المدرسة",
-      //   icon:<InboxIcon />,
-      //   target:"/SchoolAdmin/ProfileSettings"
-      //   },
+       
     ];
     NavTitle = schoolInfo?.schoolName;
     SideBarTitle = "بوابة الإدارة";
@@ -91,19 +87,13 @@ export default function UsersLayout() {
             target: "/Teacher/DailyAchievementReport",
           },
         ],
-      },
-      {
-        name: "الاحصاءات",
-        // subName: "احصاءات الانجاز ",
-        icon: <PieChartIcon />,
-        // target: "/Teacher/DailyAchievementReport",
-      },
+      }, 
       {
         name: "الأخبار",
         icon: <NewspaperIcon />,
         target: "/Teacher/posts",
-      },
-      {
+      }, 
+      { 
         name: "الاختبارات",
         icon: <AssignmentIcon />,
         target: "/Teacher/exams",

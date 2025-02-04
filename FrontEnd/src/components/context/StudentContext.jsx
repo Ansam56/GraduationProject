@@ -32,6 +32,10 @@ export default function StudentContextProvider({children}) {
     const [circleName,setCircleName]=useState(null); 
     const [schoolName,setSchoolsName]=useState(null);  
     const [loading,setLoading]=useState(true);
+    
+    const [reportRows,setReportRows]=useState(null);
+    const [reportStatistics,setReportStatistics]=useState(null);
+
 
     console.log("hi from student context");
     const getStudentData=async()=>{ 
@@ -77,6 +81,47 @@ export default function StudentContextProvider({children}) {
 
     //     }
     // }
+
+    //getReportByDate
+ 
+ 
+ //Done
+    const getStudentReportByDate=async(minDate,maxDate)=>{
+      try{
+        const {data}=await axios.post(`${import.meta.env.VITE_API_URL}/student/getReportByDate`,
+          {
+              startDate: minDate,
+              endDate: maxDate,
+          },
+          { headers: {Authorization:`Tuba__${userToken}`} } )  ;  
+        console.log(data);
+        setReportRows(data?.result.details); 
+        setReportStatistics(data?.result.summary);
+      }catch(error){ 
+        if (error.response) {
+          ErrorToast(error.response.data.message);
+        }else if (error.request){
+          // الخطأ بسبب مشكلة في الشبكة (مثل انقطاع الإنترنت)
+          ErrorToast("تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت الخاص بك."); 
+        }
+      }
+    }
+
+    //getAllStudentReports Done
+    const getAllStudentReports=async()=>{
+      try{
+        const {data}=await axios.get(`${import.meta.env.VITE_API_URL}/student/getReport`,
+          { headers: {Authorization:`Tuba__${userToken}`} } )  ;
+         
+          setReportRows(data?.result.details); 
+          setReportStatistics(data?.result.summary); 
+      }catch(error){ 
+        if (error.response) {
+          setReportRows(null);
+          setReportStatistics(null); 
+        }
+      }
+    }
     useEffect(()=>{
       getStudentData();
     },[])
@@ -84,7 +129,7 @@ export default function StudentContextProvider({children}) {
   if(loading){
     return <Loader/>
   }
-  return (<StudentContext.Provider value={{studentInfo,getStudentData,setStudentInfo,circleName,schoolName}} >
+  return (<StudentContext.Provider value={{studentInfo,getStudentData,setStudentInfo,circleName,schoolName,getStudentReportByDate,getAllStudentReports,reportRows,reportStatistics}} >
     {children}
   </StudentContext.Provider>
   )
