@@ -27,20 +27,15 @@ const ProfileCard = () => {
   const formatTimeToArabic = (time) => {
     if (!time) return "";
 
-    // حذف ال Am و Pm من التايم سترينغ
     const cleanedTime = time.replace(/ ?[APap][Mm]?/g, "").trim();
-    // تقسيم الوقت لدقائق وساعات
     const [hour, minute] = cleanedTime.split(":");
-    //تحويل الساعة من سترينغ لرقم 10 يعني بالنظام العشري
     let hourInt = parseInt(hour, 10);
-    let period = "صباحًا"; //default to morning
-
+    let period = "صباحًا"; 
     if (hourInt >= 12) {
-      period = "مساءً"; //afternoon/evening
+      period = "مساءً"; 
       if (hourInt > 12) hourInt -= 12;
     } else if (hourInt === 0) {
-      //00:00 to 12:00
-      hourInt = 12; //midnight case
+      hourInt = 12; 
     }
 
     return `${hourInt}:${minute} ${period}`;
@@ -75,12 +70,9 @@ const ProfileCard = () => {
   const formattedData = {
     name: studentData?.circle?.circleName,
     profileImage: studentData?.circle?.logo?.secure_url || defaultAvatar,
-    days:
-      studentData?.circle.days?.length > 0
-        ? JSON.parse(studentData.circle.days[0])
-            .map((day) => daysMapping[day.toLowerCase()] || day)
-            .join("، ")
-        : "",
+    days: studentData?.circle?.days
+      ?.map((day) => daysMapping[day.toLowerCase()] || day)
+      .join("، "),
     startTime: formatTimeToArabic(studentData?.circle?.startTime),
     endTime: formatTimeToArabic(studentData?.circle?.endTime),
     whatsappLink: studentData?.teacher?.mobile,
@@ -131,7 +123,7 @@ const ProfileCard = () => {
         </Typography>
         <Typography variant="body1" display="flex" alignItems="center" gap={1}>
           <AccessTimeIcon fontSize="small" />
-          الموعد: {formattedData.startTime} - {formattedData.endTime}
+          الموعد: {formattedData.endTime} - {formattedData.startTime}
         </Typography>
       </Stack>
       <Stack direction="row" justifyContent="center">
