@@ -6,6 +6,8 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import defaultAvatar from "../../../assets/default-avatar.png";
 import { UserContext } from "../../context/UserContext";
 import Loader from "../../pages/loader/Loader";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 const ProfileCard = () => {
   const [teacherData, setTeacherData] = useState(null);
@@ -25,21 +27,15 @@ const ProfileCard = () => {
 
   const formatTimeToArabic = (time) => {
     if (!time) return "";
-
-    // حذف ال Am و Pm من التايم سترينغ
     const cleanedTime = time.replace(/ ?[APap][Mm]?/g, "").trim();
-    // تقسيم الوقت لدقائق وساعات
     const [hour, minute] = cleanedTime.split(":");
-    //تحويل الساعة من سترينغ لرقم 10 يعني بالنظام العشري
     let hourInt = parseInt(hour, 10);
-    let period = "صباحًا"; //default to morning
-
+    let period = "صباحًا";
     if (hourInt >= 12) {
-      period = "مساءً"; //afternoon/evening
+      period = "مساءً";
       if (hourInt > 12) hourInt -= 12;
     } else if (hourInt === 0) {
-      //00:00 to 12:00
-      hourInt = 12; //midnight case
+      hourInt = 12;
     }
 
     return `${hourInt}:${minute} ${period}`;
@@ -74,15 +70,21 @@ const ProfileCard = () => {
   const formattedData = {
     name: teacherData?.circle?.circleName,
     profileImage: teacherData?.circle.logo?.secure_url || defaultAvatar,
+    days: teacherData?.circle?.days
+      ?.map((day) => daysMapping[day.toLowerCase()] || day)
+      .join("، "),
+
     // days: teacherData?.circle.days,
-    days:
-      teacherData?.circle.days?.length > 0
-        ? JSON.parse(teacherData.circle.days[0])
-            .map((day) => daysMapping[day.toLowerCase()] || day)
-            .join("، ")
-        : "",
+    // days:
+    //   teacherData?.circle.days?.length > 0
+    //     ? JSON.parse(teacherData.circle.days[0])
+    //         .map((day) => daysMapping[day.toLowerCase()] || day)
+    //         .join("، ")
+    //     : "",
     startTime: formatTimeToArabic(teacherData?.circle?.startTime),
     endTime: formatTimeToArabic(teacherData?.circle?.endTime),
+    circleType: teacherData?.circle?.type,
+    studentsNumber: teacherData?.circle?.totalStudents,
     whatsappLink: teacherData?.teacherMobile,
   };
 
@@ -126,7 +128,15 @@ const ProfileCard = () => {
         </Typography>
         <Typography variant="body1" display="flex" alignItems="center" gap={1}>
           <AccessTimeIcon fontSize="small" />
-          الموعد: {formattedData.startTime} - {formattedData.endTime}
+          الموعد: {formattedData.endTime} - {formattedData.startTime}
+        </Typography>
+        <Typography variant="body1" display="flex" alignItems="center" gap={1}>
+          <MenuBookIcon fontSize="small" />
+          نوع الحلقة: {formattedData.circleType}
+        </Typography>
+        <Typography variant="body1" display="flex" alignItems="center" gap={1}>
+          <PeopleAltIcon fontSize="small" />
+          عدد الطلاب: {formattedData.studentsNumber}
         </Typography>
       </Stack>
       <Stack direction="row" justifyContent="center">
