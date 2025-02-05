@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useContext } from "react";
 import {
   Table,
@@ -21,6 +20,7 @@ import {
   DialogContentText,
   DialogActions,
   Checkbox,
+  Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -83,9 +83,9 @@ const ExamTable = () => {
         );
 
         console.log("API Response:", response.data);
-
-        if (response.data.exams && Array.isArray(response.data.exams)) {
-          // Filter out any elements that do not have an `_id`
+        if (response.data.message === "exams not found") {
+          setRows([]);
+        } else if (response.data.exams && Array.isArray(response.data.exams)) {
           const validExams = response.data.exams.filter((exam) => exam._id);
 
           setRows(validExams);
@@ -237,226 +237,274 @@ const ExamTable = () => {
         اضافة اختبار جديد
         <AddIcon />
       </IconButton>
+      {rows.length === 0 ? (
+        <Typography variant="h6" align="center" sx={{ mt: 4 }}>
+          لا يوجد اختبارات
+        </Typography>
+      ) : (
+        <>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">اسم الطالب</TableCell>
+                  <TableCell align="center">التفاصيل</TableCell>
+                  <TableCell align="center">علامة الطالب</TableCell>
+                  <TableCell align="center">الملاحظات</TableCell>
+                  <TableCell align="center">نشر</TableCell>
+                  <TableCell align="center">الإجراءات</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {paginatedRows.map((row) => (
+                  <TableRow key={row.id} hover>
+                    <TableCell align="center">{row.studentName}</TableCell>
+                    <TableCell align="center">
+                      <IconButton
+                        color="primary"
+                        onClick={() => setSelectedExam(row)}
+                      >
+                        <QuizIcon />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell align="center">
+                      <TextField
+                        type="number"
+                        value={marks[row._id] ?? row.mark ?? ""}
+                        onChange={(e) =>
+                          handleMarkChange(row._id, e.target.value)
+                        }
+                        sx={{ width: "80px" }}
+                      />
+                    </TableCell>
+                    <TableCell align="center">
+                      <IconButton
+                        color="secondary"
+                        onClick={() => handleOpenDialog(row, "notes")}
+                      >
+                        <NoteIcon />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Checkbox
+                        checked={selectedForPublish.includes(row._id)}
+                        onChange={() => handleCheckboxChange(row._id)}
+                      />
+                    </TableCell>
 
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">اسم الطالب</TableCell>
-              <TableCell align="center">التفاصيل</TableCell>
-              <TableCell align="center">علامة الطالب</TableCell>
-              <TableCell align="center">الملاحظات</TableCell>
-              <TableCell align="center">نشر</TableCell>
-              <TableCell align="center">الإجراءات</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedRows.map((row) => (
-              <TableRow key={row.id} hover>
-                <TableCell align="center">{row.studentName}</TableCell>
-                <TableCell align="center">
-                  <IconButton
-                    color="primary"
-                    onClick={() => setSelectedExam(row)}
-                  >
-                    <QuizIcon />
-                  </IconButton>
-                </TableCell>
-                <TableCell align="center">
-                  <TextField
-                    type="number"
-                    value={marks[row._id] ?? row.mark ?? ""}
-                    onChange={(e) => handleMarkChange(row._id, e.target.value)}
-                    sx={{ width: "80px" }}
-                  />
-                </TableCell>
-                <TableCell align="center">
-                  <IconButton
-                    color="secondary"
-                    onClick={() => handleOpenDialog(row, "notes")}
-                  >
-                    <NoteIcon />
-                  </IconButton>
-                </TableCell>
-                <TableCell align="center">
-                  <Checkbox
-                    checked={selectedForPublish.includes(row._id)}
-                    onChange={() => handleCheckboxChange(row._id)}
-                  />
-                </TableCell>
+                    <TableCell align="center">
+                      <IconButton
+                        color="primary"
+                        onClick={() =>
+                          navigate("../ExamForm", {
+                            state: {
+                              exam: row,
+                              isEdit: true,
+                            },
+                          })
+                        }
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        color="error"
+                        onClick={() => {
+                          setExamToDelete(row);
+                          setDeleteDialogOpen(true);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-                <TableCell align="center">
-                  <IconButton
-                    color="primary"
-                    onClick={() =>
-                      navigate("../ExamForm", {
-                        state: {
-                          exam: row,
-                          isEdit: true,
-                        },
-                      })
-                    }
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    color="error"
-                    onClick={() => {
-                      setExamToDelete(row);
-                      setDeleteDialogOpen(true);
-                    }}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          <Dialog open={notesDialogOpen} onClose={handleCloseNotesDialog}>
+            <DialogTitle>
+              الملاحظات - {selectedStudent?.studentName}
+              <IconButton
+                aria-label="close"
+                onClick={handleCloseDialogs}
+                sx={{ position: "absolute", left: 8, top: 8, color: "#555" }}
+              >
+                <CloseIcon sx={{ mr: 5 }} />
+              </IconButton>
+            </DialogTitle>
+            <DialogContent>
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                value={notes[selectedStudent?._id] || ""}
+                onChange={(e) =>
+                  handleNotesChange(selectedStudent?._id, e.target.value)
+                }
+                label="أدخل الملاحظات هنا"
+                variant="outlined"
+                sx={{ marginTop: 2 }}
+              />
 
-      <Dialog open={notesDialogOpen} onClose={handleCloseNotesDialog}>
-        <DialogTitle>
-          الملاحظات - {selectedStudent?.studentName}
-          <IconButton
-            aria-label="close"
-            onClick={handleCloseDialogs}
-            sx={{ position: "absolute", left: 8, top: 8, color: "#555" }}
-          >
-            <CloseIcon sx={{ mr: 5 }} />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <TextField
-            fullWidth
-            multiline
-            rows={4}
-            value={notes[selectedStudent?._id] || ""}
-            onChange={(e) =>
-              handleNotesChange(selectedStudent?._id, e.target.value)
-            }
-            label="أدخل الملاحظات هنا"
-            variant="outlined"
-            sx={{ marginTop: 2 }}
-          />
-
-          <Box
-            sx={{ display: "flex", justifyContent: "flex-end", marginTop: 2 }}
-          >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  marginTop: 2,
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleCloseNotesDialog}
+                >
+                  حفظ
+                </Button>
+              </Box>
+            </DialogContent>
+          </Dialog>
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
             <Button
               variant="contained"
               color="primary"
-              onClick={handleCloseNotesDialog}
+              onClick={handlePublish}
+              disabled={selectedForPublish.length === 0}
             >
-              حفظ
+              نشر
             </Button>
           </Box>
-        </DialogContent>
-      </Dialog>
-      <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handlePublish}
-          disabled={selectedForPublish.length === 0}
-        >
-          نشر
-        </Button>
-      </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
-        <Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="primary"
-        />
-      </Box>
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={handlePageChange}
+              color="primary"
+            />
+          </Box>
 
-      <Dialog open={!!selectedExam} onClose={() => setSelectedExam(null)}>
-        <DialogContent>
-          {selectedExam && (
-            <Box
-              sx={{ display: "flex", flexDirection: "column", gap: 2, p: 2 }}
-            >
-              <DialogContentText
-                sx={{
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                }}
-              >
-                تفاصيل الاختبار - {selectedExam.studentName}
-              </DialogContentText>
-              <Box
-                sx={{ display: "flex", flexDirection: "column", gap: 1, px: 2 }}
-              >
-                <DialogContentText
-                  sx={{ fontSize: "16px", fontWeight: "500", color: "#333" }}
+          <Dialog open={!!selectedExam} onClose={() => setSelectedExam(null)}>
+            <DialogContent>
+              {selectedExam && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    p: 2,
+                  }}
                 >
-                  <strong>نوع الاختبار:</strong> {selectedExam.type}
-                </DialogContentText>
-                <DialogContentText
-                  sx={{ fontSize: "16px", fontWeight: "500", color: "#333" }}
-                >
-                  <strong>المادة:</strong> {selectedExam.subject}
-                </DialogContentText>
-                <DialogContentText
-                  sx={{ fontSize: "16px", fontWeight: "500", color: "#333" }}
-                >
-                  <strong>تاريخ الاختبار:</strong> {selectedExam.examDate}
-                </DialogContentText>
-                <DialogContentText
-                  sx={{ fontSize: "16px", fontWeight: "500", color: "#333" }}
-                >
-                  <strong>وقت الاختبار:</strong> {selectedExam.examTime}
-                </DialogContentText>
-                <DialogContentText
-                  sx={{ fontSize: "16px", fontWeight: "500", color: "#333" }}
-                >
-                  <strong>رابط الاختبار:</strong>{" "}
-                  <a
-                    href={selectedExam.examLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <DialogContentText
+                    sx={{
+                      fontSize: "18px",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                    }}
                   >
-                    {selectedExam.examLink}
-                  </a>
-                </DialogContentText>
-              </Box>
-            </Box>
-          )}
-        </DialogContent>
-        <DialogActions sx={{ justifyContent: "center", pb: 2 }}>
-          <Button
-            onClick={() => setSelectedExam(null)}
-            variant="contained"
-            color="primary"
+                    تفاصيل الاختبار - {selectedExam.studentName}
+                  </DialogContentText>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 1,
+                      px: 2,
+                    }}
+                  >
+                    <DialogContentText
+                      sx={{
+                        fontSize: "16px",
+                        fontWeight: "500",
+                        color: "#333",
+                      }}
+                    >
+                      <strong>نوع الاختبار:</strong> {selectedExam.type}
+                    </DialogContentText>
+                    <DialogContentText
+                      sx={{
+                        fontSize: "16px",
+                        fontWeight: "500",
+                        color: "#333",
+                      }}
+                    >
+                      <strong>المادة:</strong> {selectedExam.subject}
+                    </DialogContentText>
+                    <DialogContentText
+                      sx={{
+                        fontSize: "16px",
+                        fontWeight: "500",
+                        color: "#333",
+                      }}
+                    >
+                      <strong>تاريخ الاختبار:</strong> {selectedExam.examDate}
+                    </DialogContentText>
+                    <DialogContentText
+                      sx={{
+                        fontSize: "16px",
+                        fontWeight: "500",
+                        color: "#333",
+                      }}
+                    >
+                      <strong>وقت الاختبار:</strong> {selectedExam.examTime}
+                    </DialogContentText>
+                    <DialogContentText
+                      sx={{
+                        fontSize: "16px",
+                        fontWeight: "500",
+                        color: "#333",
+                      }}
+                    >
+                      <strong>رابط الاختبار:</strong>{" "}
+                      <a
+                        href={selectedExam.examLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {selectedExam.examLink}
+                      </a>
+                    </DialogContentText>
+                  </Box>
+                </Box>
+              )}
+            </DialogContent>
+            <DialogActions sx={{ justifyContent: "center", pb: 2 }}>
+              <Button
+                onClick={() => setSelectedExam(null)}
+                variant="contained"
+                color="primary"
+              >
+                إغلاق
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <Dialog
+            open={deleteDialogOpen}
+            onClose={() => setDeleteDialogOpen(false)}
           >
-            إغلاق
-          </Button>
-        </DialogActions>
-      </Dialog>
+            <DialogTitle>تأكيد الحذف</DialogTitle>
+            <DialogContent>
+              <p>
+                هل أنت متأكد أنك تريد حذف الاختبار {examToDelete?.studentName}؟
+              </p>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={() => setDeleteDialogOpen(false)}
+                color="secondary"
+              >
+                إلغاء
+              </Button>
+              <Button onClick={handleConfirmDelete} color="error">
+                حذف
+              </Button>
+            </DialogActions>
+          </Dialog>
 
-      <Dialog
-        open={deleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-      >
-        <DialogTitle>تأكيد الحذف</DialogTitle>
-        <DialogContent>
-          <p>هل أنت متأكد أنك تريد حذف الاختبار {examToDelete?.studentName}؟</p>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)} color="secondary">
-            إلغاء
-          </Button>
-          <Button onClick={handleConfirmDelete} color="error">
-            حذف
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <ToastContainer />
+          <ToastContainer />
+        </>
+      )}
     </>
   );
 };
