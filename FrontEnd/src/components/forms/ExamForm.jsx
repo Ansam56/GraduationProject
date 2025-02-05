@@ -152,7 +152,7 @@ const ExamForm = () => {
                 <option value="">اختر النوع...</option>
                 <option value="سورة">سورة</option>
                 <option value="جزء">جزء</option>
-                <option value="مستوى">مستوى</option>
+                <option value="مستويات">مستويات</option>
               </Form.Select>
               <Form.Control.Feedback type="invalid">
                 {formik.errors.type}
@@ -182,10 +182,10 @@ const ExamForm = () => {
                       الجزء {juza + 1}
                     </option>
                   ))}
-                {formik.values.type === "مستوى" &&
+                {formik.values.type === "مستويات" &&
                   [5, 10, 15, 20, 25, 30].map((level) => (
-                    <option key={level} value={`مستوى ${level}`}>
-                      مستوى {level}
+                    <option key={level} value={`مستويات ${level}`}>
+                      {level}
                     </option>
                   ))}
               </Form.Select>
