@@ -22,28 +22,28 @@ For detailed API documentation, [visit our Postman documentation](https://docume
 * Logout
 
 ### Admin (Platform Administrator):
-Manage school applications by approving or rejecting requests for quranic schools.
+Manage school applications by approving or rejecting requests for Quranic schools.
 
 ### School Administrator:
 * Apply to create a new school.
 * Manage teacher applications.
 * Manage school news.
-* View quranic circles reports and school statistics.
-* Filter quranic circles reports.
+* View Quranic circles reports and school statistics.
+* Filter Quranic circles reports.
 * Manage profile(edit personal information and edit school information).
 
 ### Teacher:
-* Apply to join a school and create quranic circles.
-* Manage student applications in quranic circle.
+* Apply to join a school and create Quranic circles.
+* Manage student applications in Quranic circle.
 * Record, update and delete student memorization progress reports.
-* Delete students from the quranic circle.
-* Filter quranic circle reports.
+* Delete students from the Quranic circle.
+* Filter Quranic circle reports.
 * Create and evaluate exams for students.
 * View school news and updates.
 * Manage profile(edit personal information and edit circle information).
 
 ### Student
-* Apply to join a quranic school and a specific circle.
+* Apply to join a Quranic school and a specific circle.
 * View personal progress reports and feedback.
 * Take exams assigned by teachers.
 * View school news and updates.
