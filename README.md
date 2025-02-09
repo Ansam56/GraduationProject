@@ -1,4 +1,4 @@
-# TUBA - Developing an Online Platform for Managing Quranic Schools in Palestine
+# TUBA - Developing An Online Platform For Managing Quranic Schools In Palestine
 
 ## About the Project
 TUBA is a web application designed to facilitate the management of Quranic schools in Palestine. The platform simplifies administrative processes, helps Quran teachers track students' progress, and enhances communication between school administrators, teachers, and students.
@@ -15,34 +15,43 @@ For detailed API documentation, [visit our Postman documentation](https://docume
 
 
 ## Users & Functional Requirements 
+### Common Requirements:
+* Login
+* Verify Email
+* Reset Password
+* Logout
 
 ### Admin (Platform Administrator):
-Manage school applications by approving or rejecting requests for Quranic schools.
+Manage school applications by approving or rejecting requests for quranic schools.
 
 ### School Administrator:
 * Apply to create a new school.
-* manage teacher applications.
+* Manage teacher applications.
 * Manage school news.
-* View Quranic circle reports and school statistics.
+* View quranic circles reports and school statistics.
+* Filter quranic circles reports.
+* Manage profile(edit personal information and edit school information).
 
 ### Teacher:
-* Apply to join a school and create Quranic circles.
-* Manage student applications in Quranic circle.
-* Record and update student memorization progress reports.
-* Delete students from the Quranic circle.
+* Apply to join a school and create quranic circles.
+* Manage student applications in quranic circle.
+* Record, update and delete student memorization progress reports.
+* Delete students from the quranic circle.
+* Filter quranic circle reports.
 * Create and evaluate exams for students.
 * View school news and updates.
-  
+* Manage profile(edit personal information and edit circle information).
 
 ### Student
-* Apply to join a Quranic school and a specific circle.
+* Apply to join a quranic school and a specific circle.
 * View personal progress reports and feedback.
 * Take exams assigned by teachers.
 * View school news and updates.
+* Manage profile(edit personal information).
 
 ## Contributing
-Ansam Janajreh - [@Ansam Janajreh](https://github.com/Ansam56)
+Ansam Janajreh - [@Ansam Janajreh](https://github.com/Ansam56) | Frontend Developement.
 
-Raghad Moqady - [@Raghad Moqady](https://github.com/Raghad-Moqady) 
+Raghad Moqady - [@Raghad Moqady](https://github.com/Raghad-Moqady) | Frontend Developement.
 
-SaharSous - [@Sahar Sous](https://github.com/Sahar-sous72)
+SaharSous - [@Sahar Sous](https://github.com/Sahar-sous72) | Backend Developement.
